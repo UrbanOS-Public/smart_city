@@ -4,14 +4,6 @@ defmodule SCOS.MessageTest do
 
   alias SCOS.Message
 
-  # test "parse message" do
-  #   assert true
-  # end
-
-  # test "encode message" do
-  #   assert true
-  # end
-
   test "put operational works when app and key don't already exist" do
     message = struct!(Message)
 

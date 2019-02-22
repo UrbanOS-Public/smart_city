@@ -1,5 +1,5 @@
 defmodule SCOS.Message do
-  defstruct payload: nil, metadata: %{}, operational: %{valkyrie: %{}}
+  defstruct payload: nil, metadata: %{}, operational: %{}
 
   def parse_message(value) when is_binary(value) do
     value
