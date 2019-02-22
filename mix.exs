@@ -7,19 +7,35 @@ defmodule SCOS.MixProject do
       version: "0.1.0",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: description(),
+      package: package(),
+      source_url: "https//www.github.com/SmartColumbusOS"
     ]
   end
 
   def application do
-    [
-      extra_applications: [:logger]
-    ]
+    []
   end
 
   defp deps do
     [
-      {:jason, "~> 1.1"}
+      {:jason, "~> 1.1"},
+      {:ex_doc, "~> 0.19", only: :dev}
+    ]
+  end
+
+  defp description do
+    "A library for shared Elixir modules in the Columbus SCOS project."
+  end
+
+  defp package do
+    [
+      organization: "SmartColumbusOS",
+
+      # This is a required field
+      licenses: "AllRightsReserved",
+      links: %{"GitHub" => "https://www.github.com/SmartColumbusOS/scos_ex"}
     ]
   end
 end
