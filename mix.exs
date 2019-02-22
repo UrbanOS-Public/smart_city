@@ -31,10 +31,8 @@ defmodule SCOS.MixProject do
 
   defp package do
     [
-      organization: "SmartColumbusOS",
-
-      # This is a required field
-      licenses: "AllRightsReserved",
+      organization: "smartcolumbus_os",
+      licenses: ["AllRightsReserved"],
       links: %{"GitHub" => "https://www.github.com/SmartColumbusOS/scos_ex"}
     ]
   end
