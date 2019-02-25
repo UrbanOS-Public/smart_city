@@ -1,4 +1,8 @@
 defmodule SCOS.DataMessage do
+  @moduledoc """
+  Message struct shared amongst all SCOS microservices.
+  """
+
   defstruct payload: nil, metadata: %{}, operational: %{}
 
   def parse_message(value) when is_binary(value) do
