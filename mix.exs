@@ -21,7 +21,8 @@ defmodule SCOS.MixProject do
   defp deps do
     [
       {:jason, "~> 1.1"},
-      {:ex_doc, "~> 0.19", only: :dev}
+      {:ex_doc, "~> 0.19", only: :dev},
+      {:credo, "~> 0.10", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -31,10 +32,8 @@ defmodule SCOS.MixProject do
 
   defp package do
     [
-      organization: "SmartColumbusOS",
-
-      # This is a required field
-      licenses: "AllRightsReserved",
+      organization: "smartcolumbus_os",
+      licenses: ["AllRightsReserved"],
       links: %{"GitHub" => "https://www.github.com/SmartColumbusOS/scos_ex"}
     ]
   end
