@@ -17,13 +17,13 @@ defmodule SCOS.DataMessage do
     |> Jason.encode!()
   end
 
-  def get_timing(%__MODULE__{operational: %{timing: timing}}), do: timing
-
-  def put_timing(%__MODULE__{operational: %{timing: timing}} = message, app, label, start_time, end_time) do
+  def add_timing(%__MODULE__{operational: %{timing: timing}} = message, app, label, start_time, end_time) do
     new_timing = make_timing(app, label, start_time, end_time)
 
     put_in_operational(message, timing, [new_timing | timing])
   end
+
+  def get_all_timings(%__MODULE__{operational: %{timing: timing}}), do: timing
 
   # Private functions
   defp put_in_operational(%__MODULE__{} = message, key, value) do
