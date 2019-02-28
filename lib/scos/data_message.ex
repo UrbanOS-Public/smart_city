@@ -75,8 +75,6 @@ defmodule SCOS.DataMessage do
       {:ok, new_timing} -> put_in_operational(message, :timing, [new_timing | timing])
       {:error, errors} -> raise ArgumentError, "Invalid Timing: #{errors}"
     end
-
-    put_in_operational(message, :timing, [new_timing | timing])
   end
 
   @doc """
