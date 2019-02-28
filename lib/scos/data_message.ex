@@ -3,12 +3,15 @@ defmodule SCOS.DataMessage do
   Message struct shared amongst all SCOS microservices.
   """
 
+  alias SCOS.DataMessage
+
+  @enforce_keys [:dataset_id, :payload, :_metadata, :operational]
   defstruct _metadata: %{org: nil, name: nil, stream: false}, dataset_id: nil, payload: nil, operational: %{timing: []}
 
   def parse_message(value) when is_binary(value) do
     value
     |> Jason.decode!(keys: :atoms)
-    |> make_struct()
+    |> new()
   end
 
   def encode_message(%__MODULE__{} = message) do
@@ -17,9 +20,7 @@ defmodule SCOS.DataMessage do
     |> Jason.encode!()
   end
 
-  def add_timing(%__MODULE__{operational: %{timing: timing}} = message, app, label, start_time, end_time) do
-    new_timing = make_timing(app, label, start_time, end_time)
-
+  def add_timing(%__MODULE__{operational: %{timing: timing}} = message, %DataMessage.Timing{} = new_timing) do
     put_in_operational(message, timing, [new_timing | timing])
   end
 
@@ -30,16 +31,7 @@ defmodule SCOS.DataMessage do
     put_in(message, [:operational, key], value)
   end
 
-  defp make_struct(value_map) do
-    struct!(__MODULE__, value_map)
-  end
-
-  defp make_timing(app, label, start_time, end_time) do
-    %{
-      app: app,
-      label: label,
-      start_time: start_time,
-      end_time: end_time
-    }
+  def new(opts) do
+    struct!(__MODULE__, opts)
   end
 end
