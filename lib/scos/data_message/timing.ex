@@ -74,21 +74,23 @@ defmodule SCOS.DataMessage.Timing do
 
   defp check_keys(timing, keys) do
     keys
-    |> Enum.map(fn key ->
-      case Map.get(timing, key, :missing_key) do
-        :missing_key -> {:missing_key, key}
-        nil -> {:invalid, key}
-        _ -> []
-      end
-    end)
+    |> Enum.map(&check_key(timing, &1))
     |> List.flatten()
+  end
+
+  defp check_key(timing, key) do
+    case Map.get(timing, key, :missing_key) do
+      :missing_key -> {:missing_key, key}
+      nil -> {:invalid, key}
+      _ -> []
+    end
   end
 
   defp join_error_message(errors) do
     error_msg =
-    errors
-    |> Enum.map(fn {reason, key} -> "#{Atom.to_string(key)}(#{Atom.to_string(reason)})" end)
-    |> Enum.join(", ")
+      errors
+      |> Enum.map(fn {reason, key} -> "#{Atom.to_string(key)}(#{Atom.to_string(reason)})" end)
+      |> Enum.join(", ")
 
     "Errors with: #{error_msg}"
   end
