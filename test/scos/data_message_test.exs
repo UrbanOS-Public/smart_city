@@ -13,7 +13,7 @@ defmodule SCOS.DataMessageTest do
     end
 
     test "creates a DataMessage struct with required keys" do
-      value = "{\"_metadata\":[],\"dataset_id\":\"abc\",\"operational\":{},\"payload\":\"whatever\"}"
+      value = ~s({"_metadata":[],"dataset_id":"abc","operational":{},"payload":"whatever"})
 
       assert %DataMessage{
                dataset_id: "abc",
@@ -34,7 +34,7 @@ defmodule SCOS.DataMessageTest do
       }
 
       assert DataMessage.encode_message(data_message) ==
-               "{\"_metadata\":[],\"dataset_id\":\"abc\",\"operational\":{},\"payload\":\"whatever\"}"
+               ~s({"_metadata":[],"dataset_id":"abc","operational":{},"payload":"whatever"})
     end
   end
 

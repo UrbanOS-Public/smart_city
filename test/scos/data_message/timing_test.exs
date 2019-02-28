@@ -39,7 +39,7 @@ defmodule SCOS.DataMessage.TimingTest do
                Timing.validate(timing)
     end
 
-    test "throws an errror when keys are missing" do
+    test "throws an error when keys are missing" do
       app = "AppName"
       label = "MetricName"
 
@@ -69,7 +69,7 @@ defmodule SCOS.DataMessage.TimingTest do
       assert %Timing{app: ^app, label: ^label, start_time: ^start_time, end_time: ^end_time} = Timing.validate!(timing)
     end
 
-    test "throws an errror when keys are missing" do
+    test "throws an error when keys are missing" do
       app = "AppName"
       label = "MetricName"
 

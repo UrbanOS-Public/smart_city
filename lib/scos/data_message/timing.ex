@@ -85,9 +85,11 @@ defmodule SCOS.DataMessage.Timing do
   end
 
   defp join_error_message(errors) do
+    error_msg =
     errors
     |> Enum.map(fn {reason, key} -> "#{Atom.to_string(key)}(#{Atom.to_string(reason)})" end)
     |> Enum.join(", ")
-    |> (&"Errors with: #{&1}").()
+
+    "Errors with: #{error_msg}"
   end
 end
