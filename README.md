@@ -96,7 +96,7 @@ by adding `scos_ex` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:scos_ex, "~> 0.1.0", organization: "smartcolumbus_os"}
+    {:scos_ex, "~> 0.1.1", organization: "smartcolumbus_os"}
   ]
 end
 ```
