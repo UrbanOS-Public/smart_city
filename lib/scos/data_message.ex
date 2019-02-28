@@ -3,7 +3,7 @@ defmodule SCOS.DataMessage do
   Message struct shared amongst all SCOS microservices.
   """
 
-  defstruct _metadata_: %{org: nil, name: nil, stream: false}, dataset_id: nil, payload: nil, operational: %{timing: []}
+  defstruct _metadata: %{org: nil, name: nil, stream: false}, dataset_id: nil, payload: nil, operational: %{timing: []}
 
   def parse_message(value) when is_binary(value) do
     value
