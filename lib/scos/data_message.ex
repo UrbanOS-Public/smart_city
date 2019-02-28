@@ -12,6 +12,8 @@ defmodule SCOS.DataMessage do
   @doc """
   Creates a new `SCOS.DataMessage` from opts.
 
+  Returns a `%SCOS.DataMessage` struct
+
   ## Parameters
   - opts: Keyword list or map containing struct attributes
           Required keys: #{@enforce_keys |> Enum.map(&"`#{Atom.to_string(&1)}`") |> Enum.join(", ")}
@@ -34,6 +36,8 @@ defmodule SCOS.DataMessage do
   @doc """
   Parses a JSON value into a `SCOS.DataMessage`. Typically pulled from the value field of a Kafka message.
 
+  Returns a `%SCOS.DataMessage{}` struct
+
   ## Parameters
   - value: A JSON string containing all required keys. See `new/1` for a listing of required keys
   """
@@ -46,6 +50,8 @@ defmodule SCOS.DataMessage do
   @doc """
   Encodes `SCOS.DataMessage` into JSON. Typically used right before sending as a Kafka message.
 
+  Returns a JSON string.
+
   ## Parameters
   - message: A `SCOS.DataMessage` that you want to encode
   """
@@ -57,6 +63,8 @@ defmodule SCOS.DataMessage do
 
   @doc """
   Adds a `SCOS.DataMessage.Timing` to the list of timings in this DataMessage. The timing will be validated to ensure both start and end times have been set.
+
+  Returns a `%SCOS.DataMessage` struct with `new_timing` prepended to timings already in the DataMessage.
 
   ## Parameters
   - message: A `SCOS.DataMessage`
@@ -73,6 +81,8 @@ defmodule SCOS.DataMessage do
 
   @doc """
   Get all timings on this DataMessage
+
+  Returns a list of  `%SCOS.DataMessage.Timing{}` structs or `[]`
 
   ## Parameters
   - data_message: The message to extract timings from
