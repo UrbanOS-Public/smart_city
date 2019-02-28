@@ -2,6 +2,92 @@
 
 **TODO: Add description**
 
+#### DataMessage
+
+```javascript
+const DataMessage = {
+    "datasetId": "",         // UUID
+    "payload": {},
+    "_metadata": {           // cannot be used safely
+        "orgName": "",       // ~r/^[a-zA-Z_]+$/
+        "dataName": "",      // ~r/^[a-zA-Z_]+$/
+        "stream": true
+    },
+    "operational": {
+        "timing": [{
+            "startTime": "", // iso8601
+            "endTime": "",   // iso8601
+            "app": "",       // microservice generating timing data
+            "label": ""      // label for this particular timing data
+        }]
+    },
+}
+```
+
+#### RegistryMessage
+
+```javascript
+const RegistryMessage = {
+    "id": "",                  // UUID
+    "business": {              // Project Open Data Metadata Schema v1.1
+        "id": "",
+        "title": "",           // user friendly (dataTitle)
+        "description": "",
+        "keyword": [""],
+        "modified": "",
+        "publisher": "",       // user friendly (orgTitle)
+        "contactPoint": {
+            "@type": "vcard:Contact",
+            "fn": "Jane Doe",
+            "hasEmail": "mailto:jane.doe@agency.gov"
+        },
+        "accessLevel": "",
+        "license": "",
+        "rights": "",
+        "spatial": "",
+        "temporal": "",
+        "accrualPeriodicity": "",
+        "conformsTo": "",
+        "describedBy": "",
+        "describedByType": "",
+        "isPartOf": "",
+        "issued": "",
+        "language": "",
+        "landingPage": "",
+        "references": [""],
+        "theme": [""],
+        "author": "?",
+        "groupReadAccess": [""]
+    },
+    "technical": {
+        "dataName": "",        // ~r/[a-zA-Z_]+$/
+        "orgName": "",         // ~r/[a-zA-Z_]+$/
+        "systemName": "",      // ${orgName}__${dataName},
+        "stream": true,
+        "schema": [
+            {
+                "name": "",
+                "type": "",
+                "description": ""
+            }
+        ],
+        "sourceUrl": "",
+        "cadence": "",
+        "queryParams": {
+            "key1": "",
+            "key2": ""
+        },
+        "transformations": [], // ?
+        "validations": [],     // ?
+        "headers": {
+            "header1": "",
+            "header2": ""
+        }
+    }
+}
+```
+
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
