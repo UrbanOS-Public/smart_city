@@ -2,7 +2,9 @@ defmodule SCOS.RegistryMessage do
   @moduledoc """
   Struct defining a registry event message.
   """
-  defstruct [:id, business: %{}, technical: %{}]
+  alias SCOS.RegistryMessage.Technical
+
+  defstruct [:id, :business, :technical]
 
   def new(%{"id" => _id} = msg) do
     msg
@@ -11,8 +13,8 @@ defmodule SCOS.RegistryMessage do
   end
 
   def new(%{id: id, business: biz, technical: tech}) do
-    struct!(%__MODULE__{}, %{id: id, business: biz, technical: tech})
+    struct!(%__MODULE__{}, %{id: id, business: biz, technical: Technical.new(tech)})
   end
 
-  def new(msg), do: raise ArgumentError, "Invalid message: #{inspect(msg)}"
+  def new(msg), do: raise ArgumentError, "Invalid registry message: #{inspect(msg)}"
 end
