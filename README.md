@@ -1,7 +1,5 @@
 # SCOS
 
-**TODO: Add description**
-
 #### DataMessage
 
 ```javascript
@@ -90,8 +88,8 @@ const RegistryMessage = {
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `scos_ex` to your list of dependencies in `mix.exs`:
+This package is [available in Hex](https://hex.pm/docs/publish) under the `smartcolumbus_os` organization, the package can be installed
+by adding `scos_ex` to your list of dependencies in `mix.exs` as follows:
 
 ```elixir
 def deps do
