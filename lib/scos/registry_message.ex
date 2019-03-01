@@ -4,12 +4,13 @@ defmodule SCOS.RegistryMessage do
   """
   alias SCOS.RegistryMessage.Business
   alias SCOS.RegistryMessage.Technical
+  alias SCOS.RegistryMessage.Helpers
 
   defstruct [:id, :business, :technical]
 
   def new(%{"id" => _id} = msg) do
     msg
-    |> Map.new(fn {key, val} -> {String.to_atom(key), val} end)
+    |> Helpers.to_atom_keys()
     |> new()
   end
 

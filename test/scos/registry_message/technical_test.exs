@@ -46,20 +46,12 @@ defmodule SCOS.RegistryMessage.TechnicalTest do
       assert List.first(actual.transformations).foo.bar == 1
     end
 
-    test "throws error when creating Technical struct without required fields" do
-      tech_msg = %{
-        dataName: "dataset",
-        orgName: "org",
-        systemName: "org__dataset",
-        stream: true,
-        sourceUrl: "https://example.com"
-      }
-
-      assert_raise ArgumentError, fn -> Technical.new(tech_msg |> Map.delete(:dataName)) end
-      assert_raise ArgumentError, fn -> Technical.new(tech_msg |> Map.delete(:orgName)) end
-      assert_raise ArgumentError, fn -> Technical.new(tech_msg |> Map.delete(:systemName)) end
-      assert_raise ArgumentError, fn -> Technical.new(tech_msg |> Map.delete(:stream)) end
-      assert_raise ArgumentError, fn -> Technical.new(tech_msg |> Map.delete(:sourceUrl)) end
+    test "throws error when creating Technical struct without required fields", %{message: tech} do
+      assert_raise ArgumentError, fn -> Technical.new(tech |> Map.delete("dataName")) end
+      assert_raise ArgumentError, fn -> Technical.new(tech |> Map.delete("orgName")) end
+      assert_raise ArgumentError, fn -> Technical.new(tech |> Map.delete("systemName")) end
+      assert_raise ArgumentError, fn -> Technical.new(tech |> Map.delete("stream")) end
+      assert_raise ArgumentError, fn -> Technical.new(tech |> Map.delete("sourceUrl")) end
     end
   end
 end

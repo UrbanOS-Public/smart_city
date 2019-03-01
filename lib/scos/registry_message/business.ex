@@ -3,6 +3,8 @@ defmodule SCOS.RegistryMessage.Business do
   Struct defining business metadata on a registry event message.
   """
 
+  alias SCOS.RegistryMessage.Helpers
+
   defstruct dataTitle: nil,
             description: nil,
             modifiedDate: nil,
@@ -15,7 +17,7 @@ defmodule SCOS.RegistryMessage.Business do
 
   def new(%{"dataTitle" => _} = msg) do
     msg
-    |> Map.new(fn {key, val} -> {String.to_atom(key), val} end)
+    |> Helpers.to_atom_keys()
     |> new()
   end
 
