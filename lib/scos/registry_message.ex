@@ -31,10 +31,23 @@ defmodule SCOS.RegistryMessage do
   end
 
   def new(%{id: id, business: biz, technical: tech}) do
-    struct!(%__MODULE__{}, %{id: id, business: Business.new(biz), technical: Technical.new(tech)})
+    try do
+      struct =
+        struct!(%__MODULE__{}, %{
+          id: id,
+          business: Business.new(biz),
+          technical: Technical.new(tech)
+        })
+
+      {:ok, struct}
+    rescue
+      e -> {:error, e}
+    end
   end
 
-  def new(msg), do: raise(ArgumentError, "Invalid registry message: #{inspect(msg)}")
+  def new(msg) do
+    {:error, "Invalid registry message: #{inspect(msg)}"}
+  end
 
   @doc """
   Returns an `:ok` tuple with a JSON encoded registry message. Returns error tuple if message can't be encoded.
