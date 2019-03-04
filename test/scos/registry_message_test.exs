@@ -12,6 +12,7 @@ defmodule SCOS.RegistryMessageTest do
         "systemName" => "org__dataset",
         "stream" => false,
         "sourceUrl" => "https://example.com",
+        "sourceFormat" => "gtfs",
         "cadence" => 9000,
         "headers" => %{},
         "queryParams" => %{},
@@ -40,7 +41,7 @@ defmodule SCOS.RegistryMessageTest do
 
   describe "new" do
     test "turns a map with string keys into a RegistryMessage", %{message: map} do
-      actual = RegistryMessage.new(map)
+      {:ok, actual} = RegistryMessage.new(map)
       assert actual.id == "uuid"
       assert actual.business.dataTitle == "dataset title"
       assert actual.technical.dataName == "dataset"
@@ -55,17 +56,14 @@ defmodule SCOS.RegistryMessageTest do
       atom_biz = Map.new(biz, fn {k, v} -> {String.to_atom(k), v} end)
       map = %{id: "uuid", business: atom_biz, technical: atom_tech}
 
-      assert RegistryMessage.new(map) == %RegistryMessage{
-               id: "uuid",
-               business: business,
-               technical: technical
-             }
+      {:ok, actual} = RegistryMessage.new(map)
+
+      assert actual == %RegistryMessage{id: "uuid", business: business, technical: technical}
     end
 
-    test "throws error when creating RegistryMessage without required fields" do
-      assert_raise ArgumentError, fn -> RegistryMessage.new(%{business: "", technical: ""}) end
-      assert_raise ArgumentError, fn -> RegistryMessage.new(%{id: "", technical: ""}) end
-      assert_raise ArgumentError, fn -> RegistryMessage.new(%{id: "", business: ""}) end
+    test "returns error tuple when creating RegistryMessage without required fields" do
+      {:error, reason} = RegistryMessage.new(%{id: "", technical: ""})
+      assert Regex.match?(~r/Invalid registry message:/, reason)
     end
 
     test "converts a JSON message into a RegistryMessage", %{message: map, json: json} do
@@ -75,27 +73,37 @@ defmodule SCOS.RegistryMessageTest do
 
   describe "encode/1" do
     test "JSON encodes the RegistryMessage", %{message: message, json: json} do
-      struct = RegistryMessage.new(message)
+      {:ok, struct} = RegistryMessage.new(message)
       {:ok, encoded} = RegistryMessage.encode(struct)
 
       assert encoded == json
     end
 
-    test "raises ArgumentError if arugment is not a RegistryMessage" do
-      assert_raise ArgumentError, fn ->
-        RegistryMessage.encode(%{a: "b"})
-      end
+    test "returns error tuple if message can't be encoded", %{message: message} do
+      {:ok, invalid} =
+        message
+        |> Map.update!("id", fn _ -> "\xFF" end)
+        |> RegistryMessage.new()
+
+      {:error, reason} = RegistryMessage.encode(invalid)
+
+      assert Regex.match?(~r/Cannot encode message:/, reason)
+    end
+
+    test "returns error tuple if argument is not a RegistryMessage" do
+      {:error, reason} = RegistryMessage.encode(%{a: "b"})
+      assert Regex.match?(~r/Message must be a SCOS.RegistryMessage struct:/, reason)
     end
   end
 
   describe "encode!/1" do
     test "JSON encodes the RegistryMessage without OK tuple", %{message: message, json: json} do
-      struct = RegistryMessage.new(message)
+      {:ok, struct} = RegistryMessage.new(message)
       assert RegistryMessage.encode!(struct) == json
     end
 
     test "raises Jason.EncodeError if message can't be encoded", %{message: message} do
-      invalid =
+      {:ok, invalid} =
         message
         |> Map.update!("id", fn _ -> "\xFF" end)
         |> RegistryMessage.new()
@@ -107,7 +115,7 @@ defmodule SCOS.RegistryMessageTest do
 
     test "raises ArgumentError if argument is not a RegistryMessage" do
       assert_raise ArgumentError, fn ->
-        RegistryMessage.encode(%{a: "b"})
+        RegistryMessage.encode!(%{a: "b"})
       end
     end
   end

@@ -10,6 +10,7 @@ defmodule SCOS.RegistryMessage.TechnicalTest do
       "systemName" => "org__dataset",
       "stream" => false,
       "sourceUrl" => "https://example.com",
+      "sourceFormat" => "gtfs",
       "headers" => %{
         "foo" => "bar"
       },
@@ -28,7 +29,8 @@ defmodule SCOS.RegistryMessage.TechnicalTest do
           orgName: "org",
           systemName: "org__dataset",
           stream: true,
-          sourceUrl: "https://example.com"
+          sourceUrl: "https://example.com",
+          sourceFormat: "gtfs"
         })
 
       assert actual.dataName == "dataset"

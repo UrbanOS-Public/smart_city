@@ -15,7 +15,8 @@ defmodule SCOS.RegistryMessage.Technical do
             queryParams: %{},
             transformations: [],
             validations: [],
-            headers: %{}
+            headers: %{},
+            sourceFormat: nil
 
   @doc """
   Returns a new `SCOS.RegistryMessage.Technical`.
@@ -27,7 +28,7 @@ defmodule SCOS.RegistryMessage.Technical do
     |> new()
   end
 
-  def new(%{dataName: _, orgName: _, systemName: _, stream: _, sourceUrl: _} = msg) do
+  def new(%{dataName: _, orgName: _, systemName: _, stream: _, sourceUrl: _, sourceFormat: _} = msg) do
     struct!(%__MODULE__{}, msg)
   end
 
