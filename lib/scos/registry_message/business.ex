@@ -13,7 +13,8 @@ defmodule SCOS.RegistryMessage.Business do
             contactEmail: nil,
             license: nil,
             keywords: [],
-            rights: ""
+            rights: "",
+            homepage: ""
 
   @doc """
   Returns a new `SCOS.RegistryMessage.Business` struct.
