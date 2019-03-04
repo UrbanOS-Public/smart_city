@@ -7,7 +7,6 @@ defmodule SCOS.RegistryMessageTest do
     setup do
       message = %{
         "id" => "uuid",
-        "business" => %{},
         "technical" => %{
           "dataName" => "dataset",
           "orgName" => "org",
@@ -38,7 +37,8 @@ defmodule SCOS.RegistryMessageTest do
       assert actual.technical.dataName == "dataset"
     end
 
-    test "turns a map with atom keys into a RegistryMessage", %{message: %{"technical" => tech, "business" => biz}} do
+    test "turns a map with atom keys into a RegistryMessage", %{message: map} do
+      %{"technical" => tech, "business" => biz} = map
       technical = RegistryMessage.Technical.new(tech)
       business = RegistryMessage.Business.new(biz)
 
@@ -46,7 +46,11 @@ defmodule SCOS.RegistryMessageTest do
       atom_biz = Map.new(biz, fn {k, v} -> {String.to_atom(k), v} end)
       map = %{id: "uuid", business: atom_biz, technical: atom_tech}
 
-      assert RegistryMessage.new(map) == %RegistryMessage{id: "uuid", business: business, technical: technical}
+      assert RegistryMessage.new(map) == %RegistryMessage{
+               id: "uuid",
+               business: business,
+               technical: technical
+             }
     end
 
     test "throws error when creating RegistryMessage without required fields" do
