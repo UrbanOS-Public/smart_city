@@ -16,7 +16,11 @@ defmodule SCOS.RegistryMessage.Technical do
             validations: [],
             headers: %{}
 
-  def new(%{"dataName" => _dn} = msg) do
+  @doc """
+  Returns a new `SCOS.RegistryMessage.Technical`.
+  Can be created from `Map` with string or atom keys.
+  """
+  def new(%{"dataName" => _} = msg) do
     msg
     |> Helpers.to_atom_keys()
     |> new()

@@ -1,5 +1,6 @@
 defmodule SCOS.RegistryMessage.TechnicalTest do
   use ExUnit.Case
+  doctest SCOS.RegistryMessage.Technical
   alias SCOS.RegistryMessage.Technical
 
   describe "new/1" do

@@ -1,5 +1,6 @@
 defmodule SCOS.RegistryMessage.HelpersTest do
   use ExUnit.Case
+  doctest SCOS.RegistryMessage.Helpers
   alias SCOS.RegistryMessage.Helpers
 
   describe "to_atom_keys/1" do

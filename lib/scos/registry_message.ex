@@ -8,7 +8,15 @@ defmodule SCOS.RegistryMessage do
 
   defstruct [:id, :business, :technical]
 
-  def new(%{"id" => _id} = msg) do
+  @doc """
+  Returns a new `SCOS.RegistryMessage` struct. `SCOS.RegistryMessage.Business` and
+  `SCOS.RegistryMessage.Technical` structs will be created along the way.
+
+  Can be created from:
+  - `Map` with string keys
+  - `Map` with atom keys
+  """
+  def new(%{"id" => _} = msg) do
     msg
     |> Helpers.to_atom_keys()
     |> new()

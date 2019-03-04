@@ -1,5 +1,6 @@
 defmodule SCOS.RegistryMessageTest do
   use ExUnit.Case
+  doctest SCOS.RegistryMessage
   alias SCOS.RegistryMessage
 
   describe "new" do

@@ -1,5 +1,6 @@
 defmodule SCOS.RegistryMessage.BusinessTest do
   use ExUnit.Case
+  doctest SCOS.RegistryMessage.Business
   alias SCOS.RegistryMessage.Business
 
   describe "new/1" do
@@ -11,7 +12,7 @@ defmodule SCOS.RegistryMessage.BusinessTest do
         orgTitle: "org title",
         contactName: "contact name",
         contactEmail: "contact@email.com",
-        license: "license",
+        license: "license"
       }
 
       {:ok, message: message}

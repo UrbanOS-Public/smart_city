@@ -3,6 +3,21 @@ defmodule SCOS.RegistryMessage.Helpers do
   Functions used across `SCOS.RegistryMessage` modules.
   """
 
+  @doc """
+  Convert a map with string keys to one with atom keys. Will convert keys nested in a sub-map or a
+  map that is part of a list. Ignores atom keys.
+
+  ## Examples
+
+      iex> SCOS.RegistryMessage.Helpers.to_atom_keys(%{"abc" => 123})
+      %{abc: 123}
+
+      iex> SCOS.RegistryMessage.Helpers.to_atom_keys(%{"a" => %{"b" => "c"}})
+      %{a: %{b: "c"}}
+
+      iex> SCOS.RegistryMessage.Helpers.to_atom_keys(%{"a" => [%{"b" => "c"}]})
+      %{a: [%{b: "c"}]}
+  """
   def to_atom_keys(map) when is_map(map) do
     Map.new(map, fn
       {key, val} when is_map(val) ->
