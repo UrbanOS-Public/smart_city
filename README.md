@@ -28,34 +28,16 @@ const DataMessage = {
 const RegistryMessage = {
     "id": "",                  // UUID
     "business": {              // Project Open Data Metadata Schema v1.1
-        "id": "",
-        "title": "",           // user friendly (dataTitle)
+        "dataTitle": "",       // user friendly (dataTitle)
         "description": "",
-        "keyword": [""],
-        "modified": "",
-        "publisher": "",       // user friendly (orgTitle)
-        "contactPoint": {
-            "@type": "vcard:Contact",
-            "fn": "Jane Doe",
-            "hasEmail": "mailto:jane.doe@agency.gov"
-        },
-        "accessLevel": "",
+        "keywords": [""],
+        "modifiedDate": "",
+        "orgTitle": "",        // user friendly (orgTitle)
+        "contactName": "",
+        "contactEmail": "",
         "license": "",
         "rights": "",
-        "spatial": "",
-        "temporal": "",
-        "accrualPeriodicity": "",
-        "conformsTo": "",
-        "describedBy": "",
-        "describedByType": "",
-        "isPartOf": "",
-        "issued": "",
-        "language": "",
-        "landingPage": "",
-        "references": [""],
-        "theme": [""],
-        "author": "?",
-        "groupReadAccess": [""]
+        "homepage": ""
     },
     "technical": {
         "dataName": "",        // ~r/[a-zA-Z_]+$/
@@ -94,7 +76,7 @@ by adding `scos_ex` to your list of dependencies in `mix.exs` as follows:
 ```elixir
 def deps do
   [
-    {:scos_ex, "~> 0.1.1", organization: "smartcolumbus_os"}
+    {:scos_ex, "~> 0.3.0", organization: "smartcolumbus_os"}
   ]
 end
 ```
