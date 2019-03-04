@@ -3,21 +3,21 @@ defmodule SCOS.RegistryMessage.BusinessTest do
   doctest SCOS.RegistryMessage.Business
   alias SCOS.RegistryMessage.Business
 
+  setup do
+    message = %{
+      dataTitle: "dataset title",
+      description: "description",
+      modifiedDate: "date",
+      orgTitle: "org title",
+      contactName: "contact name",
+      contactEmail: "contact@email.com",
+      license: "license"
+    }
+
+    {:ok, message: message}
+  end
+
   describe "new/1" do
-    setup do
-      message = %{
-        dataTitle: "dataset title",
-        description: "description",
-        modifiedDate: "date",
-        orgTitle: "org title",
-        contactName: "contact name",
-        contactEmail: "contact@email.com",
-        license: "license"
-      }
-
-      {:ok, message: message}
-    end
-
     test "returns Business struct", %{message: biz} do
       actual = Business.new(biz)
       assert actual.dataTitle == "dataset title"
@@ -56,6 +56,13 @@ defmodule SCOS.RegistryMessage.BusinessTest do
       assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:contactName)) end
       assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:contactEmail)) end
       assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:license)) end
+    end
+  end
+
+  describe "struct" do
+    test "can be encoded to JSON", %{message: message} do
+      json = Jason.encode!(message)
+      assert is_binary(json)
     end
   end
 end

@@ -5,6 +5,7 @@ defmodule SCOS.RegistryMessage.Business do
 
   alias SCOS.RegistryMessage.Helpers
 
+  @derive Jason.Encoder
   defstruct dataTitle: nil,
             description: nil,
             modifiedDate: nil,

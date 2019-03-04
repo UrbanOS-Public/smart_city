@@ -3,24 +3,24 @@ defmodule SCOS.RegistryMessage.TechnicalTest do
   doctest SCOS.RegistryMessage.Technical
   alias SCOS.RegistryMessage.Technical
 
+  setup do
+    message = %{
+      "dataName" => "dataset",
+      "orgName" => "org",
+      "systemName" => "org__dataset",
+      "stream" => false,
+      "sourceUrl" => "https://example.com",
+      "headers" => %{
+        "foo" => "bar"
+      },
+      "transformations" => [%{"foo" => %{"bar" => 1}}],
+      "validations" => [1, 2, 3]
+    }
+
+    {:ok, message: message}
+  end
+
   describe "new/1" do
-    setup do
-      message = %{
-        "dataName" => "dataset",
-        "orgName" => "org",
-        "systemName" => "org__dataset",
-        "stream" => false,
-        "sourceUrl" => "https://example.com",
-        "headers" => %{
-          "foo" => "bar"
-        },
-        "transformations" => [%{"foo" => %{"bar" => 1}}],
-        "validations" => [1, 2, 3]
-      }
-
-      {:ok, message: message}
-    end
-
     test "returns Technical struct" do
       actual =
         Technical.new(%{
@@ -53,6 +53,13 @@ defmodule SCOS.RegistryMessage.TechnicalTest do
       assert_raise ArgumentError, fn -> Technical.new(tech |> Map.delete("systemName")) end
       assert_raise ArgumentError, fn -> Technical.new(tech |> Map.delete("stream")) end
       assert_raise ArgumentError, fn -> Technical.new(tech |> Map.delete("sourceUrl")) end
+    end
+  end
+
+  describe "struct" do
+    test "can be encoded to JSON", %{message: message} do
+      json = Jason.encode!(message)
+      assert is_binary(json)
     end
   end
 end

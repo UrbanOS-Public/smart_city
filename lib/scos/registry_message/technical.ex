@@ -4,6 +4,7 @@ defmodule SCOS.RegistryMessage.Technical do
   """
   alias SCOS.RegistryMessage.Helpers
 
+  @derive Jason.Encoder
   defstruct dataName: nil,
             orgName: nil,
             systemName: nil,

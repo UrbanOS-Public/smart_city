@@ -6,6 +6,7 @@ defmodule SCOS.RegistryMessage do
   alias SCOS.RegistryMessage.Technical
   alias SCOS.RegistryMessage.Helpers
 
+  @derive Jason.Encoder
   defstruct [:id, :business, :technical]
 
   @doc """
@@ -34,4 +35,28 @@ defmodule SCOS.RegistryMessage do
   end
 
   def new(msg), do: raise(ArgumentError, "Invalid registry message: #{inspect(msg)}")
+
+  @doc """
+  Returns an `:ok` tuple with a JSON encoded registry message. Returns error tuple if message can't be encoded.
+
+  Function throws an `ArgumentError` if it doesn't receive a `SCOS.RegistryMessage`.
+  """
+  def encode(%__MODULE__{} = msg) do
+    Jason.encode(msg)
+  end
+
+  def encode(msg) do
+    raise ArgumentError, "Message must be a #{inspect(__MODULE__)} struct: #{inspect(msg)}"
+  end
+
+  @doc """
+  Returns JSON encoded registry message. Throws `Jason.EncodeError` if message can't be encoded.
+
+  Function throws an `ArgumentError` if it doesn't receive a `SCOS.RegistryMessage`.
+  """
+  def encode!(%__MODULE__{} = msg) do
+    Jason.encode!(msg)
+  end
+
+  def encode!(msg), do: encode(msg)
 end

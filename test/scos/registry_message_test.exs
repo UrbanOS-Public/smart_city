@@ -3,35 +3,42 @@ defmodule SCOS.RegistryMessageTest do
   doctest SCOS.RegistryMessage
   alias SCOS.RegistryMessage
 
-  describe "new" do
-    setup do
-      message = %{
-        "id" => "uuid",
-        "technical" => %{
-          "dataName" => "dataset",
-          "orgName" => "org",
-          "systemName" => "org__dataset",
-          "stream" => false,
-          "sourceUrl" => "https://example.com"
-        },
-        "business" => %{
-          "dataTitle" => "dataset title",
-          "description" => "description",
-          "keywords" => ["one", "two"],
-          "modifiedDate" => "date",
-          "orgTitle" => "org title",
-          "contactName" => "contact name",
-          "contactEmail" => "contact@email.com",
-          "license" => "license",
-          "rights" => "rights information"
-        }
+  setup do
+    message = %{
+      "id" => "uuid",
+      "technical" => %{
+        "dataName" => "dataset",
+        "orgName" => "org",
+        "systemName" => "org__dataset",
+        "stream" => false,
+        "sourceUrl" => "https://example.com",
+        "cadence" => 9000,
+        "headers" => %{},
+        "queryParams" => %{},
+        "transformations" => [],
+        "validations" => [],
+        "schema" => []
+      },
+      "business" => %{
+        "dataTitle" => "dataset title",
+        "description" => "description",
+        "keywords" => ["one", "two"],
+        "modifiedDate" => "date",
+        "orgTitle" => "org title",
+        "contactName" => "contact name",
+        "contactEmail" => "contact@email.com",
+        "license" => "license",
+        "rights" => "rights information",
+        "homepage" => ""
       }
+    }
 
-      json = Jason.encode!(message)
+    json = Jason.encode!(message)
 
-      {:ok, message: message, json: json}
-    end
+    {:ok, message: message, json: json}
+  end
 
+  describe "new" do
     test "turns a map with string keys into a RegistryMessage", %{message: map} do
       actual = RegistryMessage.new(map)
       assert actual.id == "uuid"
@@ -63,6 +70,45 @@ defmodule SCOS.RegistryMessageTest do
 
     test "converts a JSON message into a RegistryMessage", %{message: map, json: json} do
       assert RegistryMessage.new(json) == RegistryMessage.new(map)
+    end
+  end
+
+  describe "encode/1" do
+    test "JSON encodes the RegistryMessage", %{message: message, json: json} do
+      struct = RegistryMessage.new(message)
+      {:ok, encoded} = RegistryMessage.encode(struct)
+
+      assert encoded == json
+    end
+
+    test "raises ArgumentError if arugment is not a RegistryMessage" do
+      assert_raise ArgumentError, fn ->
+        RegistryMessage.encode(%{a: "b"})
+      end
+    end
+  end
+
+  describe "encode!/1" do
+    test "JSON encodes the RegistryMessage without OK tuple", %{message: message, json: json} do
+      struct = RegistryMessage.new(message)
+      assert RegistryMessage.encode!(struct) == json
+    end
+
+    test "raises Jason.EncodeError if message can't be encoded", %{message: message} do
+      invalid =
+        message
+        |> Map.update!("id", fn _ -> "\xFF" end)
+        |> RegistryMessage.new()
+
+      assert_raise Jason.EncodeError, fn ->
+        RegistryMessage.encode!(invalid)
+      end
+    end
+
+    test "raises ArgumentError if argument is not a RegistryMessage" do
+      assert_raise ArgumentError, fn ->
+        RegistryMessage.encode(%{a: "b"})
+      end
     end
   end
 end
