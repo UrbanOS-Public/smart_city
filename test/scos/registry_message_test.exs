@@ -27,7 +27,9 @@ defmodule SCOS.RegistryMessageTest do
         }
       }
 
-      {:ok, message: message}
+      json = Jason.encode!(message)
+
+      {:ok, message: message, json: json}
     end
 
     test "turns a map with string keys into a RegistryMessage", %{message: map} do
@@ -57,6 +59,10 @@ defmodule SCOS.RegistryMessageTest do
       assert_raise ArgumentError, fn -> RegistryMessage.new(%{business: "", technical: ""}) end
       assert_raise ArgumentError, fn -> RegistryMessage.new(%{id: "", technical: ""}) end
       assert_raise ArgumentError, fn -> RegistryMessage.new(%{id: "", business: ""}) end
+    end
+
+    test "converts a JSON message into a RegistryMessage", %{message: map, json: json} do
+      assert RegistryMessage.new(json) == RegistryMessage.new(map)
     end
   end
 end

@@ -13,9 +13,16 @@ defmodule SCOS.RegistryMessage do
   `SCOS.RegistryMessage.Technical` structs will be created along the way.
 
   Can be created from:
-  - `Map` with string keys
-  - `Map` with atom keys
+  - map with string keys
+  - map with atom keys
+  - JSON
   """
+  def new(msg) when is_binary(msg) do
+    msg
+    |> Jason.decode!(keys: :atoms)
+    |> new()
+  end
+
   def new(%{"id" => _} = msg) do
     msg
     |> Helpers.to_atom_keys()
