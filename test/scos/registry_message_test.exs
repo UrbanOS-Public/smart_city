@@ -12,6 +12,7 @@ defmodule SCOS.RegistryMessageTest do
         "systemName" => "org__dataset",
         "stream" => false,
         "sourceUrl" => "https://example.com",
+        "sourceFormat" => "gtfs",
         "cadence" => 9000,
         "headers" => %{},
         "queryParams" => %{},
