@@ -78,10 +78,20 @@ defmodule SCOS.RegistryMessageTest do
       assert encoded == json
     end
 
+    test "returns error tuple if message can't be encoded", %{message: message} do
+      {:ok, invalid} =
+        message
+        |> Map.update!("id", fn _ -> "\xFF" end)
+        |> RegistryMessage.new()
+
+      {:error, reason} = RegistryMessage.encode(invalid)
+
+      assert Regex.match?(~r/Cannot encode message:/, reason)
+    end
+
     test "returns error tuple if argument is not a RegistryMessage" do
-      assert_raise ArgumentError, fn ->
-        RegistryMessage.encode(%{a: "b"})
-      end
+      {:error, reason} = RegistryMessage.encode(%{a: "b"})
+      assert Regex.match?(~r/Message must be a SCOS.RegistryMessage struct:/, reason)
     end
   end
 
@@ -104,7 +114,7 @@ defmodule SCOS.RegistryMessageTest do
 
     test "raises ArgumentError if argument is not a RegistryMessage" do
       assert_raise ArgumentError, fn ->
-        RegistryMessage.encode(%{a: "b"})
+        RegistryMessage.encode!(%{a: "b"})
       end
     end
   end
