@@ -33,7 +33,7 @@ defmodule SCOS.RegistryMessage do
   def new(%{id: id, business: biz, technical: tech}) do
     try do
       struct =
-        struct!(%__MODULE__{}, %{
+        struct(%__MODULE__{}, %{
           id: id,
           business: Business.new(biz),
           technical: Technical.new(tech)

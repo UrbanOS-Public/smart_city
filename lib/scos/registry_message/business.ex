@@ -38,7 +38,7 @@ defmodule SCOS.RegistryMessage.Business do
           license: _
         } = msg
       ) do
-    struct!(%__MODULE__{}, msg)
+    struct(%__MODULE__{}, msg)
   end
 
   def new(msg) do

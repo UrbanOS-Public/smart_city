@@ -29,7 +29,7 @@ defmodule SCOS.RegistryMessage.Technical do
   end
 
   def new(%{dataName: _, orgName: _, systemName: _, stream: _, sourceUrl: _, sourceFormat: _} = msg) do
-    struct!(%__MODULE__{}, msg)
+    struct(%__MODULE__{}, msg)
   end
 
   def new(msg) do
