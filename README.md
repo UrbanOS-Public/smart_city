@@ -52,6 +52,7 @@ const RegistryMessage = {
             }
         ],
         "sourceUrl": "",
+        "sourceFormat": "",
         "cadence": "",
         "queryParams": {
             "key1": "",
@@ -76,7 +77,7 @@ by adding `scos_ex` to your list of dependencies in `mix.exs` as follows:
 ```elixir
 def deps do
   [
-    {:scos_ex, "~> 0.4.0", organization: "smartcolumbus_os"}
+    {:scos_ex, "~> 0.4.1", organization: "smartcolumbus_os"}
   ]
 end
 ```
