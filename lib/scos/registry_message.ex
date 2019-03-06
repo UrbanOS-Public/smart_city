@@ -3,8 +3,8 @@ defmodule SCOS.RegistryMessage do
   Struct defining a registry event message.
   """
   alias SCOS.RegistryMessage.Business
-  alias SCOS.RegistryMessage.Technical
   alias SCOS.RegistryMessage.Helpers
+  alias SCOS.RegistryMessage.Technical
 
   @derive Jason.Encoder
   defstruct [:id, :business, :technical]
@@ -31,18 +31,16 @@ defmodule SCOS.RegistryMessage do
   end
 
   def new(%{id: id, business: biz, technical: tech}) do
-    try do
-      struct =
-        struct(%__MODULE__{}, %{
-          id: id,
-          business: Business.new(biz),
-          technical: Technical.new(tech)
-        })
+    struct =
+      struct(%__MODULE__{}, %{
+        id: id,
+        business: Business.new(biz),
+        technical: Technical.new(tech)
+      })
 
-      {:ok, struct}
-    rescue
-      e -> {:error, e}
-    end
+    {:ok, struct}
+  rescue
+    e -> {:error, e}
   end
 
   def new(msg) do

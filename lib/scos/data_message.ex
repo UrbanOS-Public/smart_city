@@ -5,6 +5,7 @@ defmodule SCOS.DataMessage do
 
   alias SCOS.DataMessage
   alias SCOS.DataMessage.Timing
+  alias SCOS.RegistryMessage.Helpers
 
   @derive Jason.Encoder
   @enforce_keys [:dataset_id, :payload, :_metadata, :operational]
@@ -14,41 +15,52 @@ defmodule SCOS.DataMessage do
             operational: %{timing: []}
 
   @doc """
-  Creates a new `SCOS.DataMessage` from opts.
+  Returns a new `SCOS.DataMessage` struct. `SCOS.DataMessage.Timing`
+    structs will be created along the way.
 
-  Returns a `%SCOS.DataMessage` struct
-
-  ## Parameters
-  - opts: Keyword list or map containing struct attributes
-          Required keys: #{@enforce_keys |> Enum.map(&"`#{Atom.to_string(&1)}`") |> Enum.join(", ")}
-          See `Kernel.struct!/2`.
+  Can be created from:
+  - map with string keys
+  - map with atom keys
+  - JSON
 
   ## Examples
 
-      iex> SCOS.DataMessage.new(dataset_id: "a_guid", payload: "the_data", _metadata: %{org: "scos", name: "example"}, operational: %{})
-      %SCOS.DataMessage{
-        dataset_id: "a_guid",
-        payload: "the_data",
-        _metadata: %{org: "scos", name: "example"},
-        operational: %{}
-      }
+  iex> SCOS.DataMessage.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: %{org: "scos", name: "example"}, operational: %{timing: [%{app: "stuff", label: "sus", start_time: 5, end_time: 10}]}})
+  {:ok, %SCOS.DataMessage{
+    dataset_id: "a_guid",
+    payload: "the_data",
+    _metadata: %{org: "scos", name: "example"},
+    operational: %{timing: [%SCOS.DataMessage.Timing{app: "stuff", end_time: 10, label: "sus", start_time: 5}]}
+  }}
   """
-  def new(opts) do
-    struct!(__MODULE__, opts)
+  def new(msg) when is_binary(msg) do
+    with {:ok, decoded} <- Jason.decode(msg, keys: :atoms) do
+      new(decoded)
+    end
   end
 
-  @doc """
-  Parses a JSON value into a `SCOS.DataMessage`. Typically pulled from the value field of a Kafka message.
-
-  Returns a `%SCOS.DataMessage{}` struct
-
-  ## Parameters
-  - value: A JSON string containing all required keys. See `new/1` for a listing of required keys
-  """
-  def parse_message(value) when is_binary(value) do
-    value
-    |> Jason.decode!(keys: :atoms)
+  def new(%{"dataset_id" => _} = msg) do
+    msg
+    |> Helpers.to_atom_keys()
     |> new()
+  end
+
+  def new(%{dataset_id: dataset_id, operational: %{timing: timings}, payload: payload, _metadata: metadata}) do
+    struct =
+      struct(__MODULE__, %{
+        dataset_id: dataset_id,
+        payload: payload,
+        _metadata: metadata,
+        operational: %{timing: Enum.map(timings, &Timing.new/1)}
+      })
+
+    {:ok, struct}
+  rescue
+    e -> {:error, e}
+  end
+
+  def new(msg) do
+    {:error, "Invalid data message: #{inspect(msg)}"}
   end
 
   @doc """
@@ -61,6 +73,18 @@ defmodule SCOS.DataMessage do
   """
   def encode(%__MODULE__{} = message) do
     Jason.encode(message)
+  end
+
+  @doc """
+  Encodes `SCOS.DataMessage` into JSON. Typically used right before sending as a Kafka message.
+
+  Returns a JSON string.
+
+  ## Parameters
+  - message: A `SCOS.DataMessage` that you want to encode
+  """
+  def encode!(%__MODULE__{} = message) do
+    Jason.encode!(message)
   end
 
   @doc """
