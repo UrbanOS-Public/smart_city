@@ -19,9 +19,9 @@ defmodule SCOS.RegistryMessage do
   - JSON
   """
   def new(msg) when is_binary(msg) do
-    msg
-    |> Jason.decode!(keys: :atoms)
-    |> new()
+    with {:ok, decoded} <- Jason.decode(msg, keys: :atoms) do
+      new(decoded)
+    end
   end
 
   def new(%{"id" => _} = msg) do
