@@ -77,8 +77,7 @@ defmodule SCOS.DataMessageTest do
           operational: %{timing: []}
         )
 
-      assert %DataMessage{operational: %{timing: [^valid_timing]}} =
-               DataMessage.add_timing(message, valid_timing)
+      assert %DataMessage{operational: %{timing: [^valid_timing]}} = DataMessage.add_timing(message, valid_timing)
     end
   end
 

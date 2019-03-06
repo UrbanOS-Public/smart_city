@@ -20,9 +20,7 @@ defmodule SCOS.DataMessage do
 
   ## Parameters
   - opts: Keyword list or map containing struct attributes
-          Required keys: #{
-    @enforce_keys |> Enum.map(&"`#{Atom.to_string(&1)}`") |> Enum.join(", ")
-  }
+          Required keys: #{@enforce_keys |> Enum.map(&"`#{Atom.to_string(&1)}`") |> Enum.join(", ")}
           See `Kernel.struct!/2`.
 
   ## Examples
