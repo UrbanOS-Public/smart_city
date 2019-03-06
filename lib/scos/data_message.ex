@@ -6,8 +6,12 @@ defmodule SCOS.DataMessage do
   alias SCOS.DataMessage
   alias SCOS.DataMessage.Timing
 
+  @derive Jason.Encoder
   @enforce_keys [:dataset_id, :payload, :_metadata, :operational]
-  defstruct _metadata: %{org: nil, name: nil, stream: false}, dataset_id: nil, payload: nil, operational: %{timing: []}
+  defstruct _metadata: %{org: nil, name: nil, stream: false},
+            dataset_id: nil,
+            payload: nil,
+            operational: %{timing: []}
 
   @doc """
   Creates a new `SCOS.DataMessage` from opts.
@@ -16,7 +20,9 @@ defmodule SCOS.DataMessage do
 
   ## Parameters
   - opts: Keyword list or map containing struct attributes
-          Required keys: #{@enforce_keys |> Enum.map(&"`#{Atom.to_string(&1)}`") |> Enum.join(", ")}
+          Required keys: #{
+    @enforce_keys |> Enum.map(&"`#{Atom.to_string(&1)}`") |> Enum.join(", ")
+  }
           See `Kernel.struct!/2`.
 
   ## Examples
@@ -55,10 +61,8 @@ defmodule SCOS.DataMessage do
   ## Parameters
   - message: A `SCOS.DataMessage` that you want to encode
   """
-  def encode_message(%__MODULE__{} = message) do
-    message
-    |> Map.from_struct()
-    |> Jason.encode!()
+  def encode(%__MODULE__{} = message) do
+    Jason.encode(message)
   end
 
   @doc """
@@ -70,7 +74,10 @@ defmodule SCOS.DataMessage do
   - message: A `SCOS.DataMessage`
   - new_timing: A timing you want to add. Must have `start_time` and `end_time` set
   """
-  def add_timing(%__MODULE__{operational: %{timing: timing}} = message, %DataMessage.Timing{} = new_timing) do
+  def add_timing(
+        %__MODULE__{operational: %{timing: timing}} = message,
+        %DataMessage.Timing{} = new_timing
+      ) do
     case Timing.validate(new_timing) do
       {:ok, new_timing} -> put_in_operational(message, :timing, [new_timing | timing])
       {:error, errors} -> raise ArgumentError, "Invalid Timing: #{errors}"

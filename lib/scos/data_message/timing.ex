@@ -3,6 +3,7 @@ defmodule SCOS.DataMessage.Timing do
   Timing struct for adding timing metrics to DataMessages
   """
   @enforce_keys [:app, :label]
+  @derive Jason.Encoder
   defstruct app: nil, label: nil, start_time: nil, end_time: nil
 
   @validate_keys [:app, :label, :start_time, :end_time]
@@ -25,7 +26,9 @@ defmodule SCOS.DataMessage.Timing do
 
   ## Parameters
   - opts: Keyword list or map containing struct attributes
-          Required keys: #{@enforce_keys |> Enum.map(&"`#{Atom.to_string(&1)}`") |> Enum.join(", ")}
+          Required keys: #{
+    @enforce_keys |> Enum.map(&"`#{Atom.to_string(&1)}`") |> Enum.join(", ")
+  }
           See `Kernel.struct!/2`.
   """
   def new(opts) do

@@ -24,17 +24,24 @@ defmodule SCOS.DataMessageTest do
     end
   end
 
-  describe "encode_message" do
+  describe "encode" do
     test "encodes to JSON" do
       data_message = %DataMessage{
         dataset_id: "abc",
         payload: "whatever",
         _metadata: [],
-        operational: %{}
+        operational: %{
+          timing: %Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}
+        }
       }
 
-      assert DataMessage.encode_message(data_message) ==
-               ~s({"_metadata":[],"dataset_id":"abc","operational":{},"payload":"whatever"})
+      expected =
+        {:ok,
+         "{\"_metadata\":[],\"dataset_id\":\"abc\",\"operational\":" <>
+           "{\"timing\":{\"app\":\"reaper\",\"end_time\":10," <>
+           "\"label\":\"sus\",\"start_time\":5}},\"payload\":\"whatever\"}"}
+
+      assert DataMessage.encode(data_message) == expected
     end
   end
 
@@ -43,7 +50,12 @@ defmodule SCOS.DataMessageTest do
       invalid_timing = Timing.new(app: "whatever", label: "whatever")
 
       message =
-        DataMessage.new(dataset_id: "whatever", payload: "whatever", _metadata: "whatever", operational: %{timing: []})
+        DataMessage.new(
+          dataset_id: "whatever",
+          payload: "whatever",
+          _metadata: "whatever",
+          operational: %{timing: []}
+        )
 
       assert_raise ArgumentError, fn -> DataMessage.add_timing(message, invalid_timing) end
     end
@@ -58,9 +70,15 @@ defmodule SCOS.DataMessageTest do
         )
 
       message =
-        DataMessage.new(dataset_id: "whatever", payload: "whatever", _metadata: "whatever", operational: %{timing: []})
+        DataMessage.new(
+          dataset_id: "whatever",
+          payload: "whatever",
+          _metadata: "whatever",
+          operational: %{timing: []}
+        )
 
-      assert %DataMessage{operational: %{timing: [^valid_timing]}} = DataMessage.add_timing(message, valid_timing)
+      assert %DataMessage{operational: %{timing: [^valid_timing]}} =
+               DataMessage.add_timing(message, valid_timing)
     end
   end
 
