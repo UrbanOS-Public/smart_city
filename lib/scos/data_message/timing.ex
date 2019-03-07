@@ -80,6 +80,7 @@ defmodule SCOS.DataMessage.Timing do
   """
   def measure(app, label, function) when is_function(function) do
     start_time = DateTime.utc_now()
+
     with {:ok, result} <- function.() do
       end_time = DateTime.utc_now()
 
