@@ -16,6 +16,8 @@ defmodule SCOS.RegistryMessage.Technical do
             transformations: [],
             validations: [],
             headers: %{},
+            partitioner: nil,
+            partitionerLocation: nil,
             sourceFormat: nil
 
   @doc """
