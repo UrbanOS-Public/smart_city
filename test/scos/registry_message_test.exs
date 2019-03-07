@@ -2,6 +2,7 @@ defmodule SCOS.RegistryMessageTest do
   use ExUnit.Case
   doctest SCOS.RegistryMessage
   alias SCOS.RegistryMessage
+  alias SCOS.RegistryMessage.{Business, Technical}
 
   setup do
     message = %{
@@ -49,8 +50,8 @@ defmodule SCOS.RegistryMessageTest do
 
     test "turns a map with atom keys into a RegistryMessage", %{message: map} do
       %{"technical" => tech, "business" => biz} = map
-      technical = RegistryMessage.Technical.new(tech)
-      business = RegistryMessage.Business.new(biz)
+      technical = Technical.new(tech)
+      business = Business.new(biz)
 
       atom_tech = Map.new(tech, fn {k, v} -> {String.to_atom(k), v} end)
       atom_biz = Map.new(biz, fn {k, v} -> {String.to_atom(k), v} end)
