@@ -1,5 +1,7 @@
 defmodule SCOS.DataMessage.TimingTest do
   use ExUnit.Case
+  use Placebo
+
   alias SCOS.DataMessage.Timing
 
   describe "new" do
@@ -49,6 +51,43 @@ defmodule SCOS.DataMessage.TimingTest do
       }
 
       assert {:error, _} = Timing.validate(timing)
+    end
+  end
+
+  describe "measure" do
+    test "wraps the result of a function/0 in timing information" do
+      start_time = DateTime.from_naive(~N[2019-01-01 00:00:00.000], "UTC")
+      end_time = DateTime.from_naive(~N[2019-01-02 00:00:00.000], "UTC")
+
+      allow DateTime.utc_now(), seq: [start_time, end_time]
+      allow Fake.do_thing(), return: {:ok, :whatever}, meck_options: [:non_strict]
+
+      assert Timing.measure("app", "label", &Fake.do_thing/0) == {:ok, :whatever, %Timing{
+               app: "app",
+               label: "label",
+               start_time: start_time,
+               end_time: end_time
+             }}
+    end
+
+    test "properly handles errors in tuple form" do
+      start_time = DateTime.from_naive(~N[2019-01-01 00:00:00.000], "UTC")
+      end_time = DateTime.from_naive(~N[2019-01-02 00:00:00.000], "UTC")
+
+      allow DateTime.utc_now(), seq: [start_time, end_time]
+      allow Fake.do_thing(), return: {:error, :reason}, meck_options: [:non_strict]
+
+      assert Timing.measure("app", "label", &Fake.do_thing/0) == {:error, :reason}
+    end
+
+    test "properly handles things that don't return tuples" do
+      start_time = DateTime.from_naive(~N[2019-01-01 00:00:00.000], "UTC")
+      end_time = DateTime.from_naive(~N[2019-01-02 00:00:00.000], "UTC")
+
+      allow DateTime.utc_now(), seq: [start_time, end_time]
+      allow Fake.do_thing(), return: :non_conforming, meck_options: [:non_strict]
+
+      assert Timing.measure("app", "label", &Fake.do_thing/0) == {:error, :non_conforming}
     end
   end
 
