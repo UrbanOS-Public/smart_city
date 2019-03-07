@@ -4,7 +4,7 @@
 
 ```javascript
 const DataMessage = {
-    "datasetId": "",         // UUID
+    "dataset_id": "",         // UUID
     "payload": {},
     "_metadata": {           // cannot be used safely
         "orgName": "",       // ~r/^[a-zA-Z_]+$/
