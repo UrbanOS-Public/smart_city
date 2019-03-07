@@ -73,6 +73,24 @@ defmodule SCOS.DataMessage.Timing do
     end
   end
 
+  @doc """
+  Wraps the results of a function call with measured timing information
+
+  Returns {:ok, `result`, `timing`} on success, or {:error, `reason`} on failure
+  """
+  def measure(app, label, function) when is_function(function) do
+    start_time = DateTime.utc_now()
+
+    with {:ok, result} <- function.() do
+      end_time = DateTime.utc_now()
+
+      {:ok, result, new(%{app: app, label: label, start_time: start_time, end_time: end_time})}
+    else
+      {:error, reason} -> {:error, reason}
+      reason -> {:error, reason}
+    end
+  end
+
   defp check_keys(timing, keys) do
     keys
     |> Enum.map(&check_key(timing, &1))

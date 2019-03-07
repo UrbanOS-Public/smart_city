@@ -1,5 +1,6 @@
 defmodule SCOS.DataMessageTest do
   use ExUnit.Case
+  use Placebo
   doctest SCOS.DataMessage
 
   alias SCOS.DataMessage
@@ -108,6 +109,129 @@ defmodule SCOS.DataMessageTest do
       assert_raise Jason.EncodeError, fn ->
         DataMessage.encode!(data_message)
       end
+    end
+  end
+
+  describe "timed_new" do
+    test "news message on success" do
+      app = "scos_ex"
+      label = "&SCOS.DataMessage.new/1"
+      timing = %Timing{app: app, label: label, start_time: 0, end_time: 5}
+
+      initial_message = %DataMessage{
+        dataset_id: :guid,
+        payload: :initial,
+        _metadata: [],
+        operational: %{
+          timing: [
+            %Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}
+          ]
+        }
+      }
+
+      json_message = DataMessage.encode!(initial_message)
+
+      expected_message = %DataMessage{
+        dataset_id: "guid",
+        payload: "initial",
+        _metadata: [],
+        operational: %{
+          timing: [
+            timing,
+            %Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}
+          ]
+        }
+      }
+
+      allow(DataMessage.Timing.measure(app, label, any()),
+        exec: fn _a, _l, f ->
+          {:ok, result} = f.()
+          {:ok, result, timing}
+        end,
+        meck_options: [:passthrough]
+      )
+
+      assert DataMessage.timed_new(json_message, app) == {:ok, expected_message}
+    end
+
+    test "returns error tuple on failure" do
+      app = "scos_ex"
+      label = "&SCOS.DataMessage.new/1"
+
+      initial_message = %DataMessage{
+        dataset_id: :guid,
+        payload: :initial,
+        _metadata: [],
+        operational: %{
+          timing: [
+            %Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}
+          ]
+        }
+      }
+
+      json_message = DataMessage.encode!(initial_message)
+
+      allow(DataMessage.Timing.measure(app, label, any()), return: {:error, :reason}, meck_options: [:passthrough])
+
+      assert DataMessage.timed_new(json_message, app) == {:error, :reason}
+    end
+  end
+
+  describe "timed_transform" do
+    test "passes through message with updated payload and timing on success" do
+      app = "scos_ex"
+      label = "&Fake.do_thing/1"
+
+      data_message = %DataMessage{
+        dataset_id: :guid,
+        payload: :initial,
+        _metadata: [],
+        operational: %{
+          timing: [%Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}]
+        }
+      }
+
+      timing = %Timing{app: app, label: label, start_time: 0, end_time: 5}
+
+      expected_message = %DataMessage{
+        dataset_id: :guid,
+        payload: :whatever,
+        _metadata: [],
+        operational: %{
+          timing: [
+            timing,
+            %Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}
+          ]
+        }
+      }
+
+      allow(Fake.do_thing(data_message.payload), return: {:ok, :whatever}, meck_options: [:non_strict])
+
+      allow(DataMessage.Timing.measure(app, label, any()),
+        return: {:ok, :whatever, timing},
+        meck_options: [:passthrough]
+      )
+
+      assert DataMessage.timed_transform(data_message, app, &Fake.do_thing/1) == {:ok, expected_message}
+    end
+
+    test "returns error tuple on failure" do
+      data_message = %DataMessage{
+        dataset_id: :guid,
+        payload: :initial,
+        _metadata: [],
+        operational: %{
+          timing: [%Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}]
+        }
+      }
+
+      app = "scos_ex"
+      label = "&Fake.do_thing/1"
+
+      allow(Fake.do_thing(data_message.payload), return: {:error, :reason}, meck_options: [:non_strict])
+      allow(DataMessage.Timing.measure(app, label, any()), return: {:error, :reason}, meck_options: [:passthrough])
+
+      assert DataMessage.timed_transform(data_message, app, &Fake.do_thing/1) == {:error, :reason}
     end
   end
 

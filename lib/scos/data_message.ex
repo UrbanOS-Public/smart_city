@@ -107,6 +107,43 @@ defmodule SCOS.DataMessage do
   end
 
   @doc """
+  Creates a new `SCOS.DataMessage` struct using new/1 and adds timing information to the message.
+
+  Returns a `%SCOS.DataMessage` struct with `new_timing` prepended to timings already in the DataMessage.
+
+  ## Parameters
+  - message: A `SCOS.DataMessage`
+  - app: The application that is asking to create the new `SCOS.DataMessage`. Ex. `reaper` or `voltron`
+  """
+  def timed_new(msg, app) do
+    label = inspect(&DataMessage.new/1)
+
+    case Timing.measure(app, label, fn -> new(msg) end) do
+      {:ok, msg, timing} -> {:ok, msg |> add_timing(timing)}
+      error -> error
+    end
+  end
+
+  @doc """
+  Transforms the `SCOS.DataMessage.payload` field with the given unary function and replaces it in the message.
+
+  Additionally, returns a `%SCOS.DataMessage` struct with `new_timing` prepended to timings already in the DataMessage.
+
+  ## Parameters
+  - message: A `SCOS.DataMessage`
+  - app: The application that is asking to create the new `SCOS.DataMessage`. Ex. `reaper` or `voltron`
+  - function: a /1 function that will transform the payload in the provided message
+  """
+  def timed_transform(%DataMessage{} = msg, app, function) when is_function(function, 1) do
+    label = inspect(function)
+
+    case Timing.measure(app, label, fn -> function.(msg.payload) end) do
+      {:ok, result, timing} -> {:ok, msg |> add_timing(timing) |> Map.replace!(:payload, result)}
+      error -> error
+    end
+  end
+
+  @doc """
   Get all timings on this DataMessage
 
   Returns a list of  `%SCOS.DataMessage.Timing{}` structs or `[]`
