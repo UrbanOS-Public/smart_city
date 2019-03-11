@@ -16,6 +16,7 @@ defmodule SCOS.RegistryMessageTest do
         "sourceFormat" => "gtfs",
         "cadence" => 9000,
         "headers" => %{},
+        "partitioner" => %{type: nil, query: nil},
         "queryParams" => %{},
         "transformations" => [],
         "validations" => [],
