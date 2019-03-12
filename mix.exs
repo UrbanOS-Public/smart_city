@@ -23,7 +23,8 @@ defmodule SCOS.MixProject do
       {:jason, "~> 1.1"},
       {:ex_doc, "~> 0.19", only: :dev},
       {:credo, "~> 0.10", only: [:dev, :test], runtime: false},
-      {:placebo, "~> 1.2", only: :test}
+      {:placebo, "~> 1.2", only: :test},
+      {:mix_test_watch, "~> 0.9.0", only: :dev, runtime: false}
     ]
   end
 
