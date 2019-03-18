@@ -1,4 +1,4 @@
-defmodule SCOS.DataMessage.Timing do
+defmodule SmartCity.Data.Timing do
   @moduledoc """
   Timing struct for adding timing metrics to DataMessages
   """
@@ -9,9 +9,9 @@ defmodule SCOS.DataMessage.Timing do
   @validate_keys [:app, :label, :start_time, :end_time]
 
   @doc """
-  Creates a new `SCOS.DataMessage.Timing` struct, passing in all fields.
+  Creates a new `SmartCity.Data.Timing` struct, passing in all fields.
 
-  Returns a `%SCOS.DataMessage.Timing{}` struct or raises `ArgumentError`.
+  Returns a `%SmartCity.Data.Timing{}` struct or raises `ArgumentError`.
 
   See `new/1`.
   """
@@ -20,9 +20,9 @@ defmodule SCOS.DataMessage.Timing do
   end
 
   @doc """
-  Creates a new `SCOS.DataMessage.Timing` from opts.
+  Creates a new `SmartCity.Data.Timing` from opts.
 
-  Returns a `%SCOS.DataMessage.Timing{}` struct or raises `ArgumentError`
+  Returns a `%SmartCity.Data.Timing{}` struct or raises `ArgumentError`
 
   ## Parameters
   - opts: Keyword list or map containing struct attributes
@@ -51,7 +51,7 @@ defmodule SCOS.DataMessage.Timing do
   Returns `{:ok, timing}` on success or `{:error, reason}` on failure
 
   ## Parameters
-  - timing: The `SCOS.DataMessage.Timing` struct to validate
+  - timing: The `SmartCity.Data.Timing` struct to validate
   """
   def validate(%__MODULE__{} = timing) do
     case check_keys(timing, @validate_keys) do

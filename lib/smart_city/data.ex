@@ -1,11 +1,11 @@
-defmodule SCOS.DataMessage do
+defmodule SmartCity.Data do
   @moduledoc """
   Message struct shared amongst all SCOS microservices.
   """
 
-  alias SCOS.DataMessage
-  alias SCOS.DataMessage.Timing
-  alias SCOS.Helpers
+  alias SmartCity.Data
+  alias SmartCity.Data.Timing
+  alias SmartCity.Helpers
 
   @derive Jason.Encoder
   @enforce_keys [:dataset_id, :payload, :_metadata, :operational]
@@ -15,7 +15,7 @@ defmodule SCOS.DataMessage do
             operational: %{timing: []}
 
   @doc """
-  Returns a new `SCOS.DataMessage` struct. `SCOS.DataMessage.Timing`
+  Returns a new `SmartCity.Data` struct. `SmartCity.Data.Timing`
     structs will be created along the way.
 
   Can be created from:
@@ -25,12 +25,12 @@ defmodule SCOS.DataMessage do
 
   ## Examples
 
-  iex> SCOS.DataMessage.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: %{org: "scos", name: "example"}, operational: %{timing: [%{app: "stuff", label: "sus", start_time: 5, end_time: 10}]}})
-  {:ok, %SCOS.DataMessage{
+  iex> SmartCity.Data.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: %{org: "scos", name: "example"}, operational: %{timing: [%{app: "stuff", label: "sus", start_time: 5, end_time: 10}]}})
+  {:ok, %SmartCity.Data{
     dataset_id: "a_guid",
     payload: "the_data",
     _metadata: %{org: "scos", name: "example"},
-    operational: %{timing: [%SCOS.DataMessage.Timing{app: "stuff", end_time: 10, label: "sus", start_time: 5}]}
+    operational: %{timing: [%SmartCity.Data.Timing{app: "stuff", end_time: 10, label: "sus", start_time: 5}]}
   }}
   """
   def new(msg) when is_binary(msg) do
@@ -64,41 +64,41 @@ defmodule SCOS.DataMessage do
   end
 
   @doc """
-  Encodes `SCOS.DataMessage` into JSON. Typically used right before sending as a Kafka message.
+  Encodes `SmartCity.Data` into JSON. Typically used right before sending as a Kafka message.
 
   Returns a JSON string.
 
   ## Parameters
-  - message: A `SCOS.DataMessage` that you want to encode
+  - message: A `SmartCity.Data` that you want to encode
   """
   def encode(%__MODULE__{} = message) do
     Jason.encode(message)
   end
 
   @doc """
-  Encodes `SCOS.DataMessage` into JSON. Typically used right before sending as a Kafka message.
+  Encodes `SmartCity.Data` into JSON. Typically used right before sending as a Kafka message.
 
   Returns a JSON string.
 
   ## Parameters
-  - message: A `SCOS.DataMessage` that you want to encode
+  - message: A `SmartCity.Data` that you want to encode
   """
   def encode!(%__MODULE__{} = message) do
     Jason.encode!(message)
   end
 
   @doc """
-  Adds a `SCOS.DataMessage.Timing` to the list of timings in this DataMessage. The timing will be validated to ensure both start and end times have been set.
+  Adds a `SmartCity.Data.Timing` to the list of timings in this Data. The timing will be validated to ensure both start and end times have been set.
 
-  Returns a `%SCOS.DataMessage` struct with `new_timing` prepended to timings already in the DataMessage.
+  Returns a `%SmartCity.Data` struct with `new_timing` prepended to timings already in the Data.
 
   ## Parameters
-  - message: A `SCOS.DataMessage`
+  - message: A `SmartCity.Data`
   - new_timing: A timing you want to add. Must have `start_time` and `end_time` set
   """
   def add_timing(
         %__MODULE__{operational: %{timing: timing}} = message,
-        %DataMessage.Timing{} = new_timing
+        %Data.Timing{} = new_timing
       ) do
     case Timing.validate(new_timing) do
       {:ok, new_timing} -> put_in_operational(message, :timing, [new_timing | timing])
@@ -107,16 +107,16 @@ defmodule SCOS.DataMessage do
   end
 
   @doc """
-  Creates a new `SCOS.DataMessage` struct using new/1 and adds timing information to the message.
+  Creates a new `SmartCity.Data` struct using new/1 and adds timing information to the message.
 
-  Returns a `%SCOS.DataMessage` struct with `new_timing` prepended to timings already in the DataMessage.
+  Returns a `%SmartCity.Data` struct with `new_timing` prepended to timings already in the Data.
 
   ## Parameters
-  - message: A `SCOS.DataMessage`
-  - app: The application that is asking to create the new `SCOS.DataMessage`. Ex. `reaper` or `voltron`
+  - message: A `SmartCity.Data`
+  - app: The application that is asking to create the new `SmartCity.Data`. Ex. `reaper` or `voltron`
   """
   def timed_new(msg, app) do
-    label = inspect(&DataMessage.new/1)
+    label = inspect(&Data.new/1)
 
     case Timing.measure(app, label, fn -> new(msg) end) do
       {:ok, msg, timing} -> {:ok, msg |> add_timing(timing)}
@@ -125,16 +125,16 @@ defmodule SCOS.DataMessage do
   end
 
   @doc """
-  Transforms the `SCOS.DataMessage.payload` field with the given unary function and replaces it in the message.
+  Transforms the `SmartCity.Data.payload` field with the given unary function and replaces it in the message.
 
-  Additionally, returns a `%SCOS.DataMessage` struct with `new_timing` prepended to timings already in the DataMessage.
+  Additionally, returns a `%SmartCity.Data` struct with `new_timing` prepended to timings already in the Data.
 
   ## Parameters
-  - message: A `SCOS.DataMessage`
-  - app: The application that is asking to create the new `SCOS.DataMessage`. Ex. `reaper` or `voltron`
+  - message: A `SmartCity.Data`
+  - app: The application that is asking to create the new `SmartCity.Data`. Ex. `reaper` or `voltron`
   - function: a /1 function that will transform the payload in the provided message
   """
-  def timed_transform(%DataMessage{} = msg, app, function) when is_function(function, 1) do
+  def timed_transform(%Data{} = msg, app, function) when is_function(function, 1) do
     label = inspect(function)
 
     case Timing.measure(app, label, fn -> function.(msg.payload) end) do
@@ -144,9 +144,9 @@ defmodule SCOS.DataMessage do
   end
 
   @doc """
-  Get all timings on this DataMessage
+  Get all timings on this Data
 
-  Returns a list of  `%SCOS.DataMessage.Timing{}` structs or `[]`
+  Returns a list of  `%SmartCity.Data.Timing{}` structs or `[]`
 
   ## Parameters
   - data_message: The message to extract timings from

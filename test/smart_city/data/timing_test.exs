@@ -1,8 +1,8 @@
-defmodule SCOS.DataMessage.TimingTest do
+defmodule SmartCity.Data.TimingTest do
   use ExUnit.Case
   use Placebo
 
-  alias SCOS.DataMessage.Timing
+  alias SmartCity.Data.Timing
 
   describe "new" do
     test "throws error without required keys" do

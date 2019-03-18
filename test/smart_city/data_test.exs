@@ -1,13 +1,13 @@
-defmodule SCOS.DataMessageTest do
+defmodule SmartCity.DataTest do
   use ExUnit.Case
   use Placebo
-  doctest SCOS.DataMessage
+  doctest SmartCity.Data
 
-  alias SCOS.DataMessage
-  alias SCOS.DataMessage.Timing
+  alias SmartCity.Data
+  alias SmartCity.Data.Timing
 
   describe "new" do
-    test "turns a map with string keys into a DataMessage" do
+    test "turns a map with string keys into a Data" do
       map = %{
         "dataset_id" => "abc",
         "payload" => "whatever",
@@ -15,7 +15,7 @@ defmodule SCOS.DataMessageTest do
         "operational" => %{"timing" => [%{app: "reaper", label: "sus", start_time: 5, end_time: 10}]}
       }
 
-      {:ok, actual} = DataMessage.new(map)
+      {:ok, actual} = Data.new(map)
 
       assert actual.dataset_id == "abc"
       assert actual.payload == "whatever"
@@ -23,7 +23,7 @@ defmodule SCOS.DataMessageTest do
       assert actual.operational.timing == [%Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}]
     end
 
-    test "turns a map with atom keys into a DataMessage" do
+    test "turns a map with atom keys into a Data" do
       map = %{
         dataset_id: "abc",
         payload: "whatever",
@@ -31,9 +31,9 @@ defmodule SCOS.DataMessageTest do
         operational: %{timing: [%{app: "reaper", label: "sus", start_time: 5, end_time: 10}]}
       }
 
-      {:ok, actual} = DataMessage.new(map)
+      {:ok, actual} = Data.new(map)
 
-      assert actual == %DataMessage{
+      assert actual == %Data{
                dataset_id: "abc",
                payload: "whatever",
                _metadata: %{org: "whatever", name: "stuff", stream: true},
@@ -41,13 +41,13 @@ defmodule SCOS.DataMessageTest do
              }
     end
 
-    test "returns error tuple when creating DataMessage without required fields" do
-      {:error, reason} = DataMessage.new(%{dataset_id: "", operational: ""})
+    test "returns error tuple when creating Data without required fields" do
+      {:error, reason} = Data.new(%{dataset_id: "", operational: ""})
       assert Regex.match?(~r/Invalid data message:/, reason)
     end
 
-    test "converts a JSON message into a DataMessage" do
-      map = %DataMessage{
+    test "converts a JSON message into a Data" do
+      map = %Data{
         dataset_id: "abc",
         payload: "whatever",
         _metadata: %{org: "whatever", name: "stuff", stream: true},
@@ -56,13 +56,13 @@ defmodule SCOS.DataMessageTest do
 
       json = Jason.encode!(map)
 
-      assert DataMessage.new(json) == DataMessage.new(map)
+      assert Data.new(json) == Data.new(map)
     end
   end
 
   describe "encode" do
     test "encodes to JSON" do
-      data_message = %DataMessage{
+      data_message = %Data{
         dataset_id: "abc",
         payload: "whatever",
         _metadata: [],
@@ -75,13 +75,13 @@ defmodule SCOS.DataMessageTest do
         {:ok,
          ~s({"_metadata":[],"dataset_id":"abc","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever"})}
 
-      assert DataMessage.encode(data_message) == expected
+      assert Data.encode(data_message) == expected
     end
   end
 
   describe "encode!" do
     test "encodes to JSON" do
-      data_message = %DataMessage{
+      data_message = %Data{
         dataset_id: "abc",
         payload: "whatever",
         _metadata: [],
@@ -93,11 +93,11 @@ defmodule SCOS.DataMessageTest do
       expected =
         ~s({"_metadata":[],"dataset_id":"abc","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever"})
 
-      assert DataMessage.encode!(data_message) == expected
+      assert Data.encode!(data_message) == expected
     end
 
     test "raises Jason.EncodeError if message can't be encoded" do
-      data_message = %DataMessage{
+      data_message = %Data{
         dataset_id: "\xFF",
         payload: "whatever",
         _metadata: [],
@@ -107,7 +107,7 @@ defmodule SCOS.DataMessageTest do
       }
 
       assert_raise Jason.EncodeError, fn ->
-        DataMessage.encode!(data_message)
+        Data.encode!(data_message)
       end
     end
   end
@@ -115,10 +115,10 @@ defmodule SCOS.DataMessageTest do
   describe "timed_new" do
     test "news message on success" do
       app = "scos_ex"
-      label = "&SCOS.DataMessage.new/1"
+      label = "&SmartCity.Data.new/1"
       timing = %Timing{app: app, label: label, start_time: 0, end_time: 5}
 
-      initial_message = %DataMessage{
+      initial_message = %Data{
         dataset_id: :guid,
         payload: :initial,
         _metadata: [],
@@ -129,9 +129,9 @@ defmodule SCOS.DataMessageTest do
         }
       }
 
-      json_message = DataMessage.encode!(initial_message)
+      json_message = Data.encode!(initial_message)
 
-      expected_message = %DataMessage{
+      expected_message = %Data{
         dataset_id: "guid",
         payload: "initial",
         _metadata: [],
@@ -143,7 +143,7 @@ defmodule SCOS.DataMessageTest do
         }
       }
 
-      allow(DataMessage.Timing.measure(app, label, any()),
+      allow(Data.Timing.measure(app, label, any()),
         exec: fn _a, _l, f ->
           {:ok, result} = f.()
           {:ok, result, timing}
@@ -151,14 +151,14 @@ defmodule SCOS.DataMessageTest do
         meck_options: [:passthrough]
       )
 
-      assert DataMessage.timed_new(json_message, app) == {:ok, expected_message}
+      assert Data.timed_new(json_message, app) == {:ok, expected_message}
     end
 
     test "returns error tuple on failure" do
       app = "scos_ex"
-      label = "&SCOS.DataMessage.new/1"
+      label = "&SmartCity.Data.new/1"
 
-      initial_message = %DataMessage{
+      initial_message = %Data{
         dataset_id: :guid,
         payload: :initial,
         _metadata: [],
@@ -169,11 +169,11 @@ defmodule SCOS.DataMessageTest do
         }
       }
 
-      json_message = DataMessage.encode!(initial_message)
+      json_message = Data.encode!(initial_message)
 
-      allow(DataMessage.Timing.measure(app, label, any()), return: {:error, :reason}, meck_options: [:passthrough])
+      allow(Data.Timing.measure(app, label, any()), return: {:error, :reason}, meck_options: [:passthrough])
 
-      assert DataMessage.timed_new(json_message, app) == {:error, :reason}
+      assert Data.timed_new(json_message, app) == {:error, :reason}
     end
   end
 
@@ -182,7 +182,7 @@ defmodule SCOS.DataMessageTest do
       app = "scos_ex"
       label = "&Fake.do_thing/1"
 
-      data_message = %DataMessage{
+      data_message = %Data{
         dataset_id: :guid,
         payload: :initial,
         _metadata: [],
@@ -193,7 +193,7 @@ defmodule SCOS.DataMessageTest do
 
       timing = %Timing{app: app, label: label, start_time: 0, end_time: 5}
 
-      expected_message = %DataMessage{
+      expected_message = %Data{
         dataset_id: :guid,
         payload: :whatever,
         _metadata: [],
@@ -207,16 +207,16 @@ defmodule SCOS.DataMessageTest do
 
       allow(Fake.do_thing(data_message.payload), return: {:ok, :whatever}, meck_options: [:non_strict])
 
-      allow(DataMessage.Timing.measure(app, label, any()),
+      allow(Data.Timing.measure(app, label, any()),
         return: {:ok, :whatever, timing},
         meck_options: [:passthrough]
       )
 
-      assert DataMessage.timed_transform(data_message, app, &Fake.do_thing/1) == {:ok, expected_message}
+      assert Data.timed_transform(data_message, app, &Fake.do_thing/1) == {:ok, expected_message}
     end
 
     test "returns error tuple on failure" do
-      data_message = %DataMessage{
+      data_message = %Data{
         dataset_id: :guid,
         payload: :initial,
         _metadata: [],
@@ -229,9 +229,9 @@ defmodule SCOS.DataMessageTest do
       label = "&Fake.do_thing/1"
 
       allow(Fake.do_thing(data_message.payload), return: {:error, :reason}, meck_options: [:non_strict])
-      allow(DataMessage.Timing.measure(app, label, any()), return: {:error, :reason}, meck_options: [:passthrough])
+      allow(Data.Timing.measure(app, label, any()), return: {:error, :reason}, meck_options: [:passthrough])
 
-      assert DataMessage.timed_transform(data_message, app, &Fake.do_thing/1) == {:error, :reason}
+      assert Data.timed_transform(data_message, app, &Fake.do_thing/1) == {:error, :reason}
     end
   end
 
@@ -240,14 +240,14 @@ defmodule SCOS.DataMessageTest do
       invalid_timing = Timing.new(app: "whatever", label: "whatever")
 
       {:ok, message} =
-        DataMessage.new(%{
+        Data.new(%{
           dataset_id: "whatever",
           payload: "whatever",
           _metadata: "whatever",
           operational: %{timing: []}
         })
 
-      assert_raise ArgumentError, fn -> DataMessage.add_timing(message, invalid_timing) end
+      assert_raise ArgumentError, fn -> Data.add_timing(message, invalid_timing) end
     end
 
     test "adds valid timing" do
@@ -260,14 +260,14 @@ defmodule SCOS.DataMessageTest do
         )
 
       {:ok, message} =
-        DataMessage.new(%{
+        Data.new(%{
           dataset_id: "whatever",
           payload: "whatever",
           _metadata: "whatever",
           operational: %{timing: []}
         })
 
-      assert %DataMessage{operational: %{timing: [^valid_timing]}} = DataMessage.add_timing(message, valid_timing)
+      assert %Data{operational: %{timing: [^valid_timing]}} = Data.add_timing(message, valid_timing)
     end
   end
 
@@ -283,14 +283,14 @@ defmodule SCOS.DataMessageTest do
       real_timing = Timing.new(timing)
 
       {:ok, message} =
-        DataMessage.new(%{
+        Data.new(%{
           dataset_id: "whatever",
           payload: "whatever",
           _metadata: "whatever",
           operational: %{timing: [timing]}
         })
 
-      assert [^real_timing] = DataMessage.get_all_timings(message)
+      assert [^real_timing] = Data.get_all_timings(message)
     end
   end
 end
