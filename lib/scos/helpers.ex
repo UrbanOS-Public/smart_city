@@ -1,4 +1,4 @@
-defmodule SCOS.RegistryMessage.Helpers do
+defmodule SCOS.Helpers do
   @moduledoc """
   Functions used across `SCOS.RegistryMessage` modules.
   """
@@ -9,13 +9,13 @@ defmodule SCOS.RegistryMessage.Helpers do
 
   ## Examples
 
-      iex> SCOS.RegistryMessage.Helpers.to_atom_keys(%{"abc" => 123})
+      iex> SCOS.Helpers.to_atom_keys(%{"abc" => 123})
       %{abc: 123}
 
-      iex> SCOS.RegistryMessage.Helpers.to_atom_keys(%{"a" => %{"b" => "c"}})
+      iex> SCOS.Helpers.to_atom_keys(%{"a" => %{"b" => "c"}})
       %{a: %{b: "c"}}
 
-      iex> SCOS.RegistryMessage.Helpers.to_atom_keys(%{"a" => [%{"b" => "c"}]})
+      iex> SCOS.Helpers.to_atom_keys(%{"a" => [%{"b" => "c"}]})
       %{a: [%{b: "c"}]}
   """
   def to_atom_keys(map) when is_map(map) do

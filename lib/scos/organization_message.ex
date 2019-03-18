@@ -2,7 +2,7 @@ defmodule SCOS.OrganizationMessage do
   @moduledoc """
   Struct defining an organization event message.
   """
-  alias SCOS.RegistryMessage.Helpers
+  alias SCOS.Helpers
 
   @derive Jason.Encoder
   defstruct [:id, :orgTitle, :orgName, :description, :logoUrl, :homepage]
