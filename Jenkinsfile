@@ -12,7 +12,9 @@ node('infrastructure') {
         scos.doCheckoutStage()
 
         stage('Build') {
-            image = docker.build("scos_ex:${env.GIT_COMMIT_HASH}")
+            withCredentials([string(credentialsId: 'hex-read', variable: 'HEX_TOKEN')]) {
+                image = docker.build("smart_city_data:${env.GIT_COMMIT_HASH}", "--build-arg HEX_TOKEN=$HEX_TOKEN .")
+            }
         }
 
         scos.doStageIf(scos.changeset.isRelease, "Publish") {
