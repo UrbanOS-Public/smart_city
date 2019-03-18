@@ -14,6 +14,7 @@ defmodule SCOS.RegistryMessageTest do
         "stream" => false,
         "sourceUrl" => "https://example.com",
         "sourceFormat" => "gtfs",
+        "sourceType" => "stream",
         "cadence" => 9000,
         "headers" => %{},
         "partitioner" => %{type: nil, query: nil},

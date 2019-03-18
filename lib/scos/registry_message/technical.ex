@@ -11,6 +11,7 @@ defmodule SCOS.RegistryMessage.Technical do
             stream: nil,
             schema: [],
             sourceUrl: nil,
+            sourceType: "remote",
             cadence: nil,
             queryParams: %{},
             transformations: [],
