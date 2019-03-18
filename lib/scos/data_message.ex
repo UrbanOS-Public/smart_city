@@ -5,7 +5,7 @@ defmodule SCOS.DataMessage do
 
   alias SCOS.DataMessage
   alias SCOS.DataMessage.Timing
-  alias SCOS.RegistryMessage.Helpers
+  alias SCOS.Helpers
 
   @derive Jason.Encoder
   @enforce_keys [:dataset_id, :payload, :_metadata, :operational]

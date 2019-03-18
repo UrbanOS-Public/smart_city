@@ -3,7 +3,7 @@ defmodule SCOS.RegistryMessage do
   Struct defining a registry event message.
   """
   alias SCOS.RegistryMessage.Business
-  alias SCOS.RegistryMessage.Helpers
+  alias SCOS.Helpers
   alias SCOS.RegistryMessage.Technical
 
   @derive Jason.Encoder

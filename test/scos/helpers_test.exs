@@ -1,7 +1,7 @@
-defmodule SCOS.RegistryMessage.HelpersTest do
+defmodule SCOS.HelpersTest do
   use ExUnit.Case
-  doctest SCOS.RegistryMessage.Helpers
-  alias SCOS.RegistryMessage.Helpers
+  doctest SCOS.Helpers
+  alias SCOS.Helpers
 
   describe "to_atom_keys/1" do
     test "converts top level string keys to atoms" do

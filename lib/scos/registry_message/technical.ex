@@ -2,7 +2,7 @@ defmodule SCOS.RegistryMessage.Technical do
   @moduledoc """
   Struct defining technical metadata on a registry event message.
   """
-  alias SCOS.RegistryMessage.Helpers
+  alias SCOS.Helpers
 
   @derive Jason.Encoder
   defstruct dataName: nil,
@@ -11,6 +11,7 @@ defmodule SCOS.RegistryMessage.Technical do
             stream: nil,
             schema: [],
             sourceUrl: nil,
+            sourceType: "remote",
             cadence: nil,
             queryParams: %{},
             transformations: [],

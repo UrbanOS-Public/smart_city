@@ -77,7 +77,7 @@ by adding `scos_ex` to your list of dependencies in `mix.exs` as follows:
 ```elixir
 def deps do
   [
-    {:scos_ex, "~> 1.2.0", organization: "smartcolumbus_os"}
+    {:scos_ex, "~> 1.3.0", organization: "smartcolumbus_os"}
   ]
 end
 ```
