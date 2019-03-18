@@ -1,6 +1,6 @@
-defmodule SCOS.Helpers do
+defmodule SmartCity.Helpers do
   @moduledoc """
-  Functions used across `SCOS.RegistryMessage` modules.
+  Functions used across SmartCity modules.
   """
 
   @doc """
@@ -9,13 +9,13 @@ defmodule SCOS.Helpers do
 
   ## Examples
 
-      iex> SCOS.Helpers.to_atom_keys(%{"abc" => 123})
+      iex> SmartCity.Helpers.to_atom_keys(%{"abc" => 123})
       %{abc: 123}
 
-      iex> SCOS.Helpers.to_atom_keys(%{"a" => %{"b" => "c"}})
+      iex> SmartCity.Helpers.to_atom_keys(%{"a" => %{"b" => "c"}})
       %{a: %{b: "c"}}
 
-      iex> SCOS.Helpers.to_atom_keys(%{"a" => [%{"b" => "c"}]})
+      iex> SmartCity.Helpers.to_atom_keys(%{"a" => [%{"b" => "c"}]})
       %{a: [%{b: "c"}]}
   """
   def to_atom_keys(map) when is_map(map) do

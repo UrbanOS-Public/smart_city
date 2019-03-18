@@ -12,7 +12,7 @@ node('infrastructure') {
         scos.doCheckoutStage()
 
         stage('Build') {
-            image = docker.build("scos_ex:${env.GIT_COMMIT_HASH}")
+            image = docker.build("smart_city:${env.GIT_COMMIT_HASH}")
         }
 
         scos.doStageIf(scos.changeset.isRelease, "Publish") {

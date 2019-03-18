@@ -1,90 +1,22 @@
-# SCOS
-
-#### DataMessage
-
-```javascript
-const DataMessage = {
-    "dataset_id": "",         // UUID
-    "payload": {},
-    "_metadata": {           // cannot be used safely
-        "orgName": "",       // ~r/^[a-zA-Z_]+$/
-        "dataName": "",      // ~r/^[a-zA-Z_]+$/
-        "stream": true
-    },
-    "operational": {
-        "timing": [{
-            "startTime": "", // iso8601
-            "endTime": "",   // iso8601
-            "app": "",       // microservice generating timing data
-            "label": ""      // label for this particular timing data
-        }]
-    },
-}
-```
-
-#### RegistryMessage
-
-```javascript
-const RegistryMessage = {
-    "id": "",                  // UUID
-    "business": {              // Project Open Data Metadata Schema v1.1
-        "dataTitle": "",       // user friendly (dataTitle)
-        "description": "",
-        "keywords": [""],
-        "modifiedDate": "",
-        "orgTitle": "",        // user friendly (orgTitle)
-        "contactName": "",
-        "contactEmail": "",
-        "license": "",
-        "rights": "",
-        "homepage": ""
-    },
-    "technical": {
-        "dataName": "",        // ~r/[a-zA-Z_]+$/
-        "orgName": "",         // ~r/[a-zA-Z_]+$/
-        "systemName": "",      // ${orgName}__${dataName},
-        "stream": true,
-        "schema": [
-            {
-                "name": "",
-                "type": "",
-                "description": ""
-            }
-        ],
-        "sourceUrl": "",
-        "sourceFormat": "",
-        "cadence": "",
-        "queryParams": {
-            "key1": "",
-            "key2": ""
-        },
-        "transformations": [], // ?
-        "validations": [],     // ?
-        "headers": {
-            "header1": "",
-            "header2": ""
-        }
-    }
-}
-```
+# SmartCity
 
 
 ## Installation
 
 This package is [available in Hex](https://hex.pm/docs/publish) under the `smartcolumbus_os` organization, the package can be installed
-by adding `scos_ex` to your list of dependencies in `mix.exs` as follows:
+by adding `smart_city` to your list of dependencies in `mix.exs` as follows:
 
 ```elixir
 def deps do
   [
-    {:scos_ex, "~> 1.3.0", organization: "smartcolumbus_os"}
+    {:smart_city, "~> 2.0.0", organization: "smartcolumbus_os"}
   ]
 end
 ```
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://smartcolumbus_os.hexdocs.pm/scos_ex](https://smartcolumbus_os.hexdocs.pm/scos_ex/api-reference.html).
+be found at [https://smartcolumbus_os.hexdocs.pm/smart_city](https://smartcolumbus_os.hexdocs.pm/scos_ex/api-reference.html).
 
 ## Contributing
 

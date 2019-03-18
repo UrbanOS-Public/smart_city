@@ -1,7 +1,7 @@
-defmodule SCOS.HelpersTest do
+defmodule SmartCity.HelpersTest do
   use ExUnit.Case
-  doctest SCOS.Helpers
-  alias SCOS.Helpers
+  doctest SmartCity.Helpers
+  alias SmartCity.Helpers
 
   describe "to_atom_keys/1" do
     test "converts top level string keys to atoms" do
