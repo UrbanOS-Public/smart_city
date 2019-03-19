@@ -1,4 +1,4 @@
-defmodule SCOS.MixProject do
+defmodule SmartCity.MixProject do
   use Mix.Project
 
   def project do
