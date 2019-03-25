@@ -4,7 +4,7 @@ defmodule SmartCity.Data.MixProject do
   def project do
     [
       app: :smart_city_data,
-      version: "2.0.0",
+      version: "2.0.1",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -20,7 +20,7 @@ defmodule SmartCity.Data.MixProject do
 
   defp deps do
     [
-      {:smart_city, "~> 2.0", organization: "smartcolumbus_os"},
+      {:smart_city, "~> 2.1", organization: "smartcolumbus_os"},
       {:jason, "~> 1.1"},
       {:ex_doc, "~> 0.19", only: :dev},
       {:credo, "~> 0.10", only: [:dev, :test], runtime: false},
