@@ -43,4 +43,19 @@ defmodule SmartCity.HelpersTest do
       assert Helpers.to_atom_keys(input) == input
     end
   end
+
+  describe "deep_merge" do
+    test "merges two maps" do
+      left = Map.new(%{one: 1, two: 2})
+      right = Map.new(%{one: "one"})
+      assert Helpers.deep_merge(left, right) == %{one: "one", two: 2}
+    end
+
+    test "merges maps that are children in other maps" do
+      left = Map.new(%{stuff: %{one: 1, two: 2, stuff: %{one: 1, two: 2}}})
+      right = Map.new(%{stuff: %{one: "one", stuff: %{two: "two"}}})
+
+      assert Helpers.deep_merge(left, right) == %{stuff: %{one: "one", two: 2, stuff: %{one: 1, two: "two"}}}
+    end
+  end
 end
