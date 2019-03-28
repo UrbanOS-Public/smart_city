@@ -9,7 +9,8 @@ defmodule SmartCity.Data do
 
   @derive Jason.Encoder
   @enforce_keys [:dataset_id, :payload, :_metadata, :operational]
-  defstruct _metadata: %{org: nil, name: nil, stream: false},
+  defstruct version: "0.1",
+            _metadata: %{org: nil, name: nil, stream: false},
             dataset_id: nil,
             payload: nil,
             operational: %{timing: []}

@@ -73,7 +73,7 @@ defmodule SmartCity.DataTest do
 
       expected =
         {:ok,
-         ~s({"_metadata":[],"dataset_id":"abc","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever"})}
+         ~s({"_metadata":[],"dataset_id":"abc","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})}
 
       assert Data.encode(data_message) == expected
     end
@@ -91,7 +91,7 @@ defmodule SmartCity.DataTest do
       }
 
       expected =
-        ~s({"_metadata":[],"dataset_id":"abc","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever"})
+        ~s({"_metadata":[],"dataset_id":"abc","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})
 
       assert Data.encode!(data_message) == expected
     end
