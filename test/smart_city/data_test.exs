@@ -58,6 +58,27 @@ defmodule SmartCity.DataTest do
 
       assert Data.new(json) == Data.new(map)
     end
+
+    test "keeps all operational data" do
+      map = %{
+        "dataset_id" => "abc",
+        "payload" => "whatever",
+        "_metadata" => %{org: "whatever", name: "stuff", stream: true},
+        "operational" => %{
+          "anything_else" => ["one", "two", "three"],
+          "timing" => [%{app: "reaper", label: "sus", start_time: 5, end_time: 10}]
+        }
+      }
+
+      {:ok, actual} = Data.new(map)
+
+      expected = %{
+        timing: [%Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}],
+        anything_else: ["one", "two", "three"]
+      }
+
+      assert expected == actual.operational
+    end
   end
 
   describe "encode" do
