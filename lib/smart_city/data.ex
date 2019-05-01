@@ -12,6 +12,7 @@ defmodule SmartCity.Data do
   defstruct version: "0.1",
             _metadata: %{org: nil, name: nil, stream: false},
             dataset_id: nil,
+            kafka_key: nil,
             payload: nil,
             operational: %{timing: []}
 
@@ -46,13 +47,14 @@ defmodule SmartCity.Data do
     |> new()
   end
 
-  def new(%{dataset_id: dataset_id, operational: operational, payload: payload, _metadata: metadata}) do
+  def new(%{dataset_id: dataset_id, operational: operational, payload: payload, _metadata: metadata} = data) do
     timings = Map.get(operational, :timing, [])
 
     struct =
       struct(__MODULE__, %{
         dataset_id: dataset_id,
         payload: payload,
+        kafka_key: Map.get(data, :kafka_key, nil),
         _metadata: metadata,
         operational: %{operational | timing: Enum.map(timings, &Timing.new/1)}
       })
