@@ -12,7 +12,8 @@ defmodule SmartCity.DataTest do
         "dataset_id" => "abc",
         "payload" => "whatever",
         "_metadata" => %{org: "whatever", name: "stuff", stream: true},
-        "operational" => %{"timing" => [%{app: "reaper", label: "sus", start_time: 5, end_time: 10}]}
+        "operational" => %{"timing" => [%{app: "reaper", label: "sus", start_time: 5, end_time: 10}]},
+        "kafka_key" => "key_value"
       }
 
       {:ok, actual} = Data.new(map)
@@ -21,12 +22,14 @@ defmodule SmartCity.DataTest do
       assert actual.payload == "whatever"
       assert actual._metadata == %{org: "whatever", name: "stuff", stream: true}
       assert actual.operational.timing == [%Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}]
+      assert actual.kafka_key == "key_value"
     end
 
     test "turns a map with atom keys into a Data" do
       map = %{
         dataset_id: "abc",
         payload: "whatever",
+        kafka_key: "keyval",
         _metadata: %{org: "whatever", name: "stuff", stream: true},
         operational: %{timing: [%{app: "reaper", label: "sus", start_time: 5, end_time: 10}]}
       }
@@ -37,7 +40,8 @@ defmodule SmartCity.DataTest do
                dataset_id: "abc",
                payload: "whatever",
                _metadata: %{org: "whatever", name: "stuff", stream: true},
-               operational: %{timing: [%Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}]}
+               operational: %{timing: [%Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}]},
+               kafka_key: "keyval"
              }
     end
 
@@ -94,7 +98,7 @@ defmodule SmartCity.DataTest do
 
       expected =
         {:ok,
-         ~s({"_metadata":[],"dataset_id":"abc","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})}
+         ~s({"_metadata":[],"dataset_id":"abc","kafka_key":null,"operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})}
 
       assert Data.encode(data_message) == expected
     end
@@ -105,6 +109,7 @@ defmodule SmartCity.DataTest do
       data_message = %Data{
         dataset_id: "abc",
         payload: "whatever",
+        kafka_key: "k1",
         _metadata: [],
         operational: %{
           timing: %Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}
@@ -112,7 +117,7 @@ defmodule SmartCity.DataTest do
       }
 
       expected =
-        ~s({"_metadata":[],"dataset_id":"abc","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})
+        ~s({"_metadata":[],"dataset_id":"abc","kafka_key":"k1","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})
 
       assert Data.encode!(data_message) == expected
     end
