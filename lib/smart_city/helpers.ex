@@ -18,6 +18,7 @@ defmodule SmartCity.Helpers do
       iex> SmartCity.Helpers.to_atom_keys(%{"a" => [%{"b" => "c"}]})
       %{a: [%{b: "c"}]}
   """
+  @spec to_atom_keys(map()) :: map()
   def to_atom_keys(map) when is_map(map) do
     Map.new(map, fn
       {key, val} when is_map(val) ->
@@ -36,7 +37,12 @@ defmodule SmartCity.Helpers do
 
   def to_atom_keys(value), do: value
 
+  @doc """
+  Merges two maps into one, including sub maps. Matching keys from the right map will override their corresponding key in the left map.
+  """
+  @spec deep_merge(map(), map()) :: map()
   def deep_merge(left, right), do: Map.merge(left, right, &deep_resolve/3)
+
   defp deep_resolve(_key, %{} = left, %{} = right), do: deep_merge(left, right)
   defp deep_resolve(_key, _left, right), do: right
 end
