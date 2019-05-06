@@ -20,20 +20,37 @@ defmodule SmartCity.Data do
     structs will be created along the way.
 
   Can be created from:
-  - map with string keys
-  - map with atom keys
-  - JSON
+    - map with string keys
+    - map with atom keys
+    - JSON
 
   ## Examples
 
-  iex> SmartCity.Data.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: %{org: "scos", name: "example"}, operational: %{timing: [%{app: "stuff", label: "sus", start_time: 5, end_time: 10}]}})
-  {:ok, %SmartCity.Data{
-    dataset_id: "a_guid",
-    payload: "the_data",
-    _metadata: %{org: "scos", name: "example"},
-    operational: %{timing: [%SmartCity.Data.Timing{app: "stuff", end_time: 10, label: "sus", start_time: 5}]}
-  }}
+      iex> SmartCity.Data.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: %{org: "scos", name: "example"}, operational: %{timing: [%{app: "app name", label: "function name", start_time: 1557172301, end_time: 1557172311}]}})
+      {:ok, %SmartCity.Data{
+        dataset_id: "a_guid",
+        payload: "the_data",
+        _metadata: %{org: "scos", name: "example"},
+        operational: %{
+          timing: [%SmartCity.Data.Timing{ app: "app name", end_time: 1557172311, label: "function name", start_time: 1557172301}]
+        }
+      }}
   """
+  @spec new(map() | String.t()) ::
+          {:ok,
+           %SmartCity.Data{
+             :dataset_id => String.t(),
+             :operational => %{
+               :timing => list(%SmartCity.Data.Timing{})
+             },
+             :payload => String.t(),
+             :_metadata => %{
+               :org => String.t(),
+               :name => String.t(),
+               :stream => String.t()
+             },
+             :version => String.t()
+           }}
   def new(msg) when is_binary(msg) do
     with {:ok, decoded} <- Jason.decode(msg, keys: :atoms) do
       new(decoded)
@@ -68,37 +85,81 @@ defmodule SmartCity.Data do
 
   @doc """
   Encodes `SmartCity.Data` into JSON. Typically used right before sending as a Kafka message.
-
-  Returns a JSON string.
-
-  ## Parameters
-  - message: A `SmartCity.Data` that you want to encode
   """
+  @spec encode(%SmartCity.Data{
+          :dataset_id => String.t(),
+          :operational => %{
+            :timing => list(%SmartCity.Data.Timing{})
+          },
+          :payload => String.t(),
+          :_metadata => %{
+            :org => String.t(),
+            :name => String.t(),
+            :stream => String.t()
+          },
+          :version => String.t()
+        }) :: {:ok, String.t()} | {:error, Jason.EncodeError.t() | Exception.t()}
   def encode(%__MODULE__{} = message) do
     Jason.encode(message)
   end
 
   @doc """
   Encodes `SmartCity.Data` into JSON. Typically used right before sending as a Kafka message.
-
-  Returns a JSON string.
-
-  ## Parameters
-  - message: A `SmartCity.Data` that you want to encode
   """
+  @spec encode!(%SmartCity.Data{
+          :dataset_id => String.t(),
+          :operational => %{
+            :timing => list(%SmartCity.Data.Timing{})
+          },
+          :payload => String.t(),
+          :_metadata => %{
+            :org => String.t(),
+            :name => String.t(),
+            :stream => String.t()
+          },
+          :version => String.t()
+        }) :: String.t() | no_return()
   def encode!(%__MODULE__{} = message) do
     Jason.encode!(message)
   end
 
   @doc """
-  Adds a `SmartCity.Data.Timing` to the list of timings in this Data. The timing will be validated to ensure both start and end times have been set.
+  Adds a `SmartCity.Data.Timing` to the list of timings in this `SmartCity.Data`. The timing will be validated to ensure both start and end times have been set.
 
-  Returns a `%SmartCity.Data` struct with `new_timing` prepended to timings already in the Data.
+  Returns a `SmartCity.Data` struct with `new_timing` prepended to existing timings list.
 
   ## Parameters
-  - message: A `SmartCity.Data`
-  - new_timing: A timing you want to add. Must have `start_time` and `end_time` set
+    - message: A `SmartCity.Data`
+    - new_timing: A timing you want to add. Must have `start_time` and `end_time` set
   """
+  @spec add_timing(
+          %SmartCity.Data{
+            :dataset_id => String.t(),
+            :operational => %{
+              :timing => list(%SmartCity.Data.Timing{})
+            },
+            :payload => String.t(),
+            :_metadata => %{
+              :org => String.t(),
+              :name => String.t(),
+              :stream => String.t()
+            },
+            :version => String.t()
+          },
+          %SmartCity.Data.Timing{}
+        ) :: %SmartCity.Data{
+          :dataset_id => String.t(),
+          :operational => %{
+            :timing => list(%SmartCity.Data.Timing{})
+          },
+          :payload => String.t(),
+          :_metadata => %{
+            :org => String.t(),
+            :name => String.t(),
+            :stream => String.t()
+          },
+          :version => String.t()
+        }
   def add_timing(
         %__MODULE__{operational: %{timing: timing}} = message,
         %Data.Timing{} = new_timing
@@ -112,12 +173,25 @@ defmodule SmartCity.Data do
   @doc """
   Creates a new `SmartCity.Data` struct using new/1 and adds timing information to the message.
 
-  Returns a `%SmartCity.Data` struct with `new_timing` prepended to timings already in the Data.
+  Returns a `SmartCity.Data` struct with `new_timing` prepended to existing timings list.
 
   ## Parameters
-  - message: A `SmartCity.Data`
-  - app: The application that is asking to create the new `SmartCity.Data`. Ex. `reaper` or `voltron`
+    - message: A `SmartCity.Data`
+    - app: The application that is asking to create the new `SmartCity.Data`. Ex. `reaper` or `voltron`
   """
+  @spec timed_new(map(), String.t()) :: %SmartCity.Data{
+          :dataset_id => String.t(),
+          :operational => %{
+            :timing => list(%SmartCity.Data.Timing{})
+          },
+          :payload => String.t(),
+          :_metadata => %{
+            :org => String.t(),
+            :name => String.t(),
+            :stream => String.t()
+          },
+          :version => String.t()
+        }
   def timed_new(msg, app) do
     label = inspect(&Data.new/1)
 
@@ -128,15 +202,44 @@ defmodule SmartCity.Data do
   end
 
   @doc """
-  Transforms the `SmartCity.Data.payload` field with the given unary function and replaces it in the message.
+  Transforms the `SmartCity.Data` `payload` field with the given unary function and replaces it in the message.
 
-  Additionally, returns a `%SmartCity.Data` struct with `new_timing` prepended to timings already in the Data.
+  Additionally, returns a `SmartCity.Data` struct with `new_timing` prepended to existing timings list.
 
   ## Parameters
-  - message: A `SmartCity.Data`
-  - app: The application that is asking to create the new `SmartCity.Data`. Ex. `reaper` or `voltron`
-  - function: a /1 function that will transform the payload in the provided message
+    - message: A `SmartCity.Data`
+    - app: The application that is asking to create the new `SmartCity.Data`. Ex. `reaper` or `voltron`
+    - function: a /1 function that will transform the payload in the provided message
   """
+  @spec timed_transform(
+          %SmartCity.Data{
+            :dataset_id => String.t(),
+            :operational => %{
+              :timing => list(%SmartCity.Data.Timing{})
+            },
+            :payload => String.t(),
+            :_metadata => %{
+              :org => String.t(),
+              :name => String.t(),
+              :stream => String.t()
+            },
+            :version => String.t()
+          },
+          String.t(),
+          function()
+        ) :: %SmartCity.Data{
+          :dataset_id => String.t(),
+          :operational => %{
+            :timing => list(%SmartCity.Data.Timing{})
+          },
+          :payload => String.t(),
+          :_metadata => %{
+            :org => String.t(),
+            :name => String.t(),
+            :stream => String.t()
+          },
+          :version => String.t()
+        }
   def timed_transform(%Data{} = msg, app, function) when is_function(function, 1) do
     label = inspect(function)
 
@@ -149,11 +252,16 @@ defmodule SmartCity.Data do
   @doc """
   Get all timings on this Data
 
-  Returns a list of  `%SmartCity.Data.Timing{}` structs or `[]`
+  Returns a list of  `SmartCity.Data.Timing` structs or `[]`
 
   ## Parameters
-  - data_message: The message to extract timings from
+    - data_message: The message to extract timings from
   """
+  @spec get_all_timings(%SmartCity.Data{
+          :operational => %{
+            :timing => list(%SmartCity.Data.Timing{})
+          }
+        }) :: list(%SmartCity.Data.Timing{})
   def get_all_timings(%__MODULE__{operational: %{timing: timing}}), do: timing
 
   # Private functions
