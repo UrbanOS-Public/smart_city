@@ -54,7 +54,12 @@ defmodule SmartCity.Data.Timing do
           See `Kernel.struct!/2`.
   """
   @spec new(
-          %{:app => term(), :label => term(), optional(:start_time) => term(), optional(:end_time) => term()}
+          %{
+            :app => term(),
+            :label => term(),
+            optional(:start_time) => term(),
+            optional(:end_time) => term()
+          }
           | list()
         ) :: SmartCity.Data.Timing.t()
   def new(opts) do
@@ -83,7 +88,8 @@ defmodule SmartCity.Data.Timing do
 
     - timing: The `SmartCity.Data.Timing` struct to validate
   """
-  @spec validate(SmartCity.Data.Timing.t()) :: {:ok, SmartCity.Data.Timing.t()} | {:error, String.t()}
+  @spec validate(SmartCity.Data.Timing.t()) ::
+          {:ok, SmartCity.Data.Timing.t()} | {:error, String.t()}
   def validate(%__MODULE__{} = timing) do
     case check_keys(timing, @validate_keys) do
       [] -> {:ok, timing}
@@ -110,7 +116,8 @@ defmodule SmartCity.Data.Timing do
 
   Returns {:ok, `result`, `timing`} on success, or {:error, `reason`} on failure
   """
-  @spec measure(String.t(), String.t(), (-> {:ok, term()} | {:error, term()} ) :: {:ok, term(), SmartCity.Data.Timing.t()} | {:error, String.t()}
+  @spec measure(String.t(), String.t(), (() -> {:ok, term()} | {:error, term()})) ::
+          {:ok, term(), SmartCity.Data.Timing.t()} | {:error, String.t()}
   def measure(app, label, function) when is_function(function) do
     start_time = DateTime.utc_now()
 
