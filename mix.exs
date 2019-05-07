@@ -4,10 +4,11 @@ defmodule SmartCity.Data.MixProject do
   def project do
     [
       app: :smart_city_data,
-      version: "2.1.1",
+      version: "2.1.2",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      docs: docs(),
       description: description(),
       package: package(),
       source_url: "https//www.github.com/SmartColumbusOS"
@@ -38,6 +39,16 @@ defmodule SmartCity.Data.MixProject do
       organization: "smartcolumbus_os",
       licenses: ["AllRightsReserved"],
       links: %{"GitHub" => "https://www.github.com/SmartColumbusOS/smart_city_data"}
+    ]
+  end
+
+  defp docs do
+    [
+      main: "README",
+      source_url: "https://github.com/SmartColumbusOS/smart_city_data",
+      extras: [
+        "README.md"
+      ]
     ]
   end
 end

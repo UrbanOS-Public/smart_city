@@ -24,13 +24,13 @@ const DataMessage = {
 
 ## Installation
 
-This package is [available in Hex](https://hex.pm/docs/publish) under the `smartcolumbus_os` organization, the package can be installed
+This package is [available in Hex](https://hex.pm/packages/smartcolumbus_os/smart_city_data) under the `smartcolumbus_os` organization, the package can be installed
 by adding `smart_city_data` to your list of dependencies in `mix.exs` as follows:
 
 ```elixir
 def deps do
   [
-    {:smart_city_data, "~> 2.1.1", organization: "smartcolumbus_os"}
+    {:smart_city_data, "~> 2.1.2", organization: "smartcolumbus_os"}
   ]
 end
 ```
