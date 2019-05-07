@@ -171,7 +171,7 @@ defmodule SmartCity.Data do
   end
 
   @doc """
-  Creates a new `SmartCity.Data` struct using new/1 and adds timing information to the message.
+  Creates a new `SmartCity.Data` struct using `new/1` and adds timing information to the message.
 
   Returns a `SmartCity.Data` struct with `new_timing` prepended to existing timings list.
 

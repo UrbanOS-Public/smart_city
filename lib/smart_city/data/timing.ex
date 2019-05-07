@@ -1,6 +1,6 @@
 defmodule SmartCity.Data.Timing do
   @moduledoc """
-  Timing struct for adding timing metrics to DataMessages
+  Timing struct for adding timing metrics to `SmartCity.Data` messages
   """
   @enforce_keys [:app, :label]
   @derive Jason.Encoder
@@ -30,7 +30,7 @@ defmodule SmartCity.Data.Timing do
         end_time: "not_validated"
       }
   """
-  @spec new(term(), term(), term(), term()) :: %SmartCity.Data.Timing{} | ArgumentError
+  @spec new(term(), term(), term(), term()) :: %SmartCity.Data.Timing{}
   def new(app, label, start_time, end_time) do
     new(app: app, label: label, start_time: start_time, end_time: end_time)
   end
@@ -46,7 +46,10 @@ defmodule SmartCity.Data.Timing do
           Required keys: #{@enforce_keys |> Enum.map(&"`#{Atom.to_string(&1)}`") |> Enum.join(", ")}
           See `Kernel.struct!/2`.
   """
-  @spec new(map() | list()) :: %SmartCity.Data.Timing{}
+  @spec new(
+          %{:app => term(), :label => term(), optional(:start_time) => term(), optional(:end_time) => term()}
+          | list()
+        ) :: %SmartCity.Data.Timing{}
   def new(opts) do
     struct!(__MODULE__, opts)
   end
