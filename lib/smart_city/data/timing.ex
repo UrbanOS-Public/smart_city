@@ -2,6 +2,13 @@ defmodule SmartCity.Data.Timing do
   @moduledoc """
   Timing struct for adding timing metrics to `SmartCity.Data` messages
   """
+  @type t :: %SmartCity.Data.Timing{
+          app: String.t(),
+          label: String.t(),
+          start_time: DateTime.t(),
+          end_time: DateTime.t()
+        }
+
   @enforce_keys [:app, :label]
   @derive Jason.Encoder
   defstruct app: nil, label: nil, start_time: nil, end_time: nil
@@ -30,7 +37,7 @@ defmodule SmartCity.Data.Timing do
         end_time: "not_validated"
       }
   """
-  @spec new(term(), term(), term(), term()) :: %SmartCity.Data.Timing{}
+  @spec new(term(), term(), term(), term()) :: SmartCity.Data.Timing.t()
   def new(app, label, start_time, end_time) do
     new(app: app, label: label, start_time: start_time, end_time: end_time)
   end
@@ -49,7 +56,7 @@ defmodule SmartCity.Data.Timing do
   @spec new(
           %{:app => term(), :label => term(), optional(:start_time) => term(), optional(:end_time) => term()}
           | list()
-        ) :: %SmartCity.Data.Timing{}
+        ) :: SmartCity.Data.Timing.t()
   def new(opts) do
     struct!(__MODULE__, opts)
   end
@@ -76,7 +83,7 @@ defmodule SmartCity.Data.Timing do
 
     - timing: The `SmartCity.Data.Timing` struct to validate
   """
-  @spec validate(%SmartCity.Data.Timing{}) :: {:ok, %SmartCity.Data.Timing{}} | {:error, String.t()}
+  @spec validate(SmartCity.Data.Timing.t()) :: {:ok, SmartCity.Data.Timing.t()} | {:error, String.t()}
   def validate(%__MODULE__{} = timing) do
     case check_keys(timing, @validate_keys) do
       [] -> {:ok, timing}
@@ -90,7 +97,7 @@ defmodule SmartCity.Data.Timing do
   Returns `timing` on success, or raises `ArgumentError` on failure
   See `validate/1`
   """
-  @spec validate!(%SmartCity.Data.Timing{}) :: {:ok, %SmartCity.Data.Timing{}}
+  @spec validate!(SmartCity.Data.Timing.t()) :: {:ok, SmartCity.Data.Timing.t()}
   def validate!(%__MODULE__{} = timing) do
     case validate(timing) do
       {:ok, timing} -> timing
@@ -103,7 +110,7 @@ defmodule SmartCity.Data.Timing do
 
   Returns {:ok, `result`, `timing`} on success, or {:error, `reason`} on failure
   """
-  @spec measure(String.t(), String.t(), function()) :: {:ok, term(), %SmartCity.Data.Timing{}} | {:error, String.t()}
+  @spec measure(String.t(), String.t(), (-> {:ok, term()} | {:error, term()} ) :: {:ok, term(), SmartCity.Data.Timing.t()} | {:error, String.t()}
   def measure(app, label, function) when is_function(function) do
     start_time = DateTime.utc_now()
 
