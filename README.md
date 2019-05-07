@@ -30,7 +30,7 @@ by adding `smart_city_data` to your list of dependencies in `mix.exs` as follows
 ```elixir
 def deps do
   [
-    {:smart_city_data, "~> 2.1.2", organization: "smartcolumbus_os"}
+    {:smart_city_data, "~> 2.1.3", organization: "smartcolumbus_os"}
   ]
 end
 ```
