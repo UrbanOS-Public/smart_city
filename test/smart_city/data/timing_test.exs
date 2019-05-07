@@ -1,6 +1,7 @@
 defmodule SmartCity.Data.TimingTest do
   use ExUnit.Case
   use Placebo
+  doctest SmartCity.Data.Timing
 
   alias SmartCity.Data.Timing
 
