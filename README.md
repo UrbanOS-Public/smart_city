@@ -1,25 +1,27 @@
 # SmartCity.Data
 
-#### DataMessage
+This module defines the structure of data messages that are sent across all SmartCity microservices. The `SmartCity.Data` struct includes metadata and timing information about the process from which the message was generated.  
 
-```javascript
-const DataMessage = {
-    "dataset_id": "",         // UUID
-    "payload": {},
-    "_metadata": {           // cannot be used safely
-        "orgName": "",       // ~r/^[a-zA-Z_]+$/
-        "dataName": "",      // ~r/^[a-zA-Z_]+$/
-        "stream": true
-    },
-    "operational": {
-        "timing": [{
-            "startTime": "", // iso8601
-            "endTime": "",   // iso8601
-            "app": "",       // microservice generating timing data
-            "label": ""      // label for this particular timing data
+Timing information is defined by the `SmartCity.Data.Timing` struct.   
+
+For more details about the structure of data messages, see [https://smartcolumbus_os.hexdocs.pm/smart_city_data/api-reference.html](https://smartcolumbus_os.hexdocs.pm/smart_city_data/2.1.3/api-reference.html). 
+
+## Basic Usage
+```elixir
+iex> SmartCity.Data.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: %{org: "scos", name: "example"}, operational: %{timing: [%{app: "app name", label: "function name", start_time: "2019-05-06T19:51:41+00:00", end_time: "2019-05-06T19:51:51+00:00"}]}})
+{:ok, %SmartCity.Data{
+    dataset_id: "a_guid",
+    payload: "the_data",
+    _metadata: %{org: "scos", name: "example"},
+    operational: %{
+        timing: [%SmartCity.Data.Timing{ 
+            app: "app name",
+            end_time: "2019-05-06T19:51:51+00:00", 
+            label: "function name", 
+            start_time: "2019-05-06T19:51:41+00:00"
         }]
-    },
-}
+    }
+}}
 ```
 
 ## Installation
@@ -35,10 +37,6 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://smartcolumbus_os.hexdocs.pm/smart_city_data](https://smartcolumbus_os.hexdocs.pm/scos_ex/api-reference.html).
-
 ## Contributing
 
 Make your changes and run `docker build .`. This is exactly what our CI will do. The build process runs these commands:
@@ -49,3 +47,7 @@ mix test
 mix format --check-formatted
 mix credo
 ```
+
+## License
+
+SmartCity is released under the Apache 2.0 license - see the license at [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
