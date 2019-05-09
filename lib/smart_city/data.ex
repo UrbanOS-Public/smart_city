@@ -1,6 +1,26 @@
 defmodule SmartCity.Data do
   @moduledoc """
-  Message struct shared amongst all SCOS microservices.
+  Message struct shared amongst all SmartCity microservices.
+
+  ```javascript
+  const DataMessage = {
+      "dataset_id": "",        // UUID
+      "payload": {},
+      "_metadata": {           // cannot be used safely
+          "orgName": "",       // ~r/^[a-zA-Z_]+$/
+          "dataName": "",      // ~r/^[a-zA-Z_]+$/
+          "stream": true
+      },
+      "operational": {
+          "timing": [{
+              "startTime": "", // iso8601
+              "endTime": "",   // iso8601
+              "app": "",       // microservice generating timing data
+              "label": ""      // label for this particular timing data
+          }]
+      }
+  }
+  ```
   """
 
   alias SmartCity.Data
@@ -41,13 +61,13 @@ defmodule SmartCity.Data do
 
   ## Examples
 
-      iex> SmartCity.Data.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: %{org: "scos", name: "example"}, operational: %{timing: [%{app: "app name", label: "function name", start_time: 1557172301, end_time: 1557172311}]}})
+      iex> SmartCity.Data.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: %{org: "scos", name: "example"}, operational: %{timing: [%{app: "app name", label: "function name", start_time: "2019-05-06T19:51:41+00:00", end_time: "2019-05-06T19:51:51+00:00"}]}})
       {:ok, %SmartCity.Data{
-        dataset_id: "a_guid",
-        payload: "the_data",
-        _metadata: %{org: "scos", name: "example"},
-        operational: %{
-          timing: [%SmartCity.Data.Timing{ app: "app name", end_time: 1557172311, label: "function name", start_time: 1557172301}]
+          dataset_id: "a_guid",
+          payload: "the_data",
+          _metadata: %{org: "scos", name: "example"},
+          operational: %{
+          timing: [%SmartCity.Data.Timing{ app: "app name", end_time: "2019-05-06T19:51:51+00:00", label: "function name", start_time: "2019-05-06T19:51:41+00:00"}]
         }
       }}
   """
@@ -64,7 +84,12 @@ defmodule SmartCity.Data do
     |> new()
   end
 
-  def new(%{dataset_id: dataset_id, operational: operational, payload: payload, _metadata: metadata}) do
+  def new(%{
+        dataset_id: dataset_id,
+        operational: operational,
+        payload: payload,
+        _metadata: metadata
+      }) do
     timings = Map.get(operational, :timing, [])
 
     struct =
@@ -87,7 +112,8 @@ defmodule SmartCity.Data do
   @doc """
   Encodes `SmartCity.Data` into JSON. Typically used right before sending as a Kafka message.
   """
-  @spec encode(SmartCity.Data.t()) :: {:ok, String.t()} | {:error, Jason.EncodeError.t() | Exception.t()}
+  @spec encode(SmartCity.Data.t()) ::
+          {:ok, String.t()} | {:error, Jason.EncodeError.t() | Exception.t()}
   def encode(%__MODULE__{} = message) do
     Jason.encode(message)
   end
