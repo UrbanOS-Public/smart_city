@@ -26,9 +26,6 @@ iex> SmartCity.Data.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: 
 
 ## Installation
 
-This package is [available in Hex](https://hex.pm/packages/smartcolumbus_os/smart_city_data) under the `smartcolumbus_os` organization, the package can be installed
-by adding `smart_city_data` to your list of dependencies in `mix.exs` as follows:
-
 ```elixir
 def deps do
   [
