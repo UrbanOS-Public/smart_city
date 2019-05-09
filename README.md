@@ -4,9 +4,6 @@ This library defines helper functions that are used across SmartCity modules.
 
 ## Installation
 
-This package is [available in Hex](https://hex.pm/docs/publish) under the `smartcolumbus_os` organization, the package can be installed
-by adding `smart_city` to your list of dependencies in `mix.exs` as follows:
-
 ```elixir
 def deps do
   [
@@ -14,10 +11,6 @@ def deps do
   ]
 end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). The docs can
-be found at [https://smartcolumbus_os.hexdocs.pm/smart_city](https://smartcolumbus_os.hexdocs.pm/scos_ex/api-reference.html).
 
 ## Basic Usage
 
