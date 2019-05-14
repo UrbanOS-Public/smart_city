@@ -1,3 +1,6 @@
+[![Master](https://travis-ci.org/smartcitiesdata/smart_city.svg?branch=master)](https://travis-ci.org/smartcitiesdata/smart_city)
+[![Hex.pm Version](http://img.shields.io/hexpm/v/smart_city.svg?style=flat)](https://hex.pm/packages/smart_city)
+
 # SmartCity
 
 This library defines helper functions that are used across SmartCity modules.
@@ -7,7 +10,7 @@ This library defines helper functions that are used across SmartCity modules.
 ```elixir
 def deps do
   [
-    {:smart_city, "~> 2.1.1", organization: "smartcolumbus_os"}
+    {:smart_city, "~> 2.1.2"}
   ]
 end
 ```
@@ -25,17 +28,19 @@ iex> SmartCity.Helpers.deep_merge(%{a: 1, b: 2}, %{a: 3, c: 4})
 %{a: 3, b: 2, c: 4}
 ```
 
-Full documentation can be found at [https://smartcolumbus_os.hexdocs.pm/smart_city/api-reference.html](https://smartcolumbus_os.hexdocs.pm/smart_city/api-reference.html).
+Full documentation can be found at [https://hexdocs.pm/smart_city/api-reference.html](https://hexdocs.pm/smart_city/api-reference.html).
 
 ## Contributing
 
-Make your changes and run `docker build .`. This is exactly what our CI will do. The build process runs these commands:
+The build process runs these commands:
 
 ```bash
+mix local.rebar --force
+mix local.hex --force
 mix deps.get
-mix test
 mix format --check-formatted
 mix credo
+mix test
 ```
 
 ## License
