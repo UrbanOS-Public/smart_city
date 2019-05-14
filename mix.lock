@@ -11,5 +11,5 @@
   "mix_test_watch": {:hex, :mix_test_watch, "0.9.0", "c72132a6071261893518fa08e121e911c9358713f62794a90c95db59042af375", [:mix], [{:file_system, "~> 0.2.1 or ~> 0.3", [hex: :file_system, repo: "hexpm", optional: false]}], "hexpm"},
   "nimble_parsec": {:hex, :nimble_parsec, "0.5.0", "90e2eca3d0266e5c53f8fbe0079694740b9c91b6747f2b7e3c5d21966bba8300", [:mix], [], "hexpm"},
   "placebo": {:hex, :placebo, "1.2.1", "303ebb597279fd77b1f6d38ec377be4932f73246351f181d6128d0a58d3f74e9", [:mix], [{:meck, "~> 0.8.9", [hex: :meck, repo: "hexpm", optional: false]}], "hexpm"},
-  "smart_city": {:hex, :smart_city, "2.1.0", "0f45d84afffd5dc0b709e8d6eccbcec0e4f5a4bd2a6920c0a7488a5cc2f2e26a", [:mix], [], "hexpm:smartcolumbus_os"},
+  "smart_city": {:hex, :smart_city, "2.1.2", "8a6a029bae5f1b5d5160214e298c7856f641c38ba5f90322f6a1831a57bb8bab", [:mix], [], "hexpm"},
 }

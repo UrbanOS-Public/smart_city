@@ -21,7 +21,7 @@ defmodule SmartCity.Data.MixProject do
 
   defp deps do
     [
-      {:smart_city, "~> 2.1", organization: "smartcolumbus_os"},
+      {:smart_city, "~> 2.1"},
       {:jason, "~> 1.1"},
       {:ex_doc, "~> 0.19", only: :dev},
       {:credo, "~> 0.10", only: [:dev, :test], runtime: false},
