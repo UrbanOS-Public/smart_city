@@ -38,7 +38,7 @@ defmodule SmartCity.Data.MixProject do
     [
       maintainers: ["smartcitiesdata"],
       licenses: ["Apache 2.0"],
-      links: %{"GitHub" => "https://www.github.com/smartcitiesdata/smart_city_test"}
+      links: %{"GitHub" => "https://www.github.com/smartcitiesdata/smart_city_data"}
     ]
   end
 

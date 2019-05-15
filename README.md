@@ -8,7 +8,7 @@ This module defines the structure of data messages that are sent across all Smar
 
 Timing information is defined by the `SmartCity.Data.Timing` struct.   
 
-For more details about the structure of data messages, see [https://hexdocs.pm/smart_city_test/api-reference.html](https://hexdocs.pm/smart_city_test/api-reference.html). 
+For more details about the structure of data messages, see [https://hexdocs.pm/smart_city_data/api-reference.html](https://hexdocs.pm/smart_city_data/api-reference.html). 
 
 ## Basic Usage
 ```elixir
@@ -33,7 +33,7 @@ iex> SmartCity.Data.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: 
 ```elixir
 def deps do
   [
-    {:smart_city_data, "~> 2.1.5", organization: "smartcolumbus_os"}
+    {:smart_city_data, "~> 2.1.5"}
   ]
 end
 ```

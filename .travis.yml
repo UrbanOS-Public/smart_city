@@ -6,7 +6,6 @@ otp_release:
 install:
   - mix local.rebar --force;
   - mix local.hex --force
-  - mix hex.organization auth smartcolumbus_os --key $HEX_API_KEY 
   - mix deps.get
   - mix format --check-formatted
   - mix credo
