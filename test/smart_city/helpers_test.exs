@@ -57,5 +57,12 @@ defmodule SmartCity.HelpersTest do
 
       assert Helpers.deep_merge(left, right) == %{stuff: %{one: "one", two: 2, stuff: %{one: 1, two: "two"}}}
     end
+
+    test "overrides default map with overrride map when override is empty" do
+      left = Map.new(%{stuff: %{one: 1, two: 2, stuff: %{one: 1, two: 2}}})
+      right = %{}
+
+      assert Helpers.deep_merge(left, right) == %{}
+    end
   end
 end
