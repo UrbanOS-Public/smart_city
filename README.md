@@ -51,4 +51,4 @@ mix credo
 
 ## License
 
-SmartCity is released under the Apache 2.0 license - see the license at [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+Released under [Apache 2 license](https://github.com/smartcitiesdata/smart_city_data/blob/master/LICENSE).
