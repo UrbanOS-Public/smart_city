@@ -41,7 +41,7 @@ defmodule SmartCity.Helpers do
   Merges two maps into one, including sub maps. Matching keys from the right map will override their corresponding key in the left map.
   """
   @spec deep_merge(map(), map()) :: map()
-  def deep_merge(%{} = left, %{} = right) when right == %{}, do: right
+  def deep_merge(%{} = _left, %{} = right) when right == %{}, do: right
   def deep_merge(left, right), do: Map.merge(left, right, &deep_resolve/3)
 
   defp deep_resolve(_key, %{} = left, %{} = right), do: deep_merge(left, right)
