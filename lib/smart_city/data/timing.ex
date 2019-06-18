@@ -103,7 +103,7 @@ defmodule SmartCity.Data.Timing do
   Returns `timing` on success, or raises `ArgumentError` on failure
   See `validate/1`
   """
-  @spec validate!(SmartCity.Data.Timing.t()) :: {:ok, SmartCity.Data.Timing.t()}
+  @spec validate!(SmartCity.Data.Timing.t()) :: SmartCity.Data.Timing.t()
   def validate!(%__MODULE__{} = timing) do
     case validate(timing) do
       {:ok, timing} -> timing

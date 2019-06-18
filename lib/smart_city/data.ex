@@ -71,7 +71,7 @@ defmodule SmartCity.Data do
         }
       }}
   """
-  @spec new(map() | String.t()) :: {:ok, SmartCity.Data.t()}
+  @spec new(map() | String.t()) :: {:ok, SmartCity.Data.t()} | {:error, String.t()}
   def new(msg) when is_binary(msg) do
     with {:ok, decoded} <- Jason.decode(msg, keys: :atoms) do
       new(decoded)
@@ -160,7 +160,7 @@ defmodule SmartCity.Data do
     - message: A `SmartCity.Data`
     - app: The application that is asking to create the new `SmartCity.Data`. Ex. `reaper` or `voltron`
   """
-  @spec timed_new(map(), String.t()) :: SmartCity.Data.t()
+  @spec timed_new(map(), String.t()) :: {:ok, SmartCity.Data.t()} | {:error, String.t()}
   def timed_new(msg, app) do
     label = inspect(&Data.new/1)
 
@@ -184,7 +184,7 @@ defmodule SmartCity.Data do
           SmartCity.Data.t(),
           String.t(),
           (payload() -> {:ok, term()} | {:error, term()})
-        ) :: SmartCity.Data.t()
+        ) :: {:ok, SmartCity.Data.t()} | {:error, String.t()}
   def timed_transform(%Data{} = msg, app, function) when is_function(function, 1) do
     label = inspect(function)
 
