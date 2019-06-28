@@ -121,13 +121,15 @@ defmodule SmartCity.Data.Timing do
   def measure(app, label, function) when is_function(function) do
     start_time = DateTime.utc_now()
 
-    with {:ok, result} <- function.() do
-      end_time = DateTime.utc_now()
+    case function.() do
+      {:ok, result} ->
+        {:ok, result, new(%{app: app, label: label, start_time: start_time, end_time: DateTime.utc_now()})}
 
-      {:ok, result, new(%{app: app, label: label, start_time: start_time, end_time: end_time})}
-    else
-      {:error, reason} -> {:error, reason}
-      reason -> {:error, reason}
+      {:error, reason} ->
+        {:error, reason}
+
+      reason ->
+        {:error, reason}
     end
   end
 
