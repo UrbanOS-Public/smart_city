@@ -12,6 +12,6 @@
   "meck": {:hex, :meck, "0.8.13", "ffedb39f99b0b99703b8601c6f17c7f76313ee12de6b646e671e3188401f7866", [:rebar3], [], "hexpm"},
   "mix_test_watch": {:hex, :mix_test_watch, "0.9.0", "c72132a6071261893518fa08e121e911c9358713f62794a90c95db59042af375", [:mix], [{:file_system, "~> 0.2.1 or ~> 0.3", [hex: :file_system, repo: "hexpm", optional: false]}], "hexpm"},
   "nimble_parsec": {:hex, :nimble_parsec, "0.5.0", "90e2eca3d0266e5c53f8fbe0079694740b9c91b6747f2b7e3c5d21966bba8300", [:mix], [], "hexpm"},
-  "placebo": {:hex, :placebo, "1.2.1", "303ebb597279fd77b1f6d38ec377be4932f73246351f181d6128d0a58d3f74e9", [:mix], [{:meck, "~> 0.8.9", [hex: :meck, repo: "hexpm", optional: false]}], "hexpm"},
-  "smart_city": {:hex, :smart_city, "2.1.4", "019b09dee94caefbf260c6d9461d28f86710f56dc408e659bb93b26d88fc1f41", [:mix], [], "hexpm"},
+  "placebo": {:hex, :placebo, "1.2.2", "a3d47906b01844bfd04ab0351a605620619fdb8f011225e406696f96a88ff380", [:mix], [{:meck, "~> 0.8.13", [hex: :meck, repo: "hexpm", optional: false]}], "hexpm"},
+  "smart_city": {:hex, :smart_city, "2.1.6", "88180173faa62032feddcc427d80465e056c46e8b17609a86633070ff44f86a1", [:mix], [], "hexpm"},
 }
