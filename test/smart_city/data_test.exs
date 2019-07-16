@@ -59,6 +59,21 @@ defmodule SmartCity.DataTest do
       assert Data.new(json) == Data.new(map)
     end
 
+    test "converts a JSON message into data but preserving payload keys as strings" do
+      json =
+        %{
+          dataset_id: "ds1",
+          payload: %{"name" => "johnny", "age" => "21"},
+          _metadata: %{},
+          operational: %{timing: [%{app: "reaper", label: "sus", start_time: 5, end_time: 10}]}
+        }
+        |> Jason.encode!()
+
+      {:ok, data} = SmartCity.Data.new(json)
+
+      assert data.payload == %{"name" => "johnny", "age" => "21"}
+    end
+
     test "keeps all operational data" do
       map = %{
         "dataset_id" => "abc",

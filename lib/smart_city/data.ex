@@ -73,14 +73,18 @@ defmodule SmartCity.Data do
   """
   @spec new(map() | String.t()) :: {:ok, SmartCity.Data.t()} | {:error, String.t()}
   def new(msg) when is_binary(msg) do
-    with {:ok, decoded} <- Jason.decode(msg, keys: :atoms) do
+    with {:ok, decoded} <- Jason.decode(msg) do
       new(decoded)
     end
   end
 
   def new(%{"dataset_id" => _} = msg) do
-    msg
-    |> Helpers.to_atom_keys()
+    %{
+      dataset_id: msg["dataset_id"],
+      operational: Helpers.to_atom_keys(msg["operational"]),
+      payload: msg["payload"],
+      _metadata: Helpers.to_atom_keys(msg["_metadata"])
+    }
     |> new()
   end
 
