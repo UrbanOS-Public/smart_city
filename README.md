@@ -4,11 +4,11 @@
 
 # SmartCity.Data
 
-This module defines the structure of data messages that are sent across all SmartCity microservices. The `SmartCity.Data` struct includes metadata and timing information about the process from which the message was generated.  
+This module defines the structure of data messages that are sent across all SmartCity microservices. The `SmartCity.Data` struct includes metadata and timing information about the process from which the message was generated.
 
-Timing information is defined by the `SmartCity.Data.Timing` struct.   
+Timing information is defined by the `SmartCity.Data.Timing` struct.
 
-For more details about the structure of data messages, see [https://hexdocs.pm/smart_city_data/api-reference.html](https://hexdocs.pm/smart_city_data/api-reference.html). 
+For more details about the structure of data messages, see [https://hexdocs.pm/smart_city_data/api-reference.html](https://hexdocs.pm/smart_city_data/api-reference.html).
 
 ## Basic Usage
 ```elixir
@@ -18,10 +18,10 @@ iex> SmartCity.Data.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: 
     payload: "the_data",
     _metadata: %{org: "scos", name: "example"},
     operational: %{
-        timing: [%SmartCity.Data.Timing{ 
+        timing: [%SmartCity.Data.Timing{
             app: "app name",
-            end_time: "2019-05-06T19:51:51+00:00", 
-            label: "function name", 
+            end_time: "2019-05-06T19:51:51+00:00",
+            label: "function name",
             start_time: "2019-05-06T19:51:41+00:00"
         }]
     }
@@ -33,7 +33,7 @@ iex> SmartCity.Data.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: 
 ```elixir
 def deps do
   [
-    {:smart_city_data, "~> 2.1.8"}
+    {:smart_city_data, "~> 3.0.0"}
   ]
 end
 ```
