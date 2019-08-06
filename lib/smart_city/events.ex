@@ -16,4 +16,10 @@ defmodule SmartCity.Events do
   The system treats create events as a subset of updates.
   """
   defmacro update_organization(), do: "organization:update"
+
+  @doc """
+  Signals that a new file has been uploaded to the object store
+  and made available for the rest of the system.
+  """
+  defmacro file_uploaded(), do: "file:uploaded"
 end
