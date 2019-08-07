@@ -9,10 +9,9 @@ defmodule SmartCity.Events.FileUploaded do
           :dataset_id => String.t(),
           :mime_type => String.t(),
           :bucket => String.t(),
-          :key => String.t(),
-          :url => String.t()
+          :key => String.t()
         }
 
   @derive Jason.Encoder
-  defstruct [:dataset_id, :mime_type, :bucket, :key, :url]
+  defstruct [:dataset_id, :mime_type, :bucket, :key]
 end
