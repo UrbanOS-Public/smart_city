@@ -15,7 +15,7 @@ defmodule SmartCity.Events.FileUploaded do
           :mime_type => mime_type(),
           :bucket => bucket(),
           :key => key()
-  }
+        }
 
   @derive Jason.Encoder
   defstruct [:dataset_id, :mime_type, :bucket, :key]
