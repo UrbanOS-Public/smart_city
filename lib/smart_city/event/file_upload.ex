@@ -4,6 +4,7 @@ defmodule SmartCity.Event.FileUpload do
   files by components of the system including the files'
   type, parent identifier, and location info.
   """
+  alias SmartCity.Helpers
 
   @type extension :: String.t()
   @type mime_type :: String.t()
