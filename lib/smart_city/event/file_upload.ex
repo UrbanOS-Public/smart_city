@@ -4,6 +4,7 @@ defmodule SmartCity.Event.FileUpload do
   files by components of the system including the files'
   type, parent identifier, and location info.
   """
+  use SmartCity.Event.EventHelper
   alias SmartCity.Helpers
 
   @type extension :: String.t()
@@ -24,20 +25,8 @@ defmodule SmartCity.Event.FileUpload do
   @doc """
   Instantiates an instance of a file upload event struct.
   """
-  @spec new(String.t() | map()) :: {:ok, SmartCity.Event.FileUpload.t()} | {:error, term()}
-  def new(encoded_event) when is_binary(encoded_event) do
-    with {:ok, decoded_event} <- Jason.decode(encoded_event, keys: :atoms) do
-      new(decoded_event)
-    end
-  end
-
-  def new(%{"dataset_id" => _} = event) do
-    event
-    |> Helpers.to_atom_keys()
-    |> new()
-  end
-
-  def new(%{dataset_id: id, mime_type: type, bucket: bucket, key: key}) do
+  @spec create(String.t() | map()) :: {:ok, SmartCity.Event.FileUpload.t()} | {:error, term()}
+  def create(%{dataset_id: id, mime_type: type, bucket: bucket, key: key}) do
     event =
       struct(%__MODULE__{}, %{
         dataset_id: id,
@@ -51,7 +40,7 @@ defmodule SmartCity.Event.FileUpload do
     error -> {:error, error}
   end
 
-  def new(bad_event) do
+  def create(bad_event) do
     {:error, "Invalid file upload event: #{inspect(bad_event)}"}
   end
 
