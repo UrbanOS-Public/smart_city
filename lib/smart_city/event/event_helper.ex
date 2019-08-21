@@ -7,7 +7,7 @@ defmodule SmartCity.Event.EventHelper do
 
   defmacro __using__(_opts) do
     quote do
-      @behaviour EventHelper
+      @behaviour SmartCity.Event.EventHelper
 
       @spec new(String.t() | map()) :: {:ok, map()} | {:error, term()}
       def new(msg) when is_binary(msg) do

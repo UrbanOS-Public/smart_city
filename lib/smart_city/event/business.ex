@@ -1,6 +1,6 @@
 defmodule SmartCity.Event.DatasetUpdate.Business do
   @moduledoc """
-  A struct representing the business data portion of a dataset definition (represented by `SmartCity.Event.DatasetUpdate`)
+  A struct representing the business data portion of a dataset update struct definition (represented by `SmartCity.Event.DatasetUpdate`)
 
   You probably won't need to access this module directly; `SmartCity.Event.DatasetUpdate.new/1` will build this for you
   """

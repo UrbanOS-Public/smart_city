@@ -1,6 +1,6 @@
 defmodule SmartCity.Event.DatasetUpdate.Technical do
   @moduledoc """
-  A struct defining technical metadata on a registry event message.
+  A struct defining technical metadata on a dataset update event message.
   """
   alias SmartCity.Helpers
 

@@ -1,6 +1,6 @@
 defmodule SmartCity.Event.OrganizationUpdate do
   @moduledoc """
-  Struct defining an organization definition and functions for reading and writing organization definitions to Redis.
+  Struct defining an organization update event.
 
   ```javascript
   const Organization = {
@@ -15,11 +15,10 @@ defmodule SmartCity.Event.OrganizationUpdate do
   ```
   """
   use SmartCity.Event.EventHelper
-  alias SmartCity.Helpers
 
   @type t :: %SmartCity.Event.OrganizationUpdate{}
-  @typep id :: term()
-  @typep reason() :: term()
+  @type id :: term()
+  @type reason() :: term()
 
   @derive Jason.Encoder
   defstruct version: "0.1", id: nil, orgTitle: nil, orgName: nil, description: nil, logoUrl: nil, homepage: nil, dn: nil

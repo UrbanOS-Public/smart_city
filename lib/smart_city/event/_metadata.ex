@@ -1,6 +1,6 @@
 defmodule SmartCity.Event.DatasetUpdate.Metadata do
   @moduledoc """
-  A struct defining internal metadata on a registry event message.
+  A struct defining internal metadata on a dataset update event message.
   """
 
   alias SmartCity.Helpers

@@ -5,7 +5,6 @@ defmodule SmartCity.Event.FileUpload do
   type, parent identifier, and location info.
   """
   use SmartCity.Event.EventHelper
-  alias SmartCity.Helpers
 
   @type extension :: String.t()
   @type mime_type :: String.t()
