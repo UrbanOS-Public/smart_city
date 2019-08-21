@@ -73,7 +73,6 @@ defmodule SmartCity.Event.DatasetUpdate do
   use SmartCity.Event.EventHelper
   alias SmartCity.Event.DatasetUpdate.Business
   alias SmartCity.Event.DatasetUpdate.Technical
-  alias SmartCity.Helpers
   alias SmartCity.Event.DatasetUpdate.Metadata
 
   @type id :: term()
