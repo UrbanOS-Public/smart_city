@@ -14,14 +14,14 @@ defmodule SmartCity.Event.OrganizationUpdate do
   }
   ```
   """
-  use SmartCity.Event.EventHelper
-
   @type t :: %SmartCity.Event.OrganizationUpdate{}
   @type id :: term()
   @type reason() :: term()
 
   @derive Jason.Encoder
   defstruct version: "0.1", id: nil, orgTitle: nil, orgName: nil, description: nil, logoUrl: nil, homepage: nil, dn: nil
+
+  use SmartCity.Event.BaseEvent
 
   defmodule NotFound do
     defexception [:message]

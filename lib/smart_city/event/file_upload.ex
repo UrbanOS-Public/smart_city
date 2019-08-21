@@ -4,8 +4,6 @@ defmodule SmartCity.Event.FileUpload do
   files by components of the system including the files'
   type, parent identifier, and location info.
   """
-  use SmartCity.Event.EventHelper
-
   @type extension :: String.t()
   @type mime_type :: String.t()
   @type id :: String.t()
@@ -20,6 +18,8 @@ defmodule SmartCity.Event.FileUpload do
 
   @derive Jason.Encoder
   defstruct version: "0.1", dataset_id: nil, mime_type: nil, bucket: nil, key: nil
+
+  use SmartCity.Event.BaseEvent
 
   @doc """
   Instantiates an instance of a file upload event struct.

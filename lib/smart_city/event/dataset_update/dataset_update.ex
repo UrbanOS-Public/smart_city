@@ -70,7 +70,6 @@ defmodule SmartCity.Event.DatasetUpdate do
   ```
   """
 
-  use SmartCity.Event.EventHelper
   alias SmartCity.Event.DatasetUpdate.Business
   alias SmartCity.Event.DatasetUpdate.Technical
   alias SmartCity.Event.DatasetUpdate.Metadata
@@ -87,6 +86,8 @@ defmodule SmartCity.Event.DatasetUpdate do
   @derive Jason.Encoder
   defstruct version: "0.3", id: nil, business: nil, technical: nil, _metadata: nil
 
+  use SmartCity.Event.BaseEvent
+
   @doc """
   Returns a new `SmartCity.Event.DatasetUpdate` struct. `SmartCity.Event.DatasetUpdate.Business`,
   `SmartCity.Event.DatasetUpdate.Technical`, and `SmartCity.Event.DatasetUpdate.Metadata` structs will be created along the way.
@@ -100,22 +101,18 @@ defmodule SmartCity.Event.DatasetUpdate do
     - JSON
   """
 
-  def create(%{id: id, business: biz, technical: tech, _metadata: meta}) do
+  def create(%{id: id, business: biz, technical: tech} = dataset_event) do
     struct =
       struct(%__MODULE__{}, %{
         id: id,
         business: Business.new(biz),
         technical: Technical.new(tech),
-        _metadata: Metadata.new(meta)
+        _metadata: Metadata.new(Map.get(dataset_event, :_metadata, %{}))
       })
 
     {:ok, struct}
   rescue
     e -> {:error, e}
-  end
-
-  def create(%{id: id, business: biz, technical: tech}) do
-    create(%{id: id, business: biz, technical: tech, _metadata: %{}})
   end
 
   def create(msg) do
@@ -149,17 +146,4 @@ defmodule SmartCity.Event.DatasetUpdate do
   def is_host?(%__MODULE__{technical: %{sourceType: sourceType}}) do
     "host" == sourceType
   end
-
-  defp to_dataset(%{} = map) do
-    {:ok, dataset} = new(map)
-    dataset
-  end
-
-  defp to_dataset(json) do
-    json
-    |> Jason.decode!()
-    |> to_dataset()
-  end
-
-  defp ok(value), do: {:ok, value}
 end

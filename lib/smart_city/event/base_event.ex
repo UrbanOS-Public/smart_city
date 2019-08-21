@@ -1,4 +1,4 @@
-defmodule SmartCity.Event.EventHelper do
+defmodule SmartCity.Event.BaseEvent do
   @moduledoc """
   Macro for repeated code to deserialize and atomize event structs
   """
@@ -7,7 +7,7 @@ defmodule SmartCity.Event.EventHelper do
 
   defmacro __using__(_opts) do
     quote do
-      @behaviour SmartCity.Event.EventHelper
+      @behaviour SmartCity.Event.BaseEvent
 
       @spec new(String.t() | map()) :: {:ok, map()} | {:error, term()}
       def new(msg) when is_binary(msg) do
