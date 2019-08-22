@@ -12,9 +12,11 @@ defmodule SmartCity.Event.BaseEvent do
     end
   end
 
-  def new(%{"id" => _} = msg) do
-    msg
-    |> Helpers.to_atom_keys()
+  def new(msg) when is_map(msg) do
+    case Enum.any?(Map.keys(msg), &is_binary(&1)) do
+      true -> Helpers.to_atom_keys(msg)
+      _ -> msg
+    end
   end
 
   def new(msg) do
