@@ -4,46 +4,45 @@ defmodule SmartCity.Event.FileUpload do
   files by components of the system including the files'
   type, parent identifier, and location info.
   """
-  alias SmartCity.Helpers
-
   @type extension :: String.t()
   @type mime_type :: String.t()
   @type id :: String.t()
   @type bucket :: String.t()
   @type key :: String.t()
   @type t :: %SmartCity.Event.FileUpload{
-          :dataset_id => id(),
-          :mime_type => mime_type(),
           :bucket => bucket(),
-          :key => key()
+          :dataset_id => id(),
+          :key => key(),
+          :mime_type => mime_type()
         }
 
   @derive Jason.Encoder
-  defstruct version: "0.1", dataset_id: nil, mime_type: nil, bucket: nil, key: nil
+  defstruct bucket: nil,
+            dataset_id: nil,
+            key: nil,
+            mime_type: nil,
+            version: "0.1"
+
+  alias SmartCity.Event.BaseEvent
 
   @doc """
   Instantiates an instance of a file upload event struct.
   """
-  @spec new(String.t() | map()) :: {:ok, SmartCity.Event.FileUpload.t()} | {:error, term()}
-  def new(encoded_event) when is_binary(encoded_event) do
-    with {:ok, decoded_event} <- Jason.decode(encoded_event, keys: :atoms) do
-      new(decoded_event)
-    end
+
+  @spec new(String.t() | map()) :: {:ok, map()} | {:error, term()}
+  def new(msg) do
+    msg
+    |> BaseEvent.new()
+    |> create()
   end
 
-  def new(%{"dataset_id" => _} = event) do
-    event
-    |> Helpers.to_atom_keys()
-    |> new()
-  end
-
-  def new(%{dataset_id: id, mime_type: type, bucket: bucket, key: key}) do
+  defp create(%{dataset_id: id, mime_type: type, bucket: bucket, key: key}) do
     event =
       struct(%__MODULE__{}, %{
-        dataset_id: id,
-        mime_type: type,
         bucket: bucket,
-        key: key
+        dataset_id: id,
+        key: key,
+        mime_type: type
       })
 
     {:ok, event}
@@ -51,7 +50,7 @@ defmodule SmartCity.Event.FileUpload do
     error -> {:error, error}
   end
 
-  def new(bad_event) do
+  defp create(bad_event) do
     {:error, "Invalid file upload event: #{inspect(bad_event)}"}
   end
 
