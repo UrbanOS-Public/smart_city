@@ -11,23 +11,23 @@ defmodule SmartCity.Event.DatasetUpdate.Business do
   @type license_or_default :: String.t()
 
   @type t :: %SmartCity.Event.DatasetUpdate.Business{
-          dataTitle: String.t(),
-          description: String.t(),
-          modifiedDate: String.t(),
-          orgTitle: String.t(),
-          contactName: String.t(),
-          contactEmail: String.t(),
-          authorName: not_required(),
           authorEmail: not_required(),
+          authorName: not_required(),
           categories: not_required(),
           conformsToUri: not_required(),
+          contactEmail: String.t(),
+          contactName: String.t(),
+          dataTitle: String.t(),
           describedByMimeType: not_required(),
           describedByUrl: not_required(),
+          description: String.t(),
           homepage: not_required(),
           issuedDate: not_required(),
           keywords: not_required(),
           language: not_required(),
           license: license_or_default(),
+          modifiedDate: String.t(),
+          orgTitle: String.t(),
           parentDataset: not_required(),
           publishFrequency: not_required(),
           referenceUrls: not_required(),
@@ -37,29 +37,29 @@ defmodule SmartCity.Event.DatasetUpdate.Business do
         }
 
   @derive Jason.Encoder
-  defstruct dataTitle: nil,
+  defstruct authorEmail: nil,
+            authorName: nil,
+            categories: nil,
+            conformsToUri: nil,
+            contactEmail: nil,
+            contactName: nil,
+            dataTitle: nil,
+            describedByMimeType: nil,
+            describedByUrl: nil,
             description: nil,
+            homepage: nil,
+            issuedDate: nil,
+            keywords: nil,
+            language: nil,
+            license: nil,
             modifiedDate: nil,
             orgTitle: nil,
-            contactName: nil,
-            contactEmail: nil,
-            authorName: nil,
-            authorEmail: nil,
-            license: nil,
-            keywords: nil,
-            rights: nil,
-            homepage: nil,
-            spatial: nil,
-            temporal: nil,
-            publishFrequency: nil,
-            conformsToUri: nil,
-            describedByUrl: nil,
-            describedByMimeType: nil,
             parentDataset: nil,
-            issuedDate: nil,
-            language: nil,
+            publishFrequency: nil,
             referenceUrls: nil,
-            categories: nil
+            rights: nil,
+            spatial: nil,
+            temporal: nil
 
   @doc """
   Returns a new `SmartCity.Event.DatasetUpdate.Business` struct.
@@ -86,12 +86,12 @@ defmodule SmartCity.Event.DatasetUpdate.Business do
 
   def new(
         %{
+          contactEmail: _,
+          contactName: _,
           dataTitle: _,
           description: _,
           modifiedDate: _,
-          orgTitle: _,
-          contactName: _,
-          contactEmail: _
+          orgTitle: _
         } = msg
       ) do
     struct(%__MODULE__{}, msg)

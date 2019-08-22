@@ -6,13 +6,13 @@ defmodule SmartCity.Event.DatasetUpdate.Metadata do
   alias SmartCity.Helpers
 
   @type t :: %SmartCity.Event.DatasetUpdate.Metadata{
-          intendedUse: list(),
-          expectedBenefit: list()
+          expectedBenefit: list(),
+          intendedUse: list()
         }
 
   @derive Jason.Encoder
-  defstruct intendedUse: [],
-            expectedBenefit: []
+  defstruct expectedBenefit: [],
+            intendedUse: []
 
   @doc """
   Returns a new `SmartCity.Event.DatasetUpdate.Metadata` struct.

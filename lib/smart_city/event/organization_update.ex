@@ -4,13 +4,13 @@ defmodule SmartCity.Event.OrganizationUpdate do
 
   ```javascript
   const Organization = {
-    "id": "",          // uuid
-    "orgTitle": "",    // user friendly
-    "orgName": "",     // system friendly
     "description": "",
-    "logoUrl": "",
+    "dn": "",          // LDAP distinguished name
     "homepage": "",
-    "dn": ""           // LDAP distinguished name
+    "id": "",          // uuid
+    "logoUrl": "",
+    "orgName": "",     // system friendly
+    "orgTitle": ""     // user friendly
   }
   ```
   """
@@ -19,7 +19,14 @@ defmodule SmartCity.Event.OrganizationUpdate do
   @type reason() :: term()
 
   @derive Jason.Encoder
-  defstruct version: "0.1", id: nil, orgTitle: nil, orgName: nil, description: nil, logoUrl: nil, homepage: nil, dn: nil
+  defstruct description: nil,
+            dn: nil,
+            homepage: nil,
+            id: nil,
+            logoUrl: nil,
+            orgName: nil,
+            orgTitle: nil,
+            version: "0.1"
 
   use SmartCity.Event.BaseEvent
 

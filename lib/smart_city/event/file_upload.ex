@@ -10,14 +10,18 @@ defmodule SmartCity.Event.FileUpload do
   @type bucket :: String.t()
   @type key :: String.t()
   @type t :: %SmartCity.Event.FileUpload{
-          :dataset_id => id(),
-          :mime_type => mime_type(),
           :bucket => bucket(),
-          :key => key()
+          :dataset_id => id(),
+          :key => key(),
+          :mime_type => mime_type()
         }
 
   @derive Jason.Encoder
-  defstruct version: "0.1", dataset_id: nil, mime_type: nil, bucket: nil, key: nil
+  defstruct bucket: nil,
+            dataset_id: nil,
+            key: nil,
+            mime_type: nil,
+            version: "0.1"
 
   use SmartCity.Event.BaseEvent
 
@@ -28,10 +32,10 @@ defmodule SmartCity.Event.FileUpload do
   def create(%{dataset_id: id, mime_type: type, bucket: bucket, key: key}) do
     event =
       struct(%__MODULE__{}, %{
-        dataset_id: id,
-        mime_type: type,
         bucket: bucket,
-        key: key
+        dataset_id: id,
+        key: key,
+        mime_type: type
       })
 
     {:ok, event}

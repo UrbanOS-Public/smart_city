@@ -7,60 +7,55 @@ defmodule SmartCity.Event.DatasetUpdate do
   const Dataset = {
     "id": "",                  // UUID
     "business": {              // Project Open Data Metadata Schema v1.1
+      "categories": [""],
+      "conformsToUri": "",
+      "contactEmail": "",
+      "contactName": "",
       "dataTitle": "",       // user friendly (dataTitle)
+      "describedByMimeType": "",
+      "describedByUrl": "",
       "description": "",
+      "homepage": "",
+      "issuedDate": "",
       "keywords": [""],
+      "language": "",
+      "license": "",
       "modifiedDate": "",
       "orgTitle": "",        // user friendly (orgTitle)
-      "contactName": "",
-      "contactEmail": "",
-      "license": "",
-      "rights": "",
-      "homepage": "",
-      "spatial": "",
-      "temporal": "",
-      "publishFrequency": "",
-      "conformsToUri": "",
-      "describedByUrl": "",
-      "describedByMimeType": "",
       "parentDataset": "",
-      "issuedDate": "",
-      "language": "",
+      "publishFrequency": "",
       "referenceUrls": [""],
-      "categories": [""]
+      "rights": "",
+      "spatial": "",
+      "temporal": ""
     },
     "technical": {
+      "authHeaders": {"header1": "", "header2": ""}
+      "authUrl": "",
+      "cadence": "",
       "dataName": "",        // ~r/[a-zA-Z_]+$/
       "orgId": "",
       "orgName": "",         // ~r/[a-zA-Z_]+$/
-      "systemName": "",      // ${orgName}__${dataName},
-      "schema": [
-        {
-          "name": "",
-          "type": "",
-          "description": ""
-        }
-      ],
-      "sourceUrl": "",
       "protocol": "",       // List of protocols to use. Defaults to nil. Can be [http1, http2]
-      "authUrl": "",
+      "schema": [{
+        "name": "",
+        "type": "",
+        "description": ""
+      }],
       "sourceFormat": "",
-      "sourceType": "",     // remote|stream|ingest|host
-      "cadence": "",
+      "sourceHeaders": {
+        "header1": "",
+        "header2": ""
+      },
       "sourceQueryParams": {
         "key1": "",
         "key2": ""
       },
+      "sourceType": "",     // remote|stream|ingest|host
+      "sourceUrl": "",
+      "systemName": "",      // ${orgName}__${dataName},
       "transformations": [], // ?
       "validations": [],     // ?
-      "sourceHeaders": {
-        "header1": "",
-        "header2": ""
-      }
-      "authHeaders": {
-        "header1": "",
-        "header2": ""
-      }
     },
     "_metadata": {
       "intendedUse": [],
@@ -76,11 +71,11 @@ defmodule SmartCity.Event.DatasetUpdate do
 
   @type id :: term()
   @type t :: %SmartCity.Event.DatasetUpdate{
-          version: String.t(),
-          id: String.t(),
           business: SmartCity.Event.DatasetUpdate.Business.t(),
+          id: String.t(),
+          _metadata: SmartCity.Event.DatasetUpdate.Metadata.t(),
           technical: SmartCity.Event.DatasetUpdate.Technical.t(),
-          _metadata: SmartCity.Event.DatasetUpdate.Metadata.t()
+          version: String.t()
         }
 
   @derive Jason.Encoder
