@@ -28,7 +28,7 @@ defmodule SmartCity.Event.OrganizationUpdate do
             orgTitle: nil,
             version: "0.1"
 
-  use SmartCity.Event.BaseEvent
+  alias SmartCity.Event.BaseEvent
 
   defmodule NotFound do
     defexception [:message]
@@ -42,14 +42,20 @@ defmodule SmartCity.Event.OrganizationUpdate do
   - map with atom keys
   - JSON
   """
+  @spec new(String.t() | map()) :: {:ok, map()} | {:error, term()}
+  def new(msg) do
+    BaseEvent.new(msg)
+    |> create()
+  end
+
   @spec create(String.t() | map()) :: {:ok, SmartCity.Event.OrganizationUpdate.t()} | {:error, term()}
-  def create(%{id: _, orgName: _, orgTitle: _} = msg) do
+  defp create(%{id: _, orgName: _, orgTitle: _} = msg) do
     struct = struct(%__MODULE__{}, msg)
 
     {:ok, struct}
   end
 
-  def create(msg) do
+  defp create(msg) do
     {:error, "Invalid organization message: #{inspect(msg)}"}
   end
 end

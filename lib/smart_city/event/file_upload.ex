@@ -23,13 +23,20 @@ defmodule SmartCity.Event.FileUpload do
             mime_type: nil,
             version: "0.1"
 
-  use SmartCity.Event.BaseEvent
+  alias SmartCity.Event.BaseEvent
 
   @doc """
   Instantiates an instance of a file upload event struct.
   """
-  @spec create(String.t() | map()) :: {:ok, SmartCity.Event.FileUpload.t()} | {:error, term()}
-  def create(%{dataset_id: id, mime_type: type, bucket: bucket, key: key}) do
+
+  @spec new(String.t() | map()) :: {:ok, map()} | {:error, term()}
+  def new(msg) do
+    msg
+    |> BaseEvent.new()
+    |> create()
+  end
+
+  defp create(%{dataset_id: id, mime_type: type, bucket: bucket, key: key}) do
     event =
       struct(%__MODULE__{}, %{
         bucket: bucket,
@@ -43,7 +50,7 @@ defmodule SmartCity.Event.FileUpload do
     error -> {:error, error}
   end
 
-  def create(bad_event) do
+  defp create(bad_event) do
     {:error, "Invalid file upload event: #{inspect(bad_event)}"}
   end
 

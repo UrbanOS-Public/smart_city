@@ -80,7 +80,7 @@ defmodule SmartCity.Event.DatasetUpdateTest do
     end
 
     test "returns an error tuple when string message can't be decoded" do
-      assert {:error, %Jason.DecodeError{}} = DatasetUpdate.new("foo")
+      assert {:error, ~s|Invalid DatasetUpdate event: "Unable to json decode: foo"|} = DatasetUpdate.new("foo")
     end
 
     test "can create a new dataset without _metadata in the schema", %{message: map, json: _json} do

@@ -81,7 +81,7 @@ defmodule SmartCity.Event.DatasetUpdate do
   @derive Jason.Encoder
   defstruct version: "0.3", id: nil, business: nil, technical: nil, _metadata: nil
 
-  use SmartCity.Event.BaseEvent
+  alias SmartCity.Event.BaseEvent
 
   @doc """
   Returns a new `SmartCity.Event.DatasetUpdate` struct. `SmartCity.Event.DatasetUpdate.Business`,
@@ -96,7 +96,14 @@ defmodule SmartCity.Event.DatasetUpdate do
     - JSON
   """
 
-  def create(%{id: id, business: biz, technical: tech} = dataset_event) do
+  @spec new(String.t() | map()) :: {:ok, map()} | {:error, term()}
+  def new(msg) do
+    msg
+    |> BaseEvent.new()
+    |> create()
+  end
+
+  defp create(%{id: id, business: biz, technical: tech} = dataset_event) do
     struct =
       struct(%__MODULE__{}, %{
         id: id,
@@ -110,8 +117,8 @@ defmodule SmartCity.Event.DatasetUpdate do
     e -> {:error, e}
   end
 
-  def create(msg) do
-    {:error, "Invalid registry message: #{inspect(msg)}"}
+  defp create(msg) do
+    {:error, "Invalid DatasetUpdate event: #{inspect(msg)}"}
   end
 
   @doc """
