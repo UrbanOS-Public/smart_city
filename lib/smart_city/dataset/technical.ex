@@ -1,12 +1,12 @@
-defmodule SmartCity.Event.DatasetUpdate.Technical do
+defmodule SmartCity.Dataset.Technical do
   @moduledoc """
-  A struct defining technical metadata on a dataset update event message.
+  A struct defining technical metadata on a dataset.
   """
   alias SmartCity.Helpers
 
   @type not_required(type) :: type | nil
 
-  @type t() :: %SmartCity.Event.DatasetUpdate.Technical{
+  @type t() :: %SmartCity.Dataset.Technical{
           allow_duplicates: not_required(boolean()),
           authHeaders: not_required(map()),
           authUrl: String.t(),
@@ -51,7 +51,7 @@ defmodule SmartCity.Event.DatasetUpdate.Technical do
             validations: []
 
   @doc """
-  Returns a new `SmartCity.Event.DatasetUpdate.Technical`.
+  Returns a new `SmartCity.Dataset.Technical`.
   Can be created from `Map` with string or atom keys.
   Raises an `ArgumentError` when passed invalid input
 
@@ -69,7 +69,7 @@ defmodule SmartCity.Event.DatasetUpdate.Technical do
     - sourceType will default to "remote"
     - cadence will default to "never"
   """
-  @spec new(map()) :: SmartCity.Event.DatasetUpdate.Technical.t()
+  @spec new(map()) :: SmartCity.Dataset.Technical.t()
   def new(%{"dataName" => _} = msg) do
     msg
     |> Helpers.to_atom_keys()

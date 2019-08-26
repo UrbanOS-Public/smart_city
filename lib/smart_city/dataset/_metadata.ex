@@ -1,11 +1,11 @@
-defmodule SmartCity.Event.DatasetUpdate.Metadata do
+defmodule SmartCity.Dataset.Metadata do
   @moduledoc """
-  A struct defining internal metadata on a dataset update event message.
+  A struct defining internal metadata on a dataset.
   """
 
   alias SmartCity.Helpers
 
-  @type t :: %SmartCity.Event.DatasetUpdate.Metadata{
+  @type t :: %SmartCity.Dataset.Metadata{
           expectedBenefit: list(),
           intendedUse: list()
         }
@@ -15,7 +15,7 @@ defmodule SmartCity.Event.DatasetUpdate.Metadata do
             intendedUse: []
 
   @doc """
-  Returns a new `SmartCity.Event.DatasetUpdate.Metadata` struct.
+  Returns a new `SmartCity.Dataset.Metadata` struct.
   Can be created from `Map` with string or atom keys.
   Raises an `ArgumentError` when passed invalid input.
 
@@ -25,22 +25,22 @@ defmodule SmartCity.Event.DatasetUpdate.Metadata do
 
   ## Examples
 
-      iex> SmartCity.Event.DatasetUpdate.Metadata.new(%{"intendedUse" => ["a","b","c"], "expectedBenefit" => [1,2,3]})
-      %SmartCity.Event.DatasetUpdate.Metadata{
+      iex> SmartCity.Dataset.Metadata.new(%{"intendedUse" => ["a","b","c"], "expectedBenefit" => [1,2,3]})
+      %SmartCity.Dataset.Metadata{
         expectedBenefit: [1, 2, 3],
         intendedUse: ["a", "b", "c"]
       }
 
-      iex> SmartCity.Event.DatasetUpdate.Metadata.new(%{:intendedUse => ["a","b","c"], :expectedBenefit => [1,2,3]})
-      %SmartCity.Event.DatasetUpdate.Metadata{
+      iex> SmartCity.Dataset.Metadata.new(%{:intendedUse => ["a","b","c"], :expectedBenefit => [1,2,3]})
+      %SmartCity.Dataset.Metadata{
         expectedBenefit: [1, 2, 3],
         intendedUse: ["a", "b", "c"]
       }
 
-      iex> SmartCity.Event.DatasetUpdate.Metadata.new("Not a map")
+      iex> SmartCity.Dataset.Metadata.new("Not a map")
       ** (ArgumentError) Invalid internal metadata: "Not a map"
   """
-  @spec new(map()) :: SmartCity.Event.DatasetUpdate.Metadata.t()
+  @spec new(map()) :: SmartCity.Dataset.Metadata.t()
   def new(%{} = msg) do
     msg_atoms =
       case is_binary(List.first(Map.keys(msg))) do

@@ -1,8 +1,8 @@
-defmodule SmartCity.Event.DatasetUpdate.Business do
+defmodule SmartCity.Dataset.Business do
   @moduledoc """
-  A struct representing the business data portion of a dataset update struct definition (represented by `SmartCity.Event.DatasetUpdate`)
+  A struct representing the business data portion of a dataset struct definition (represented by `SmartCity.Dataset`)
 
-  You probably won't need to access this module directly; `SmartCity.Event.DatasetUpdate.new/1` will build this for you
+  You probably won't need to access this module directly; `SmartCity.Dataset.new/1` will build this for you
   """
 
   alias SmartCity.Helpers
@@ -10,7 +10,7 @@ defmodule SmartCity.Event.DatasetUpdate.Business do
   @type not_required :: term() | nil
   @type license_or_default :: String.t()
 
-  @type t :: %SmartCity.Event.DatasetUpdate.Business{
+  @type t :: %SmartCity.Dataset.Business{
           authorEmail: not_required(),
           authorName: not_required(),
           categories: not_required(),
@@ -62,11 +62,11 @@ defmodule SmartCity.Event.DatasetUpdate.Business do
             temporal: nil
 
   @doc """
-  Returns a new `SmartCity.Event.DatasetUpdate.Business` struct.
+  Returns a new `SmartCity.Dataset.Business` struct.
   Can be created from `Map` with string or atom keys.
 
   ## Parameters
-    - msg: Map with string or atom keys that defines the dataset's business metadata. See `SmartCity.Event.DatasetUpdate.Business` typespec for available keys.
+    - msg: Map with string or atom keys that defines the dataset's business metadata. See `SmartCity.Dataset.Business` typespec for available keys.
 
     _Required Keys_
       - dataTitle

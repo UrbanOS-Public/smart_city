@@ -1,10 +1,10 @@
-defmodule SmartCity.Event.BaseEvent do
+defmodule SmartCity.BaseStruct do
   @moduledoc """
-  This module provides deserialization and atomization for event structs
+  This module provides deserialization and atomization for structs
   """
   alias SmartCity.Helpers
 
-  @spec new(String.t() | map()) :: {:ok, map()} | {:error, term()}
+  @spec new(String.t() | map()) :: map() | term()
   def new(msg) when is_binary(msg) do
     case Jason.decode(msg, keys: :atoms) do
       {:ok, decoded} -> decoded

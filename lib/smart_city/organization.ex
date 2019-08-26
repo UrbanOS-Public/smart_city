@@ -1,4 +1,4 @@
-defmodule SmartCity.Event.OrganizationUpdate do
+defmodule SmartCity.Organization do
   @moduledoc """
   Struct defining an organization update event.
 
@@ -14,7 +14,7 @@ defmodule SmartCity.Event.OrganizationUpdate do
   }
   ```
   """
-  @type t :: %SmartCity.Event.OrganizationUpdate{}
+  @type t :: %SmartCity.Organization{}
   @type id :: term()
   @type reason() :: term()
 
@@ -28,14 +28,14 @@ defmodule SmartCity.Event.OrganizationUpdate do
             orgTitle: nil,
             version: "0.1"
 
-  alias SmartCity.Event.BaseEvent
+  alias SmartCity.BaseStruct
 
   defmodule NotFound do
     defexception [:message]
   end
 
   @doc """
-  Returns a new `SmartCity.Event.OrganizationUpdate` struct.
+  Returns a new `SmartCity.Organization` struct.
 
   Can be created from:
   - map with string keys
@@ -44,11 +44,10 @@ defmodule SmartCity.Event.OrganizationUpdate do
   """
   @spec new(String.t() | map()) :: {:ok, map()} | {:error, term()}
   def new(msg) do
-    BaseEvent.new(msg)
+    BaseStruct.new(msg)
     |> create()
   end
 
-  @spec create(String.t() | map()) :: {:ok, SmartCity.Event.OrganizationUpdate.t()} | {:error, term()}
   defp create(%{id: _, orgName: _, orgTitle: _} = msg) do
     struct = struct(%__MODULE__{}, msg)
 
@@ -56,6 +55,6 @@ defmodule SmartCity.Event.OrganizationUpdate do
   end
 
   defp create(msg) do
-    {:error, "Invalid organization message: #{inspect(msg)}"}
+    {:error, "Invalid organization: #{inspect(msg)}"}
   end
 end
