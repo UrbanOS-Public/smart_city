@@ -149,3 +149,9 @@ defmodule SmartCity.Event.DatasetUpdate do
     "host" == sourceType
   end
 end
+
+defimpl Brook.Event.Deserializer, for: SmartCity.Event.DatasetUpdate do
+  def deserialize(_struct, data) do
+    SmartCity.Event.DatasetUpdate.new(data)
+  end
+end

@@ -71,6 +71,13 @@ defmodule SmartCity.Event.DatasetUpdateTest do
                DatasetUpdate.new(map)
     end
 
+    test "can be serialize and deserialized", %{message: message} do
+      {:ok, dataset_update} = DatasetUpdate.new(message)
+      {ok, serialized} = Brook.Event.Serializer.serialize(dataset_update)
+
+      assert {:ok, dataset_update} == Brook.Event.Deserializer.deserialize(struct(DatasetUpdate), serialized)
+    end
+
     test "returns error tuple when creating Dataset without required fields" do
       assert {:error, _} = DatasetUpdate.new(%{id: "", technical: ""})
     end
