@@ -27,7 +27,7 @@ defmodule SmartCity.Data.MixProject do
       {:jason, "~> 1.1"},
       {:mix_test_watch, "~> 0.9", only: :dev, runtime: false},
       {:placebo, "~> 1.2", only: :test},
-      {:smart_city, "~> 2.1"},
+      {:smart_city, "~> 2.6.1"},
       {:husky, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end
