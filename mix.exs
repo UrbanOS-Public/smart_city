@@ -4,7 +4,7 @@ defmodule SmartCity.MixProject do
   def project do
     [
       app: :smart_city,
-      version: "2.6.0",
+      version: "2.6.1",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -28,7 +28,7 @@ defmodule SmartCity.MixProject do
       {:husky, "~> 1.0", only: :dev, runtime: false},
       {:jason, "~> 1.1"},
       {:mime, "~> 1.3"},
-      {:brook, github: "bbalser/brook", tag: "0.1.0"},
+      {:brook, "~> 0.1.1"},
       {:mix_test_watch, "~> 0.9", only: :dev, runtime: false},
       {:placebo, "~> 1.2", only: [:dev, :test, :integration]}
     ]
