@@ -1,7 +1,7 @@
-defmodule SmartCity.Event.DatasetUpdate.MetadataTest do
+defmodule SmartCity.Dataset.MetadataTest do
   use ExUnit.Case
-  doctest SmartCity.Event.DatasetUpdate.Metadata
-  alias SmartCity.Event.DatasetUpdate.Metadata
+  doctest SmartCity.Dataset.Metadata
+  alias SmartCity.Dataset.Metadata
 
   setup do
     message = %{

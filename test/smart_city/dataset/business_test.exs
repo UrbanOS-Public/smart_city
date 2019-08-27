@@ -1,7 +1,7 @@
-defmodule SmartCity.Event.DatasetUpdate.BusinessTest do
+defmodule SmartCity.Dataset.BusinessTest do
   use ExUnit.Case
-  doctest SmartCity.Event.DatasetUpdate.Business
-  alias SmartCity.Event.DatasetUpdate.Business
+  doctest SmartCity.Dataset.Business
+  alias SmartCity.Dataset.Business
 
   setup do
     message = %{

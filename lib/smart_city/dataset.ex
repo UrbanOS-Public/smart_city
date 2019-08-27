@@ -1,7 +1,6 @@
-defmodule SmartCity.Event.DatasetUpdate do
+defmodule SmartCity.Dataset do
   @moduledoc """
-  Struct defining a dataset update event.  This is triggered when new datasets are put into the system or existing
-  datasets are updated
+  Struct defining a dataset definition and functions for reading and writing dataset definitions to Redis.
 
   ```javascript
   const Dataset = {
@@ -65,27 +64,27 @@ defmodule SmartCity.Event.DatasetUpdate do
   ```
   """
 
-  alias SmartCity.Event.DatasetUpdate.Business
-  alias SmartCity.Event.DatasetUpdate.Technical
-  alias SmartCity.Event.DatasetUpdate.Metadata
+  alias SmartCity.Dataset.Business
+  alias SmartCity.Dataset.Technical
+  alias SmartCity.Dataset.Metadata
 
   @type id :: term()
-  @type t :: %SmartCity.Event.DatasetUpdate{
-          business: SmartCity.Event.DatasetUpdate.Business.t(),
+  @type t :: %SmartCity.Dataset{
+          business: SmartCity.Dataset.Business.t(),
           id: String.t(),
-          _metadata: SmartCity.Event.DatasetUpdate.Metadata.t(),
-          technical: SmartCity.Event.DatasetUpdate.Technical.t(),
+          _metadata: SmartCity.Dataset.Metadata.t(),
+          technical: SmartCity.Dataset.Technical.t(),
           version: String.t()
         }
 
   @derive Jason.Encoder
   defstruct version: "0.3", id: nil, business: nil, technical: nil, _metadata: nil
 
-  alias SmartCity.Event.BaseEvent
+  alias SmartCity.BaseStruct
 
   @doc """
-  Returns a new `SmartCity.Event.DatasetUpdate` struct. `SmartCity.Event.DatasetUpdate.Business`,
-  `SmartCity.Event.DatasetUpdate.Technical`, and `SmartCity.Event.DatasetUpdate.Metadata` structs will be created along the way.
+  Returns a new `SmartCity.Dataset` struct. `SmartCity.Dataset.Business`,
+  `SmartCity.Dataset.Technical`, and `SmartCity.Dataset.Metadata` structs will be created along the way.
 
   ## Parameters
 
@@ -99,17 +98,17 @@ defmodule SmartCity.Event.DatasetUpdate do
   @spec new(String.t() | map()) :: {:ok, map()} | {:error, term()}
   def new(msg) do
     msg
-    |> BaseEvent.new()
+    |> BaseStruct.new()
     |> create()
   end
 
-  defp create(%{id: id, business: biz, technical: tech} = dataset_event) do
+  defp create(%{id: id, business: biz, technical: tech} = dataset) do
     struct =
       struct(%__MODULE__{}, %{
         id: id,
         business: Business.new(biz),
         technical: Technical.new(tech),
-        _metadata: Metadata.new(Map.get(dataset_event, :_metadata, %{}))
+        _metadata: Metadata.new(Map.get(dataset, :_metadata, %{}))
       })
 
     {:ok, struct}
@@ -118,7 +117,7 @@ defmodule SmartCity.Event.DatasetUpdate do
   end
 
   defp create(msg) do
-    {:error, "Invalid DatasetUpdate event: #{inspect(msg)}"}
+    {:error, "Invalid Dataset: #{inspect(msg)}"}
   end
 
   @doc """
@@ -150,8 +149,8 @@ defmodule SmartCity.Event.DatasetUpdate do
   end
 end
 
-defimpl Brook.Event.Deserializer, for: SmartCity.Event.DatasetUpdate do
+defimpl Brook.Event.Deserializer, for: SmartCity.Dataset do
   def deserialize(_struct, data) do
-    SmartCity.Event.DatasetUpdate.new(data)
+    SmartCity.Dataset.new(data)
   end
 end

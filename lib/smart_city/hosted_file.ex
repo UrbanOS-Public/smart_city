@@ -1,4 +1,4 @@
-defmodule SmartCity.Event.FileUpload do
+defmodule SmartCity.HostedFile do
   @moduledoc """
   Defines the information needed to process uploaded
   files by components of the system including the files'
@@ -9,7 +9,7 @@ defmodule SmartCity.Event.FileUpload do
   @type id :: String.t()
   @type bucket :: String.t()
   @type key :: String.t()
-  @type t :: %SmartCity.Event.FileUpload{
+  @type t :: %SmartCity.HostedFile{
           :bucket => bucket(),
           :dataset_id => id(),
           :key => key(),
@@ -23,7 +23,7 @@ defmodule SmartCity.Event.FileUpload do
             mime_type: nil,
             version: "0.1"
 
-  alias SmartCity.Event.BaseEvent
+  alias SmartCity.BaseStruct
 
   @doc """
   Instantiates an instance of a file upload event struct.
@@ -32,12 +32,12 @@ defmodule SmartCity.Event.FileUpload do
   @spec new(String.t() | map()) :: {:ok, map()} | {:error, term()}
   def new(msg) do
     msg
-    |> BaseEvent.new()
+    |> BaseStruct.new()
     |> create()
   end
 
   defp create(%{dataset_id: id, mime_type: type, bucket: bucket, key: key}) do
-    event =
+    file =
       struct(%__MODULE__{}, %{
         bucket: bucket,
         dataset_id: id,
@@ -45,13 +45,11 @@ defmodule SmartCity.Event.FileUpload do
         mime_type: type
       })
 
-    {:ok, event}
-  rescue
-    error -> {:error, error}
+    {:ok, file}
   end
 
-  defp create(bad_event) do
-    {:error, "Invalid file upload event: #{inspect(bad_event)}"}
+  defp create(bad_struct) do
+    {:error, "Invalid file upload event: #{inspect(bad_struct)}"}
   end
 
   @doc """
