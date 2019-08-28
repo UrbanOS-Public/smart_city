@@ -149,7 +149,7 @@ defmodule SmartCity.Dataset do
   end
 end
 
-defimpl Brook.Event.Deserializer, for: SmartCity.Dataset do
+defimpl Brook.Deserializer, for: SmartCity.Dataset do
   def deserialize(_struct, data) do
     SmartCity.Dataset.new(data)
   end

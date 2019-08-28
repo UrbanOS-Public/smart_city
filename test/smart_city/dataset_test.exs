@@ -73,9 +73,9 @@ defmodule SmartCity.DatasetTest do
 
     test "can be serialize and deserialized", %{message: message} do
       {:ok, dataset} = Dataset.new(message)
-      {:ok, serialized} = Brook.Event.Serializer.serialize(dataset)
+      {:ok, serialized} = Brook.Serializer.serialize(dataset)
 
-      assert {:ok, dataset} == Brook.Event.Deserializer.deserialize(struct(Dataset), serialized)
+      assert {:ok, dataset} == Brook.Deserializer.deserialize(struct(Dataset), serialized)
     end
 
     test "returns error tuple when creating Dataset without required fields" do
