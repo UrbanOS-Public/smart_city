@@ -33,7 +33,7 @@ iex> SmartCity.Data.new(%{dataset_id: "a_guid", payload: "the_data", _metadata: 
 ```elixir
 def deps do
   [
-    {:smart_city_data, "~> 3.0.1"}
+    {:smart_city_data, "~> 3.0.2"}
   ]
 end
 ```
