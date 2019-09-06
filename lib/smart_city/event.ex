@@ -15,7 +15,7 @@ defmodule SmartCity.Event do
   Declares an error occurred during the attempted upsert of a
   dataset.
   """
-  defmacro dataset_update_error(), do: quote(do: "dataset:update:error")
+  defmacro error_dataset_update(), do: quote(do: "error:dataset:update")
 
   @doc """
   Defines an update event to an organization within the system.
@@ -27,7 +27,7 @@ defmodule SmartCity.Event do
   Declares an error occurred during the attempted upsert of an
   organization.
   """
-  defmacro organization_update_error(), do: quote(do: "organization:update:error")
+  defmacro error_organization_update(), do: quote(do: "error:organization:update")
 
   @doc """
   Signals a dataset is about to be retrieved and begin loading into
@@ -44,7 +44,7 @@ defmodule SmartCity.Event do
   @doc """
   Declares an error occurred during an attempted data ingestion.
   """
-  defmacro data_ingest_error(), do: quote(do: "data:ingest:error")
+  defmacro error_data_ingest(), do: quote(do: "error:data:ingest")
 
   @doc """
   Signals data for a dataset is about to be downloaded into the platform,
@@ -61,7 +61,7 @@ defmodule SmartCity.Event do
   @doc """
   Declares an error occurred during an attempted data extraction.
   """
-  defmacro data_extract_error(), do: quote(do: "data:extract:error")
+  defmacro error_data_extract(), do: quote(do: "error:data:extract")
 
   @doc """
   Signals a non-ingestable data file is about to be downloaded to the
@@ -78,7 +78,7 @@ defmodule SmartCity.Event do
   @doc """
   Declares an error occurred during an attempted file ingestion.
   """
-  defmacro file_ingest_error(), do: quote(do: "file:ingest:error")
+  defmacro error_file_ingest(), do: quote(do: "error:file:ingest")
 
   @doc """
   Signals to file should be downloaded
