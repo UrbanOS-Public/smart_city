@@ -12,10 +12,22 @@ defmodule SmartCity.Event do
   defmacro dataset_update(), do: quote(do: "dataset:update")
 
   @doc """
+  Declares an error occurred during the attempted upsert of a
+  dataset.
+  """
+  defmacro dataset_update_error(), do: quote(do: "dataset:update:error")
+
+  @doc """
   Defines an update event to an organization within the system.
   The system treats create events as a subset of updates.
   """
   defmacro organization_update(), do: quote(do: "organization:update")
+
+  @doc """
+  Declares an error occurred during the attempted upsert of an
+  organization.
+  """
+  defmacro organization_update_error(), do: quote(do: "organization:update:error")
 
   @doc """
   Signals a dataset is about to be retrieved and begin loading into
@@ -30,6 +42,11 @@ defmodule SmartCity.Event do
   defmacro data_ingest_end(), do: quote(do: "data:ingest:end")
 
   @doc """
+  Declares an error occurred during an attempted data ingestion.
+  """
+  defmacro data_ingest_error(), do: quote(do: "data:ingest:error")
+
+  @doc """
   Signals data for a dataset is about to be downloaded into the platform,
   parsed, and written to the raw ingestion topic.
   """
@@ -42,6 +59,11 @@ defmodule SmartCity.Event do
   defmacro data_extract_end(), do: quote(do: "data:extract:end")
 
   @doc """
+  Declares an error occurred during an attempted data extraction.
+  """
+  defmacro data_extract_error(), do: quote(do: "data:extract:error")
+
+  @doc """
   Signals a non-ingestable data file is about to be downloaded to the
   platform and stored in the object store bucket.
   """
@@ -52,6 +74,11 @@ defmodule SmartCity.Event do
   to the object store bucket.
   """
   defmacro file_ingest_end(), do: quote(do: "file:ingest:end")
+
+  @doc """
+  Declares an error occurred during an attempted file ingestion.
+  """
+  defmacro file_ingest_error(), do: quote(do: "file:ingest:error")
 
   @doc """
   Signals to file should be downloaded
