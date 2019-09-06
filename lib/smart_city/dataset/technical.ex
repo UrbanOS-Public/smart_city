@@ -14,7 +14,6 @@ defmodule SmartCity.Dataset.Technical do
           dataName: String.t(),
           orgId: not_required(String.t()),
           orgName: String.t(),
-          partitioner: not_required(%{type: String.t(), query: String.t()}),
           private: not_required(boolean()),
           protocol: not_required(list(String.t())),
           schema: not_required(list(map())),
@@ -23,9 +22,7 @@ defmodule SmartCity.Dataset.Technical do
           sourceQueryParams: not_required(map()),
           sourceType: not_required(String.t()),
           sourceUrl: String.t(),
-          systemName: String.t(),
-          transformations: not_required(list()),
-          validations: not_required(list())
+          systemName: String.t()
         }
 
   @derive Jason.Encoder
@@ -37,7 +34,6 @@ defmodule SmartCity.Dataset.Technical do
             dataName: nil,
             orgId: nil,
             orgName: nil,
-            partitioner: %{query: nil, type: nil},
             private: true,
             protocol: nil,
             schema: [],
@@ -46,9 +42,7 @@ defmodule SmartCity.Dataset.Technical do
             sourceQueryParams: %{},
             sourceType: "remote",
             sourceUrl: nil,
-            systemName: nil,
-            transformations: [],
-            validations: []
+            systemName: nil
 
   @doc """
   Returns a new `SmartCity.Dataset.Technical`.

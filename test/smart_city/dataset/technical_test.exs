@@ -18,9 +18,7 @@ defmodule SmartCity.Dataset.TechnicalTest do
       },
       "authHeaders" => %{
         "afoo" => "abar"
-      },
-      "transformations" => [%{"foo" => %{"bar" => 1}}],
-      "validations" => [1, 2, 3]
+      }
     }
 
     {:ok, message: message}
@@ -70,7 +68,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
       actual = Technical.new(tech)
       assert actual.sourceHeaders.foo == "bar"
       assert actual.authHeaders.afoo == "abar"
-      assert List.first(actual.transformations).foo.bar == 1
     end
 
     data_test "throws error when creating Technical struct without required field: #{field}", %{message: tech} do
