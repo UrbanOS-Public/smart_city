@@ -11,6 +11,7 @@ defmodule SmartCity.Dataset.Technical do
           authHeaders: not_required(map()),
           authUrl: String.t(),
           cadence: not_required(String.t()),
+          credentials: boolean(),
           dataName: String.t(),
           orgId: not_required(String.t()),
           orgName: String.t(),
