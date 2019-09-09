@@ -21,6 +21,7 @@ defmodule SmartCity.MixProject do
 
   defp deps do
     [
+      {:brook_serializer, "~> 1.0"},
       {:checkov, "~> 0.4", only: :test},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev]},
@@ -28,7 +29,6 @@ defmodule SmartCity.MixProject do
       {:husky, "~> 1.0", only: :dev, runtime: false},
       {:jason, "~> 1.1"},
       {:mime, "~> 1.3"},
-      {:brook_serializer, "~> 1.0"},
       {:mix_test_watch, "~> 0.9", only: :dev, runtime: false},
       {:placebo, "~> 1.2", only: [:dev, :test, :integration]}
     ]
