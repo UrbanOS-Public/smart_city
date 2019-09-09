@@ -1,6 +1,7 @@
 defmodule SmartCity.Dataset do
   @moduledoc """
-  Struct defining a dataset definition and functions for reading and writing dataset definitions to Redis.
+  Struct defining a dataset definition and functions for retrieving key elements
+  of the dataset for handling.
 
   ```javascript
   const Dataset = {
@@ -52,13 +53,7 @@ defmodule SmartCity.Dataset do
       },
       "sourceType": "",     // remote|stream|ingest|host
       "sourceUrl": "",
-      "systemName": "",      // ${orgName}__${dataName},
-      "transformations": [], // ?
-      "validations": [],     // ?
-    },
-    "_metadata": {
-      "intendedUse": [],
-      "expectedBenefit": []
+      "systemName": ""      // ${orgName}__${dataName}
     }
   }
   ```
@@ -66,25 +61,23 @@ defmodule SmartCity.Dataset do
 
   alias SmartCity.Dataset.Business
   alias SmartCity.Dataset.Technical
-  alias SmartCity.Dataset.Metadata
 
   @type id :: term()
   @type t :: %SmartCity.Dataset{
           business: SmartCity.Dataset.Business.t(),
           id: String.t(),
-          _metadata: SmartCity.Dataset.Metadata.t(),
           technical: SmartCity.Dataset.Technical.t(),
           version: String.t()
         }
 
   @derive Jason.Encoder
-  defstruct version: "0.3", id: nil, business: nil, technical: nil, _metadata: nil
+  defstruct version: "0.4", id: nil, business: nil, technical: nil
 
   alias SmartCity.BaseStruct
 
   @doc """
-  Returns a new `SmartCity.Dataset` struct. `SmartCity.Dataset.Business`,
-  `SmartCity.Dataset.Technical`, and `SmartCity.Dataset.Metadata` structs will be created along the way.
+  Returns a new `SmartCity.Dataset` struct. `SmartCity.Dataset.Business` and
+  `SmartCity.Dataset.Technical` structs will be created along the way.
 
   ## Parameters
 
@@ -102,13 +95,12 @@ defmodule SmartCity.Dataset do
     |> create()
   end
 
-  defp create(%{id: id, business: biz, technical: tech} = dataset) do
+  defp create(%{id: id, business: biz, technical: tech}) do
     struct =
       struct(%__MODULE__{}, %{
         id: id,
         business: Business.new(biz),
-        technical: Technical.new(tech),
-        _metadata: Metadata.new(Map.get(dataset, :_metadata, %{}))
+        technical: Technical.new(tech)
       })
 
     {:ok, struct}
