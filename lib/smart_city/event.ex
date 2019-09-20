@@ -81,6 +81,11 @@ defmodule SmartCity.Event do
   defmacro error_file_ingest(), do: quote(do: "error:file:ingest")
 
   @doc """
+  Signals that a dataset should be disabled.
+  """
+  defmacro dataset_disable(), do: quote(do: "dataset:disable")
+
+  @doc """
   Signals to file should be downloaded
   """
   @deprecated "Use file_ingest_start/0"
