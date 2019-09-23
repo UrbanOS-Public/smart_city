@@ -21,7 +21,7 @@ defmodule SmartCity.MixProject do
 
   defp deps do
     [
-      {:brook_serializer, "~> 1.0"},
+      {:brook_serializer, github: "bbalser/brook_serializer", branch: "master"},
       {:checkov, "~> 0.4", only: :test},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev]},
