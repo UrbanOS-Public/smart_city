@@ -4,7 +4,7 @@ defmodule SmartCity.MixProject do
   def project do
     [
       app: :smart_city,
-      version: "2.8.0",
+      version: "2.8.2",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
