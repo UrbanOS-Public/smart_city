@@ -88,7 +88,7 @@ defmodule SmartCity.Event do
   @doc """
   Signals that data standardization is complete
   """
-  defmacro data_standardization_complete(), do: quote(do: "data:standardization:complete")
+  defmacro data_standardization_end(), do: quote(do: "data:standardization:end")
 
   @doc """
   Signals to file should be downloaded
