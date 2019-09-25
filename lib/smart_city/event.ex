@@ -86,6 +86,11 @@ defmodule SmartCity.Event do
   defmacro dataset_disable(), do: quote(do: "dataset:disable")
 
   @doc """
+  Signals that data standardization is complete
+  """
+  defmacro data_standardization_complete(), do: quote(do: "data:standardization:complete")
+
+  @doc """
   Signals to file should be downloaded
   """
   @deprecated "Use file_ingest_start/0"

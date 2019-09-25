@@ -114,6 +114,11 @@ defmodule SmartCity.Data do
   end
 
   @doc """
+  Defines the string that will be the payload of the last message in a dataset.
+  """
+  defmacro end_of_data(), do: quote(do: "END_OF_DATA")
+
+  @doc """
   Encodes `SmartCity.Data` into JSON. Typically used right before sending as a Kafka message.
   """
   @spec encode(SmartCity.Data.t()) ::
