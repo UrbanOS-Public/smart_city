@@ -4,7 +4,7 @@ defmodule SmartCity.MixProject do
   def project do
     [
       app: :smart_city,
-      version: "2.9.0",
+      version: "3.0.0",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -21,7 +21,7 @@ defmodule SmartCity.MixProject do
 
   defp deps do
     [
-      {:brook_serializer, "~> 1.0"},
+      {:brook_serializer, "~> 2.0"},
       {:checkov, "~> 0.4", only: :test},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev]},
