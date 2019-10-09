@@ -103,11 +103,9 @@ defmodule SmartCity.Dataset do
         technical: Technical.new(tech)
       })
 
-    errors = return_errors(struct)
-
-    case errors do
+    case return_errors(struct) do
       [] -> {:ok, struct}
-      _ -> {:error, errors}
+      errors -> {:error, errors}
     end
   rescue
     e -> {:error, e}
@@ -115,13 +113,24 @@ defmodule SmartCity.Dataset do
 
   defp return_errors(struct) do
     []
-    |> add_to_list_if_true({:error, :invalid_format} == DateTime.from_iso8601(struct.business.modifiedDate), [
-      %{"business.modifiedDate" => "Not ISO8601 formatted"}
-    ])
+    |> add_to_list_if_false(is_valid_modified_date?(struct.business.modifiedDate), %{
+      "business.modifiedDate" => "Not ISO8601 formatted"
+    })
   end
 
-  defp add_to_list_if_true(list, condition, item_to_add) do
-    if condition, do: item_to_add ++ list, else: list
+  defp is_valid_modified_date?(modified_date) do
+    if modified_date == "" do
+      true
+    else
+      case DateTime.from_iso8601(modified_date) do
+        {:ok, _, _} -> true
+        {:error, _} -> false
+      end
+    end
+  end
+
+  defp add_to_list_if_false(list, condition, item_to_add) do
+    if condition == false, do: [item_to_add] ++ list, else: list
   end
 
   defp create(msg) do

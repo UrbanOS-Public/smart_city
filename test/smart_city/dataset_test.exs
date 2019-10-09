@@ -95,6 +95,15 @@ defmodule SmartCity.DatasetTest do
 
       assert {:error, [%{"business.modifiedDate" => "Not ISO8601 formatted"}]} == result
     end
+
+    test "returns properly if modifiedDate is blank", %{message: map} do
+      result =
+        map
+        |> put_in(["business", "modifiedDate"], "")
+        |> Dataset.new()
+
+      assert elem(result, 0) == :ok
+    end
   end
 
   describe "sourceType function:" do
