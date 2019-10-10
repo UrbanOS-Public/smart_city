@@ -27,7 +27,7 @@ defmodule SmartCity.DatasetTest do
         "dataTitle" => "dataset title",
         "description" => "description",
         "keywords" => ["one", "two"],
-        "modifiedDate" => "date",
+        "modifiedDate" => "2019-10-08T17:55:17.198349Z",
         "orgTitle" => "org title",
         "contactName" => "contact name",
         "contactEmail" => "contact@email.com",
@@ -85,6 +85,24 @@ defmodule SmartCity.DatasetTest do
       %{"technical" => tech} = map
       technical = Technical.new(tech)
       assert technical.private == true
+    end
+
+    test "returns an error when modifiedDate is not in the correct format", %{message: map} do
+      result =
+        map
+        |> put_in(["business", "modifiedDate"], "baddate")
+        |> Dataset.new()
+
+      assert {:error, [%{"business.modifiedDate" => "Not ISO8601 formatted"}]} == result
+    end
+
+    test "returns properly if modifiedDate is blank", %{message: map} do
+      result =
+        map
+        |> put_in(["business", "modifiedDate"], "")
+        |> Dataset.new()
+
+      assert elem(result, 0) == :ok
     end
   end
 
