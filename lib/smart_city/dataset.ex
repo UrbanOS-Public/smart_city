@@ -118,14 +118,12 @@ defmodule SmartCity.Dataset do
     })
   end
 
-  defp is_valid_modified_date?(modified_date) do
-    if modified_date == "" do
-      true
-    else
-      case DateTime.from_iso8601(modified_date) do
-        {:ok, _, _} -> true
-        {:error, _} -> false
-      end
+  defp is_valid_modified_date?(modified_date) when modified_date == "", do: true
+
+  defp is_valid_modified_date?(modified_date) when modified_date != "" do
+    case DateTime.from_iso8601(modified_date) do
+      {:ok, _, _} -> true
+      {:error, _} -> false
     end
   end
 
