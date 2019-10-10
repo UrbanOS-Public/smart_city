@@ -103,9 +103,32 @@ defmodule SmartCity.Dataset do
         technical: Technical.new(tech)
       })
 
-    {:ok, struct}
+    case return_errors(struct) do
+      [] -> {:ok, struct}
+      errors -> {:error, errors}
+    end
   rescue
     e -> {:error, e}
+  end
+
+  defp return_errors(struct) do
+    []
+    |> add_to_list_if_false(is_valid_modified_date?(struct.business.modifiedDate), %{
+      "business.modifiedDate" => "Not ISO8601 formatted"
+    })
+  end
+
+  defp is_valid_modified_date?(modified_date) when modified_date == "", do: true
+
+  defp is_valid_modified_date?(modified_date) when modified_date != "" do
+    case DateTime.from_iso8601(modified_date) do
+      {:ok, _, _} -> true
+      {:error, _} -> false
+    end
+  end
+
+  defp add_to_list_if_false(list, condition, item_to_add) do
+    if condition == false, do: [item_to_add] ++ list, else: list
   end
 
   defp create(msg) do
