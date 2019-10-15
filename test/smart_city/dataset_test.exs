@@ -42,7 +42,7 @@ defmodule SmartCity.DatasetTest do
     {:ok, message: message, json: json}
   end
 
-  describe "new" do
+  describe "new/1" do
     test "turns a map with string keys into a Dataset", %{message: map} do
       {:ok, actual} = Dataset.new(map)
       assert actual.id == "uuid"

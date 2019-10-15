@@ -56,6 +56,28 @@ defmodule SmartCity.Dataset.TechnicalTest do
       )
     end
 
+    data_test "sourceFormat #{mime_type} based on input type #{extension}" do
+      actual =
+        Technical.new(%{
+          dataName: "dataset",
+          orgName: "org",
+          systemName: "org__dataset",
+          sourceUrl: "https://example.com",
+          sourceFormat: extension
+        })
+
+      assert Map.get(actual, :sourceFormat) == mime_type
+
+      where([
+        [:extension, :mime_type],
+        ["gtfs", "application/gtfs+protobuf"],
+        ["csv", "text/csv"],
+        ["zip", "application/zip"],
+        ["kml", "application/vnd.google-earth.kml+xml"],
+        ["json", "application/json"]
+      ])
+    end
+
     test "returns Technical struct when given string keys", %{message: tech} do
       actual = Technical.new(tech)
       assert actual.systemName == "org__dataset"

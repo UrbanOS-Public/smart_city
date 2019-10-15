@@ -44,6 +44,16 @@ defmodule SmartCity.HelpersTest do
     end
   end
 
+  describe "mime_type/1" do
+    test "converts file extension to recognized type" do
+      assert "application/json" == Helpers.mime_type("json")
+    end
+
+    test "passes through valid recognized mime types" do
+      assert "text/csv" == Helpers.mime_type("text/csv")
+    end
+  end
+
   describe "deep_merge" do
     test "merges two maps" do
       left = Map.new(%{one: 1, two: 2})
