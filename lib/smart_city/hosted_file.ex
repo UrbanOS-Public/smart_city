@@ -4,8 +4,6 @@ defmodule SmartCity.HostedFile do
   files by components of the system including the files'
   type, parent identifier, and location info.
   """
-  @type extension :: String.t()
-  @type mime_type :: String.t()
   @type id :: String.t()
   @type bucket :: String.t()
   @type key :: String.t()
@@ -13,7 +11,7 @@ defmodule SmartCity.HostedFile do
           :bucket => bucket(),
           :dataset_id => id(),
           :key => key(),
-          :mime_type => mime_type()
+          :mime_type => SmartCity.Helpers.mime_type()
         }
 
   @derive Jason.Encoder
@@ -37,12 +35,14 @@ defmodule SmartCity.HostedFile do
   end
 
   defp create(%{dataset_id: id, mime_type: type, bucket: bucket, key: key}) do
+    mime_type = SmartCity.Helpers.mime_type(type)
+
     file =
       struct(%__MODULE__{}, %{
         bucket: bucket,
         dataset_id: id,
         key: key,
-        mime_type: type
+        mime_type: mime_type
       })
 
     {:ok, file}
@@ -51,11 +51,4 @@ defmodule SmartCity.HostedFile do
   defp create(bad_struct) do
     {:error, "Invalid file upload event: #{inspect(bad_struct)}"}
   end
-
-  @doc """
-  Standardize file type definitions by deferring to the
-  official media type of the file based on a supplied extension.
-  """
-  @spec type(extension()) :: mime_type()
-  def type(extension), do: MIME.type(extension)
 end

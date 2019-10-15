@@ -3,6 +3,9 @@ defmodule SmartCity.Helpers do
   Functions used across SmartCity modules.
   """
 
+  @type file_type :: String.t()
+  @type mime_type :: String.t()
+
   @doc """
   Convert a map with string keys to one with atom keys. Will convert keys nested in a sub-map or a
   map that is part of a list. Ignores atom keys.
@@ -36,6 +39,18 @@ defmodule SmartCity.Helpers do
   end
 
   def to_atom_keys(value), do: value
+
+  @doc """
+  Standardize file type definitions by deferring to the
+  official media type of the file based on a supplied extension.
+  """
+  @spec mime_type(file_type()) :: mime_type()
+  def mime_type(file_type) do
+    case MIME.valid?(file_type) do
+      true -> file_type
+      false -> MIME.type(file_type)
+    end
+  end
 
   @doc """
   Merges two maps into one, including sub maps. Matching keys from the right map will override their corresponding key in the left map.

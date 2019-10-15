@@ -111,6 +111,10 @@ defmodule SmartCity.Dataset do
     e -> {:error, e}
   end
 
+  defp create(msg) do
+    {:error, "Invalid Dataset: #{inspect(msg)}"}
+  end
+
   defp return_errors(struct) do
     []
     |> add_to_list_if_false(is_valid_modified_date?(struct.business.modifiedDate), %{
@@ -129,10 +133,6 @@ defmodule SmartCity.Dataset do
 
   defp add_to_list_if_false(list, condition, item_to_add) do
     if condition == false, do: [item_to_add] ++ list, else: list
-  end
-
-  defp create(msg) do
-    {:error, "Invalid Dataset: #{inspect(msg)}"}
   end
 
   @doc """

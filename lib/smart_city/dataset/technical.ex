@@ -71,8 +71,10 @@ defmodule SmartCity.Dataset.Technical do
     |> new()
   end
 
-  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, sourceFormat: _} = msg) do
-    struct(%__MODULE__{}, msg)
+  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, sourceFormat: type} = msg) do
+    mime_type = Helpers.mime_type(type)
+
+    struct(%__MODULE__{}, Map.replace!(msg, :sourceFormat, mime_type))
   end
 
   def new(msg) do
