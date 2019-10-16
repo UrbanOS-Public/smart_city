@@ -46,9 +46,11 @@ defmodule SmartCity.Helpers do
   """
   @spec mime_type(file_type()) :: mime_type()
   def mime_type(file_type) do
-    case MIME.valid?(file_type) do
-      true -> file_type
-      false -> MIME.type(file_type)
+    downcased_type = String.downcase(file_type)
+
+    case MIME.valid?(downcased_type) do
+      true -> downcased_type
+      false -> MIME.type(downcased_type)
     end
   end
 

@@ -49,6 +49,10 @@ defmodule SmartCity.HelpersTest do
       assert "application/json" == Helpers.mime_type("json")
     end
 
+    test "recognizes upper-case mime types" do
+      assert "application/json" == Helpers.mime_type("JSON")
+    end
+
     test "passes through valid recognized mime types" do
       assert "text/csv" == Helpers.mime_type("text/csv")
     end
