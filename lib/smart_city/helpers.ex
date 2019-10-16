@@ -48,10 +48,8 @@ defmodule SmartCity.Helpers do
   def mime_type(file_type) do
     downcased_type = String.downcase(file_type)
 
-    downcased_type
-    |> MIME.valid?()
-    |> case do
-      true -> file_type
+    case MIME.valid?(downcased_type) do
+      true -> downcased_type
       false -> MIME.type(downcased_type)
     end
   end
