@@ -44,7 +44,9 @@ defmodule SmartCity.Helpers do
   Standardize file type definitions by deferring to the
   official media type of the file based on a supplied extension.
   """
-  @spec mime_type(file_type()) :: mime_type()
+  @spec mime_type(file_type()) :: mime_type() | nil
+  def mime_type(nil), do: nil
+
   def mime_type(file_type) do
     downcased_type = String.downcase(file_type)
 

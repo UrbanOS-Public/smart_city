@@ -56,6 +56,10 @@ defmodule SmartCity.HelpersTest do
     test "passes through valid recognized mime types" do
       assert "text/csv" == Helpers.mime_type("text/csv")
     end
+
+    test "handles nil" do
+      assert nil == Helpers.mime_type(nil)
+    end
   end
 
   describe "deep_merge" do
