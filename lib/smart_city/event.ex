@@ -86,6 +86,11 @@ defmodule SmartCity.Event do
   defmacro dataset_disable(), do: quote(do: "dataset:disable")
 
   @doc """
+  Signals that a dataset should be deleted
+  """
+  defmacro dataset_delete(), do: quote(do: "dataset:delete")
+
+  @doc """
   Signals that data standardization is complete
   """
   defmacro data_standardization_end(), do: quote(do: "data:standardization:end")
