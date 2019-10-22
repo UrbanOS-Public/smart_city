@@ -96,6 +96,11 @@ defmodule SmartCity.Event do
   defmacro data_standardization_end(), do: quote(do: "data:standardization:end")
 
   @doc """
+  Defines a user organization relationship.
+  """
+  defmacro user_organization_associate(), do: quote(do: "user:organization:associate")
+
+  @doc """
   Signals to file should be downloaded
   """
   @deprecated "Use file_ingest_start/0"
