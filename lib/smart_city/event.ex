@@ -96,7 +96,7 @@ defmodule SmartCity.Event do
   defmacro data_standardization_end(), do: quote(do: "data:standardization:end")
 
   @doc """
-  Defines an user organization relationship.
+  Defines a user organization relationship.
   """
   defmacro user_organization_associate(), do: quote(do: "user:organization:associate")
 
