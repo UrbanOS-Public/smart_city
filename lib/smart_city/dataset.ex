@@ -103,36 +103,13 @@ defmodule SmartCity.Dataset do
         technical: Technical.new(tech)
       })
 
-    case return_errors(struct) do
-      [] -> {:ok, struct}
-      errors -> {:error, errors}
-    end
+    {:ok, struct}
   rescue
     e -> {:error, e}
   end
 
   defp create(msg) do
     {:error, "Invalid Dataset: #{inspect(msg)}"}
-  end
-
-  defp return_errors(struct) do
-    []
-    |> collect_errors(valid_modified_date?(struct.business.modifiedDate), %{
-      "business.modifiedDate" => "Not ISO8601 formatted"
-    })
-  end
-
-  defp valid_modified_date?(""), do: true
-
-  defp valid_modified_date?(date) do
-    case DateTime.from_iso8601(date) do
-      {:ok, _, _} -> true
-      {:error, _} -> false
-    end
-  end
-
-  defp collect_errors(list, condition, item_to_add) do
-    if condition == false, do: [item_to_add] ++ list, else: list
   end
 
   @doc """
