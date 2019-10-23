@@ -104,6 +104,17 @@ defmodule SmartCity.DatasetTest do
 
       assert elem(result, 0) == :ok
     end
+
+    test "returns modified date as empty string if it is passed in as nil", %{message: map} do
+      {:ok, dataset_struct} =
+        map
+        |> put_in(["business", "modifiedDate"], nil)
+        |> Dataset.new()
+
+      business_struct = Map.get(dataset_struct, :business)
+
+      assert business_struct.modifiedDate == ""
+    end
   end
 
   describe "sourceType function:" do
