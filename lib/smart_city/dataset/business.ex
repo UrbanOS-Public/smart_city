@@ -94,10 +94,22 @@ defmodule SmartCity.Dataset.Business do
           orgTitle: _
         } = msg
       ) do
-    struct(%__MODULE__{}, msg)
+    set_default_modified_date(msg)
+    |> create()
   end
 
   def new(msg) do
     raise ArgumentError, "Invalid business metadata: #{inspect(msg)}"
+  end
+
+  defp set_default_modified_date(business_map) do
+    case business_map.modifiedDate == nil do
+      true -> Map.put(business_map, :modifiedDate, "")
+      false -> business_map
+    end
+  end
+
+  defp create(map) do
+    struct(%__MODULE__{}, map)
   end
 end
