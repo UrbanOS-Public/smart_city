@@ -1,4 +1,4 @@
-defmodule SmartCity.OrganizationUserAssociate do
+defmodule SmartCity.UserOrganizationAssociate do
   @moduledoc """
   Defines a user organization association.
   """
@@ -6,7 +6,7 @@ defmodule SmartCity.OrganizationUserAssociate do
 
   @type user_id :: String.t()
   @type org_id :: SmartCity.Organization.id()
-  @type t :: %SmartCity.OrganizationUserAssociate{
+  @type t :: %SmartCity.UserOrganizationAssociate{
           :user_id => user_id(),
           :org_id => org_id()
         }
@@ -16,7 +16,7 @@ defmodule SmartCity.OrganizationUserAssociate do
             org_id: nil
 
   @doc """
-  Instantiates an instance of a organization user associate event struct.
+  Instantiates an instance of a user organization associate event struct.
   """
   @spec new(String.t() | map()) :: {:ok, map()} | {:error, String.t()}
   def new(msg) do
@@ -25,12 +25,12 @@ defmodule SmartCity.OrganizationUserAssociate do
   end
 
   defp create(%{user_id: _, org_id: _} = msg) do
-    organization_user_associate = struct(%__MODULE__{}, msg)
+    user_organization_associate = struct(%__MODULE__{}, msg)
 
-    {:ok, organization_user_associate}
+    {:ok, user_organization_associate}
   end
 
   defp create(msg) do
-    {:error, "Invalid organization:user:associate: #{inspect(msg)}"}
+    {:error, "Invalid user:organization:associate: #{inspect(msg)}"}
   end
 end
