@@ -4,7 +4,7 @@ defmodule SmartCity.Dataset.Business do
 
   You probably won't need to access this module directly; `SmartCity.Dataset.new/1` will build this for you
   """
-
+  require Logger
   alias SmartCity.Helpers
 
   @type not_required :: term() | nil
@@ -94,7 +94,7 @@ defmodule SmartCity.Dataset.Business do
           orgTitle: _
         } = msg
       ) do
-    set_default_modified_date(msg)
+    fix_modified_date(msg)
     |> create()
   end
 
@@ -102,10 +102,18 @@ defmodule SmartCity.Dataset.Business do
     raise ArgumentError, "Invalid business metadata: #{inspect(msg)}"
   end
 
-  defp set_default_modified_date(business_map) do
-    case business_map.modifiedDate == nil do
-      true -> Map.put(business_map, :modifiedDate, "")
-      false -> business_map
+  defp fix_modified_date(%{modifiedDate: nil} = business_map) do
+    Map.put(business_map, :modifiedDate, "")
+  end
+
+  defp fix_modified_date(business_map) do
+    case Date.from_iso8601(business_map.modifiedDate) do
+      {:ok, _} ->
+        business_map
+
+      {:error, _} ->
+        Logger.warn(~s|Modified date is not a valid ISO 8601 date and has been defaulted to ""|)
+        Map.put(business_map, :modifiedDate, "")
     end
   end
 
