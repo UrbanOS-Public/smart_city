@@ -87,15 +87,6 @@ defmodule SmartCity.DatasetTest do
       assert technical.private == true
     end
 
-    test "returns an error when modifiedDate is not in the correct format", %{message: map} do
-      result =
-        map
-        |> put_in(["business", "modifiedDate"], "baddate")
-        |> Dataset.new()
-
-      assert {:error, [%{"business.modifiedDate" => "Not ISO8601 formatted"}]} == result
-    end
-
     test "returns properly if modifiedDate is blank", %{message: map} do
       result =
         map
@@ -103,6 +94,17 @@ defmodule SmartCity.DatasetTest do
         |> Dataset.new()
 
       assert elem(result, 0) == :ok
+    end
+
+    test "returns modified date as empty string if it is passed in as nil", %{message: map} do
+      {:ok, dataset_struct} =
+        map
+        |> put_in(["business", "modifiedDate"], nil)
+        |> Dataset.new()
+
+      business_struct = Map.get(dataset_struct, :business)
+
+      assert business_struct.modifiedDate == ""
     end
   end
 
