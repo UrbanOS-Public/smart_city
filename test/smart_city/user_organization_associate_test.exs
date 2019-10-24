@@ -1,7 +1,7 @@
-defmodule SmartCity.OrganizationUserAssociateTest do
+defmodule SmartCity.UserOrganizationAssociateTest do
   use ExUnit.Case
   use Placebo
-  alias SmartCity.OrganizationUserAssociate
+  alias SmartCity.UserOrganizationAssociate
 
   setup do
     string_key_message = %{
@@ -23,32 +23,32 @@ defmodule SmartCity.OrganizationUserAssociateTest do
   end
 
   describe "new" do
-    test "create new organization user associate message via map with string keys", %{
+    test "create new user organization associate message via map with string keys", %{
       string_key_message: string_key_message
     } do
-      {:ok, actual} = OrganizationUserAssociate.new(string_key_message)
+      {:ok, actual} = UserOrganizationAssociate.new(string_key_message)
       assert actual.user_id == "Nathaniel"
       assert actual.org_id == 1
     end
 
-    test "create new organization user associate message via json", %{json_message: json_message} do
-      {:ok, actual} = OrganizationUserAssociate.new(json_message)
+    test "create new user organization associate message via json", %{json_message: json_message} do
+      {:ok, actual} = UserOrganizationAssociate.new(json_message)
       assert actual.user_id == "Nathaniel"
       assert actual.org_id == 1
     end
 
-    test "create new organization user associate message via map with atom keys", %{
+    test "create new user organization associate message via map with atom keys", %{
       atom_key_message: atom_key_message
     } do
-      {:ok, actual} = OrganizationUserAssociate.new(atom_key_message)
+      {:ok, actual} = UserOrganizationAssociate.new(atom_key_message)
       assert actual.user_id == "Nathaniel"
       assert actual.org_id == 1
     end
 
-    test "invalid organization user associate message fails to create", %{
+    test "invalid user organization associate message fails to create", %{
       invalid_message: invalid_message
     } do
-      assert {:error, _} = OrganizationUserAssociate.new(invalid_message)
+      assert {:error, _} = UserOrganizationAssociate.new(invalid_message)
     end
   end
 end
