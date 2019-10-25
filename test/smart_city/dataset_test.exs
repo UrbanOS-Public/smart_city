@@ -27,7 +27,7 @@ defmodule SmartCity.DatasetTest do
         "dataTitle" => "dataset title",
         "description" => "description",
         "keywords" => ["one", "two"],
-        "modifiedDate" => "2019-10-08T17:55:17.198349Z",
+        "modifiedDate" => "2019-01-31",
         "orgTitle" => "org title",
         "contactName" => "contact name",
         "contactEmail" => "contact@email.com",
@@ -85,26 +85,6 @@ defmodule SmartCity.DatasetTest do
       %{"technical" => tech} = map
       technical = Technical.new(tech)
       assert technical.private == true
-    end
-
-    test "returns properly if modifiedDate is blank", %{message: map} do
-      result =
-        map
-        |> put_in(["business", "modifiedDate"], "")
-        |> Dataset.new()
-
-      assert elem(result, 0) == :ok
-    end
-
-    test "returns modified date as empty string if it is passed in as nil", %{message: map} do
-      {:ok, dataset_struct} =
-        map
-        |> put_in(["business", "modifiedDate"], nil)
-        |> Dataset.new()
-
-      business_struct = Map.get(dataset_struct, :business)
-
-      assert business_struct.modifiedDate == ""
     end
   end
 
