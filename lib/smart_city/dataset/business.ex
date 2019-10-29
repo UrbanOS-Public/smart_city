@@ -107,12 +107,15 @@ defmodule SmartCity.Dataset.Business do
   end
 
   defp fix_modified_date(business_map) do
-    case Date.from_iso8601(business_map.modifiedDate) do
-      {:ok, _} ->
+    case DateTime.from_iso8601(business_map.modifiedDate) do
+      {:ok, _, _} ->
         business_map
 
       {:error, _} ->
-        Logger.warn(~s|Modified date is not a valid ISO 8601 date and has been defaulted to ""|)
+        Logger.warn(
+          ~s|Modified date "#{business_map.modifiedDate}" for dataset "#{business_map.dataTitle}" is not a valid ISO 8601 datetime and has been defaulted to ""|
+        )
+
         Map.put(business_map, :modifiedDate, "")
     end
   end

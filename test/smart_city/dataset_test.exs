@@ -27,7 +27,7 @@ defmodule SmartCity.DatasetTest do
         "dataTitle" => "dataset title",
         "description" => "description",
         "keywords" => ["one", "two"],
-        "modifiedDate" => "2019-01-31",
+        "modifiedDate" => "2019-01-31T01:31:31Z",
         "orgTitle" => "org title",
         "contactName" => "contact name",
         "contactEmail" => "contact@email.com",
@@ -89,7 +89,9 @@ defmodule SmartCity.DatasetTest do
   end
 
   describe "sourceType function:" do
-    data_test "#{inspect(func)} returns #{expected} when sourceType is #{sourceType}", %{message: msg} do
+    data_test "#{inspect(func)} returns #{expected} when sourceType is #{sourceType}", %{
+      message: msg
+    } do
       result =
         msg
         |> put_in(["technical", "sourceType"], sourceType)
