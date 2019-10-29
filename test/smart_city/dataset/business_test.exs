@@ -7,7 +7,7 @@ defmodule SmartCity.Dataset.BusinessTest do
     message = %{
       dataTitle: "dataset title",
       description: "description",
-      modifiedDate: "2019-01-01",
+      modifiedDate: "2019-01-01T01:01:01Z",
       orgTitle: "org title",
       contactName: "contact name",
       contactEmail: "contact@email.com",
@@ -54,12 +54,12 @@ defmodule SmartCity.Dataset.BusinessTest do
       assert invalid_date_struct.modifiedDate == ""
     end
 
-    test "doesnt mutate valid iso 8601 dates", %{message: biz} do
-      valid_date_map = Map.put(biz, :modifiedDate, "2019-12-07")
+    test "doesnt mutate valid iso 8601 datetimes", %{message: biz} do
+      valid_date_map = Map.put(biz, :modifiedDate, "2019-12-07T13:57:54Z")
 
       valid_date_struct = Business.new(valid_date_map)
 
-      assert valid_date_struct.modifiedDate == "2019-12-07"
+      assert valid_date_struct.modifiedDate == "2019-12-07T13:57:54Z"
     end
 
     test "converts map with string keys to Business struct" do
@@ -68,7 +68,7 @@ defmodule SmartCity.Dataset.BusinessTest do
           "dataTitle" => "dataset title",
           "description" => "description",
           "keywords" => ["one", "two"],
-          "modifiedDate" => "2010-10-10",
+          "modifiedDate" => "2010-10-10T10:10:10Z",
           "orgTitle" => "org title",
           "contactName" => "contact name",
           "contactEmail" => "contact@email.com",
