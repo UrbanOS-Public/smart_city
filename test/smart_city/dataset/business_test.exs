@@ -2,6 +2,7 @@ defmodule SmartCity.Dataset.BusinessTest do
   use ExUnit.Case
   doctest SmartCity.Dataset.Business
   alias SmartCity.Dataset.Business
+  import ExUnit.CaptureLog
 
   setup do
     message = %{
@@ -30,12 +31,15 @@ defmodule SmartCity.Dataset.BusinessTest do
       assert actual.rights == nil
     end
 
-    test "allows blank modified dates", %{message: biz} do
+    test "allows blank modified dates and does not log a message", %{message: biz} do
       blank_date_map = Map.put(biz, :modifiedDate, "")
 
       blank_date_struct = Business.new(blank_date_map)
-
       assert blank_date_struct.modifiedDate == ""
+
+      assert capture_log(fn ->
+               Business.new(blank_date_map)
+             end) == ""
     end
 
     test "sets modified date to empty string if modified date is nil", %{message: biz} do
@@ -46,12 +50,16 @@ defmodule SmartCity.Dataset.BusinessTest do
       assert nil_date_struct.modifiedDate == ""
     end
 
-    test "set modified date to empty string for invalid modified dates", %{message: biz} do
+    test "set modified date to empty string for invalid modified dates and logs a message", %{message: biz} do
       invalid_date_map = Map.put(biz, :modifiedDate, "hello date")
 
       invalid_date_struct = Business.new(invalid_date_map)
 
       assert invalid_date_struct.modifiedDate == ""
+
+      assert capture_log(fn ->
+               Business.new(invalid_date_map)
+             end) =~ "not a valid ISO 8601"
     end
 
     test "doesnt mutate valid iso 8601 datetimes", %{message: biz} do
