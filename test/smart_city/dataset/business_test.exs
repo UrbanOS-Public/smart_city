@@ -42,34 +42,6 @@ defmodule SmartCity.Dataset.BusinessTest do
              end) == ""
     end
 
-    test "sets modified date to empty string if modified date is nil", %{message: biz} do
-      nil_date_map = Map.put(biz, :modifiedDate, nil)
-
-      nil_date_struct = Business.new(nil_date_map)
-
-      assert nil_date_struct.modifiedDate == ""
-    end
-
-    test "set modified date to empty string for invalid modified dates and logs a message", %{message: biz} do
-      invalid_date_map = Map.put(biz, :modifiedDate, "hello date")
-
-      invalid_date_struct = Business.new(invalid_date_map)
-
-      assert invalid_date_struct.modifiedDate == ""
-
-      assert capture_log(fn ->
-               Business.new(invalid_date_map)
-             end) =~ "not a valid ISO 8601"
-    end
-
-    test "doesnt mutate valid iso 8601 datetimes", %{message: biz} do
-      valid_date_map = Map.put(biz, :modifiedDate, "2019-12-07T13:57:54Z")
-
-      valid_date_struct = Business.new(valid_date_map)
-
-      assert valid_date_struct.modifiedDate == "2019-12-07T13:57:54Z"
-    end
-
     test "converts map with string keys to Business struct" do
       actual =
         Business.new(%{
