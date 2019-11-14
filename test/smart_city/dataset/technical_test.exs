@@ -74,7 +74,8 @@ defmodule SmartCity.Dataset.TechnicalTest do
         ["csv", "text/csv"],
         ["zip", "application/zip"],
         ["kml", "application/vnd.google-earth.kml+xml"],
-        ["json", "application/json"]
+        ["json", "application/json"],
+        ["xml", "text/xml"]
       ])
     end
 
