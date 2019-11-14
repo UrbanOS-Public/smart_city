@@ -123,5 +123,23 @@ defmodule SmartCity.DatasetTest do
     end
   end
 
+  describe "access behaviors" do
+    test "can use put_in a business field", %{message: map} do
+      {:ok, dataset} = Dataset.new(map)
+      date = "12-13-19"
+
+      new_dataset = put_in(dataset, [:business, :modifiedDate], date)
+      assert date == new_dataset.business.modifiedDate
+    end
+
+    test "can use put_in a technical field", %{message: map} do
+      {:ok, dataset} = Dataset.new(map)
+      newField = "https://newUrl.com"
+
+      new_dataset = put_in(dataset, [:technical, :sourceUrl], newField)
+      assert newField == new_dataset.technical.sourceUrl
+    end
+  end
+
   defp ok({:ok, value}), do: value
 end

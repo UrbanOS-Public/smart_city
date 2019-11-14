@@ -45,6 +45,8 @@ defmodule SmartCity.Dataset.Technical do
             sourceUrl: nil,
             systemName: nil
 
+  use Accessible
+
   @doc """
   Returns a new `SmartCity.Dataset.Technical`.
   Can be created from `Map` with string or atom keys.

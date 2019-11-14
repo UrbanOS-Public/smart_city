@@ -1,4 +1,5 @@
 %{
+  "accessible": {:hex, :accessible, "0.2.1", "09b2808ee9a451e392beab2766bec93daf2944ad31cc130b172fc49bde8edb3c", [:mix], [], "hexpm"},
   "brook_serializer": {:hex, :brook_serializer, "2.0.0", "e12e742d6a533b3820615edb9dd33791f68b7233123d8e7a9db77edb29706aa1", [:mix], [{:jason, "~> 1.1", [hex: :jason, repo: "hexpm", optional: false]}], "hexpm"},
   "bunt": {:hex, :bunt, "0.2.0", "951c6e801e8b1d2cbe58ebbd3e616a869061ddadcc4863d0a2182541acae9a38", [:mix], [], "hexpm"},
   "checkov": {:hex, :checkov, "0.4.0", "a1974a5885f62f8943a9059f0d5252b222271e0e58dd872ffb60323f2e376433", [:mix], [], "hexpm"},

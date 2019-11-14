@@ -73,6 +73,8 @@ defmodule SmartCity.Dataset do
   @derive Jason.Encoder
   defstruct version: "0.4", id: nil, business: nil, technical: nil
 
+  use Accessible
+
   alias SmartCity.BaseStruct
 
   @doc """
