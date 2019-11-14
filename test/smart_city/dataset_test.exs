@@ -134,10 +134,10 @@ defmodule SmartCity.DatasetTest do
 
     test "can use put_in a technical field", %{message: map} do
       {:ok, dataset} = Dataset.new(map)
-      newField = "https://newUrl.com"
+      source_url = "https://newUrl.com"
 
-      new_dataset = put_in(dataset, [:technical, :sourceUrl], newField)
-      assert newField == new_dataset.technical.sourceUrl
+      new_dataset = put_in(dataset, [:technical, :sourceUrl], source_url)
+      assert source_url == new_dataset.technical.sourceUrl
     end
   end
 
