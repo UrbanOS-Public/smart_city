@@ -23,7 +23,8 @@ defmodule SmartCity.Dataset.Technical do
           sourceQueryParams: not_required(map()),
           sourceType: not_required(String.t()),
           sourceUrl: String.t(),
-          systemName: String.t()
+          systemName: String.t(),
+          topLevelSelector: not_required(String.t())
         }
 
   @derive Jason.Encoder
@@ -43,7 +44,8 @@ defmodule SmartCity.Dataset.Technical do
             sourceQueryParams: %{},
             sourceType: "remote",
             sourceUrl: nil,
-            systemName: nil
+            systemName: nil,
+            topLevelSelector: nil
 
   use Accessible
 
