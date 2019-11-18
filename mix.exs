@@ -21,6 +21,7 @@ defmodule SmartCity.MixProject do
 
   defp deps do
     [
+      {:accessible, "~> 0.2.1"},
       {:brook_serializer, "~> 2.0"},
       {:checkov, "~> 0.4", only: :test},
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},

@@ -61,6 +61,8 @@ defmodule SmartCity.Dataset.Business do
             spatial: nil,
             temporal: nil
 
+  use Accessible
+
   @doc """
   Returns a new `SmartCity.Dataset.Business` struct.
   Can be created from `Map` with string or atom keys.
