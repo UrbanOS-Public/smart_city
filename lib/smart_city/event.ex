@@ -91,6 +91,11 @@ defmodule SmartCity.Event do
   defmacro dataset_delete(), do: quote(do: "dataset:delete")
 
   @doc """
+  Signals that writing some data for a dataset has completed
+  """
+  defmacro data_write_complete(), do: quote(do: "data:write:complete")
+
+  @doc """
   Signals that data standardization is complete
   """
   defmacro data_standardization_end(), do: quote(do: "data:standardization:end")
