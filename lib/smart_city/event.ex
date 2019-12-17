@@ -93,7 +93,7 @@ defmodule SmartCity.Event do
   @doc """
   Signals that writing some data for a dataset has completed
   """
-  defmacro dataset_write_complete(), do: quote(do: "dataset:write_complete")
+  defmacro data_write_complete(), do: quote(do: "data:write:complete")
 
   @doc """
   Signals that data standardization is complete
