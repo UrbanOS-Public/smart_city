@@ -70,7 +70,6 @@ defmodule SmartCity.Dataset do
           version: String.t()
         }
 
-  @derive Jason.Encoder
   defstruct version: "0.4", id: nil, business: nil, technical: nil
 
   use Accessible
@@ -140,6 +139,12 @@ defmodule SmartCity.Dataset do
   """
   def is_host?(%__MODULE__{technical: %{sourceType: sourceType}}) do
     "host" == sourceType
+  end
+end
+
+defimpl Jason.Encoder, for: [SmartCity.Dataset, SmartCity.Dataset.Technical, SmartCity.Dataset.Business] do
+  def encode(struct, opts) do
+    Jason.Encode.map(struct, opts)
   end
 end
 

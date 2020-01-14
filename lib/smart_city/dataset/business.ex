@@ -36,7 +36,6 @@ defmodule SmartCity.Dataset.Business do
           temporal: not_required()
         }
 
-  @derive Jason.Encoder
   defstruct authorEmail: nil,
             authorName: nil,
             categories: nil,

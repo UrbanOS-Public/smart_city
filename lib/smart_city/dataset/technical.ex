@@ -27,7 +27,6 @@ defmodule SmartCity.Dataset.Technical do
           topLevelSelector: not_required(String.t())
         }
 
-  @derive Jason.Encoder
   defstruct allow_duplicates: true,
             authHeaders: %{},
             authUrl: nil,
