@@ -64,10 +64,25 @@ defmodule SmartCity.Dataset.BusinessTest do
     test "throws error when creating Business struct without required fields", %{message: msg} do
       assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:dataTitle)) end
       assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:description)) end
-      assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:modifiedDate)) end
       assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:orgTitle)) end
       assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:contactName)) end
       assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:contactEmail)) end
+    end
+
+    test "defaults modified date to empty string when key is missing", %{message: biz} do
+      missing_date_map = Map.delete(biz, :modifiedDate)
+
+      actual = Business.new(missing_date_map)
+
+      assert actual.modifiedDate == ""
+    end
+
+    test "defaults modified date to empty string when provided value is nil", %{message: biz} do
+      nil_date_map = Map.put(biz, :modifiedDate, nil)
+
+      actual = Business.new(nil_date_map)
+
+      assert actual.modifiedDate == ""
     end
   end
 

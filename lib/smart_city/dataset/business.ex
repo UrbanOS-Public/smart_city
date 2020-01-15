@@ -92,7 +92,6 @@ defmodule SmartCity.Dataset.Business do
           contactName: _,
           dataTitle: _,
           description: _,
-          modifiedDate: _,
           orgTitle: _
         } = msg
       ) do
@@ -104,11 +103,14 @@ defmodule SmartCity.Dataset.Business do
     raise ArgumentError, "Invalid business metadata: #{inspect(msg)}"
   end
 
-  defp fix_modified_date(%{modifiedDate: nil} = business_map) do
-    Map.put(business_map, :modifiedDate, "")
+  defp fix_modified_date(business_map) do
+    business_map
+    |> Map.get_and_update(:modifiedDate, fn
+      nil -> {nil, ""}
+      current_value -> {current_value, current_value}
+    end)
+    |> elem(1)
   end
-
-  defp fix_modified_date(business_map), do: business_map
 
   defp create(map) do
     struct(%__MODULE__{}, map)
