@@ -13,6 +13,7 @@ defmodule SmartCity.Dataset.Business do
   @type t :: %SmartCity.Dataset.Business{
           authorEmail: not_required(),
           authorName: not_required(),
+          benefitRating: not_required(),
           categories: not_required(),
           conformsToUri: not_required(),
           contactEmail: String.t(),
@@ -32,6 +33,7 @@ defmodule SmartCity.Dataset.Business do
           publishFrequency: not_required(),
           referenceUrls: not_required(),
           rights: not_required(),
+          riskRating: not_required(),
           spatial: not_required(),
           temporal: not_required()
         }
@@ -39,6 +41,7 @@ defmodule SmartCity.Dataset.Business do
   @derive Jason.Encoder
   defstruct authorEmail: nil,
             authorName: nil,
+            benefitRating: nil,
             categories: nil,
             conformsToUri: nil,
             contactEmail: nil,
@@ -58,6 +61,7 @@ defmodule SmartCity.Dataset.Business do
             publishFrequency: nil,
             referenceUrls: nil,
             rights: nil,
+            riskRating: nil,
             spatial: nil,
             temporal: nil
 
