@@ -5,8 +5,11 @@ defmodule SmartCity.Dataset do
 
   ```javascript
   const Dataset = {
-    "id": "",                  // UUID
-    "business": {              // Project Open Data Metadata Schema v1.1
+    "id": "",                // UUID
+    "business": {            // Project Open Data Metadata Schema v1.1
+      "authorEmail": "",
+      "authorName": "",
+      "benefitRating": 0,    // value between 0.0 and 1.0
       "categories": [""],
       "conformsToUri": "",
       "contactEmail": "",
@@ -26,17 +29,19 @@ defmodule SmartCity.Dataset do
       "publishFrequency": "",
       "referenceUrls": [""],
       "rights": "",
+      "riskRating": 0,       // value between 0.0 and 1.0
       "spatial": "",
       "temporal": ""
     },
     "technical": {
+      "allow_duplicates": true
       "authHeaders": {"header1": "", "header2": ""}
       "authUrl": "",
       "cadence": "",
       "dataName": "",        // ~r/[a-zA-Z_]+$/
       "orgId": "",
       "orgName": "",         // ~r/[a-zA-Z_]+$/
-      "protocol": "",       // List of protocols to use. Defaults to nil. Can be [http1, http2]
+      "protocol": "",        // List of protocols to use. Defaults to nil. Can be [http1, http2]
       "schema": [{
         "name": "",
         "type": "",
@@ -51,9 +56,10 @@ defmodule SmartCity.Dataset do
         "key1": "",
         "key2": ""
       },
-      "sourceType": "",     // remote|stream|ingest|host
+      "sourceType": "",      // remote|stream|ingest|host
       "sourceUrl": "",
-      "systemName": ""      // ${orgName}__${dataName}
+      "systemName": "",      // ${orgName}__${dataName}
+      "topLevelSelector": ""
     }
   }
   ```
@@ -71,7 +77,7 @@ defmodule SmartCity.Dataset do
         }
 
   @derive Jason.Encoder
-  defstruct version: "0.4", id: nil, business: nil, technical: nil
+  defstruct version: "0.5", id: nil, business: nil, technical: nil
 
   use Accessible
 
