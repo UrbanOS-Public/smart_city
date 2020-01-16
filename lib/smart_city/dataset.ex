@@ -77,7 +77,7 @@ defmodule SmartCity.Dataset do
         }
 
   @derive Jason.Encoder
-  defstruct version: "0.4", id: nil, business: nil, technical: nil
+  defstruct version: "0.5", id: nil, business: nil, technical: nil
 
   use Accessible
 
