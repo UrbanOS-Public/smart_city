@@ -8,7 +8,7 @@ defmodule SmartCity.Dataset do
     "id": "",                // UUID
     "business": {            // Project Open Data Metadata Schema v1.1
       "authorEmail": "",
-      "authortName": "",
+      "authorName": "",
       "benefitRating": 0,    // value between 0.0 and 1.0
       "categories": [""],
       "conformsToUri": "",
