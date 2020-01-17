@@ -51,16 +51,10 @@ defmodule SmartCity.SchemaGeneratorTest do
       assert actual==expected
     end
 
-    test "generates a smart city schema from a list of data where the types are not consistent" do
+    test "generates a smart city schema from a nested data structure" do
       data = [
         %{
-          "key_field" => 123
-        },
-        %{
-          "key_field" => "123"
-        },
-        %{
-          "key_field" => 123
+          "map_field" => %{"sub_key_field" => "frank"}
         }
       ]
 
@@ -72,9 +66,20 @@ defmodule SmartCity.SchemaGeneratorTest do
           "demographic" => "None",
           "description" => "",
           "masked" => "N/A",
-          "name" => "key_field",
+          "name" => "map_field",
           "pii" => "None",
-          "type" => "string"
+          "type" => "map",
+          "subSchema" => [
+            %{
+              "biased" => "No",
+              "demographic" => "None",
+              "description" => "",
+              "masked" => "N/A",
+              "name" => "sub_key_field",
+              "pii" => "None",
+              "type" => "string"
+            }
+          ]
         }
       ]
 
