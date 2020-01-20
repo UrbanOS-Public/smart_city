@@ -1,4 +1,7 @@
 defmodule SmartCity.SchemaGenerator do
+  @moduledoc """
+  Take the first row of data from a datasample and generates an implied schema from that with all field types being strings. Lists and nested maps are generated with their subschemas where applicable.
+  """
   @base_schema %{"biased" => "No", "demographic" => "None", "description" => "", "masked" => "N/A", "pii" => "None"}
   def generate_schema(data) do
     extract_field({:top, data |> hd()}) |> Map.get("subSchema")
@@ -58,7 +61,8 @@ defmodule SmartCity.SchemaGenerator do
       "name" => name,
       "type" => type,
       "subSchema" => schema
-    }|> Map.merge(@base_schema)
+    }
+    |> Map.merge(@base_schema)
   end
 
   defp schema_field(type, name) do
