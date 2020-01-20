@@ -27,31 +27,7 @@ defmodule SmartCity.SchemaGeneratorTest do
       assert actual==expected
     end
 
-    test "generates a smart city schema from a map with a single numeric field" do
-      data = [
-        %{
-          "key_field" => 123
-        }
-      ]
-
-      actual = SchemaGenerator.generate_schema(data)
-
-      expected = [
-        %{
-          "biased" => "No",
-          "demographic" => "None",
-          "description" => "",
-          "masked" => "N/A",
-          "name" => "key_field",
-          "pii" => "None",
-          "type" => "integer"
-        }
-      ]
-
-      assert actual==expected
-    end
-
-    test "generates a smart city schema from a nested data structure" do
+    test "generates a smart city schema from a nested data structure is a map" do
       data = [
         %{
           "map_field" => %{"sub_key_field" => "frank"}
@@ -80,6 +56,76 @@ defmodule SmartCity.SchemaGeneratorTest do
               "type" => "string"
             }
           ]
+        }
+      ]
+
+      assert actual==expected
+    end
+
+    test "generates a smart city schema from a nested data structure is a list of maps" do
+      data = [
+        %{
+          "map_field" => [%{"sub_key_field" => "carl", "sub_key_field2" => "123"}]
+        }
+      ]
+
+      actual = SchemaGenerator.generate_schema(data)
+
+      expected = [
+        %{
+          "biased" => "No",
+          "demographic" => "None",
+          "description" => "",
+          "masked" => "N/A",
+          "name" => "map_field",
+          "pii" => "None",
+          "type" => "list",
+          "itemType" => "map",
+          "subSchema" => [
+            %{
+              "biased" => "No",
+              "demographic" => "None",
+              "description" => "",
+              "masked" => "N/A",
+              "name" => "sub_key_field",
+              "pii" => "None",
+              "type" => "string"
+            },
+            %{
+              "biased" => "No",
+              "demographic" => "None",
+              "description" => "",
+              "masked" => "N/A",
+              "name" => "sub_key_field2",
+              "pii" => "None",
+              "type" => "string"
+            }
+          ]
+        }
+      ]
+
+      assert actual==expected
+    end
+
+    test "generates a smart city schema from a nested data structure is a list of strings" do
+      data = [
+        %{
+          "list_field" => ["a", "5", "k"]
+        }
+      ]
+
+      actual = SchemaGenerator.generate_schema(data)
+
+      expected = [
+        %{
+          "biased" => "No",
+          "demographic" => "None",
+          "description" => "",
+          "masked" => "N/A",
+          "name" => "list_field",
+          "pii" => "None",
+          "type" => "list",
+          "itemType" => "string",
         }
       ]
 
