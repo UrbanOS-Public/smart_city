@@ -1,4 +1,5 @@
 defmodule SmartCity.SchemaGenerator do
+  @base_schema %{"biased" => "No", "demographic" => "None", "description" => "", "masked" => "N/A", "pii" => "None"}
   def generate_schema(data) do
     extract_field({:top, data |> hd()}) |> Map.get("subSchema")
   end
@@ -35,42 +36,29 @@ defmodule SmartCity.SchemaGenerator do
 
   defp schema_field_list(type, name, item_type) when type == "list" do
     %{
-      "biased" => "No",
-      "demographic" => "None",
-      "description" => "",
-      "masked" => "N/A",
       "name" => name,
-      "pii" => "None",
       "type" => type,
       "itemType" => item_type
     }
+    |> Map.merge(@base_schema)
   end
 
   defp schema_field_list(type, name, item_type, schema) when type == "list" and item_type == "map" do
     %{
-      "biased" => "No",
-      "demographic" => "None",
-      "description" => "",
-      "masked" => "N/A",
       "name" => name,
-      "pii" => "None",
       "type" => type,
       "itemType" => item_type,
       "subSchema" => schema
     }
+    |> Map.merge(@base_schema)
   end
 
   defp schema_field(type, name, schema) when type == "map" do
     %{
-      "biased" => "No",
-      "demographic" => "None",
-      "description" => "",
-      "masked" => "N/A",
       "name" => name,
-      "pii" => "None",
       "type" => type,
       "subSchema" => schema
-    }
+    }|> Map.merge(@base_schema)
   end
 
   defp schema_field(type, name) do
