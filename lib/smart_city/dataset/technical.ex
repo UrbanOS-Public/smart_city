@@ -78,10 +78,16 @@ defmodule SmartCity.Dataset.Technical do
   def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, sourceFormat: type} = msg) do
     mime_type = Helpers.mime_type(type)
 
-    struct(%__MODULE__{}, Map.replace!(msg, :sourceFormat, mime_type))
+    create(Map.replace!(msg, :sourceFormat, mime_type))
   end
 
   def new(msg) do
     raise ArgumentError, "Invalid technical metadata: #{inspect(msg)}"
   end
+
+  defp create(%__MODULE__{} = struct) do
+    struct |> Map.from_struct() |> create()
+  end
+
+  defp create(map), do: struct(%__MODULE__{}, map)
 end
