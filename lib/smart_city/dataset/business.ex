@@ -118,5 +118,4 @@ defmodule SmartCity.Dataset.Business do
 
   defp create(%__MODULE__{} = struct), do: struct
   defp create(map), do: struct(%__MODULE__{}, map)
-
 end
