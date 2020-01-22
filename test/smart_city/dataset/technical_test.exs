@@ -38,6 +38,11 @@ defmodule SmartCity.Dataset.TechnicalTest do
       assert actual.dataName == "dataset"
     end
 
+    test "is idempotent", %{message: tech} do
+      actual = tech |> Technical.new() |> Technical.new()
+      assert actual.dataName == "dataset"
+    end
+
     data_test "field #{field} has a default value of #{default}" do
       actual =
         Technical.new(%{

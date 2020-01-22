@@ -25,6 +25,12 @@ defmodule SmartCity.Dataset.BusinessTest do
       assert actual.orgTitle == "org title"
     end
 
+    test "is idempotent", %{message: biz} do
+      actual = biz |> Business.new() |> Business.new()
+      assert actual.dataTitle == "dataset title"
+      assert actual.orgTitle == "org title"
+    end
+
     test "returns default values for non-required fields", %{message: biz} do
       actual = Business.new(biz)
       assert actual.keywords == nil
