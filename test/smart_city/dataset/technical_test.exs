@@ -43,6 +43,23 @@ defmodule SmartCity.Dataset.TechnicalTest do
       assert actual.dataName == "dataset"
     end
 
+    test "a poser struct is cleaned" do
+      actual =
+        Technical.new(%{
+          __struct__: SmartCity.Dataset.Technical,
+          dataName: "bad_dataset",
+          orgName: "org",
+          systemName: "org__dataset",
+          sourceUrl: "https://example.com",
+          sourceFormat: "gtfs",
+          is_a_good_struct: "no"
+        })
+
+      assert actual.dataName == "bad_dataset"
+      assert actual.orgName == "org"
+      assert not Map.has_key?(actual, :is_a_good_struct)
+    end
+
     data_test "field #{field} has a default value of #{default}" do
       actual =
         Technical.new(%{

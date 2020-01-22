@@ -85,6 +85,9 @@ defmodule SmartCity.Dataset.Technical do
     raise ArgumentError, "Invalid technical metadata: #{inspect(msg)}"
   end
 
-  defp create(%__MODULE__{} = struct), do: struct
+  defp create(%__MODULE__{} = struct) do
+    struct |> Map.from_struct() |> create()
+  end
+
   defp create(map), do: struct(%__MODULE__{}, map)
 end

@@ -31,6 +31,17 @@ defmodule SmartCity.Dataset.BusinessTest do
       assert actual.orgTitle == "org title"
     end
 
+    test "a poser struct is cleaned", %{message: biz} do
+      actual =
+        biz
+        |> Map.merge(%{__struct__: SmartCity.Dataset.Business, is_a_good_struct: "no"})
+        |> Business.new()
+
+      assert actual.dataTitle == biz.dataTitle
+      assert actual.orgTitle == biz.orgTitle
+      assert not Map.has_key?(actual, :is_a_good_struct)
+    end
+
     test "returns default values for non-required fields", %{message: biz} do
       actual = Business.new(biz)
       assert actual.keywords == nil

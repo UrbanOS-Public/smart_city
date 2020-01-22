@@ -116,6 +116,9 @@ defmodule SmartCity.Dataset.Business do
     |> elem(1)
   end
 
-  defp create(%__MODULE__{} = struct), do: struct
+  defp create(%__MODULE__{} = struct) do
+    struct |> Map.from_struct() |> create()
+  end
+
   defp create(map), do: struct(%__MODULE__{}, map)
 end
