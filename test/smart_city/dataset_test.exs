@@ -62,6 +62,12 @@ defmodule SmartCity.DatasetTest do
       assert {:ok, %Dataset{id: "uuid", business: ^business, technical: ^technical}} = Dataset.new(map)
     end
 
+    test "is idempotent", %{message: map} do
+      {:ok, dataset} = Dataset.new(map)
+
+      assert {:ok, ^dataset} = Dataset.new(dataset)
+    end
+
     test "can be serialize and deserialized", %{message: message} do
       {:ok, dataset} = Dataset.new(message)
       {:ok, serialized} = Brook.Serializer.serialize(dataset)
