@@ -36,6 +36,7 @@ defmodule SmartCity.Dataset do
     "technical": {
       "allow_duplicates": true
       "authHeaders": {"header1": "", "header2": ""}
+      "authBody": {"name": "", "clientID": ""}
       "authUrl": "",
       "cadence": "",
       "dataName": "",        // ~r/[a-zA-Z_]+$/
@@ -77,7 +78,7 @@ defmodule SmartCity.Dataset do
         }
 
   @derive Jason.Encoder
-  defstruct version: "0.5", id: nil, business: nil, technical: nil
+  defstruct version: "0.6", id: nil, business: nil, technical: nil
 
   use Accessible
 
