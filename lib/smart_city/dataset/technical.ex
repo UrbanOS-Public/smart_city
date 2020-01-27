@@ -9,6 +9,7 @@ defmodule SmartCity.Dataset.Technical do
   @type t() :: %SmartCity.Dataset.Technical{
           allow_duplicates: not_required(boolean()),
           authHeaders: not_required(map()),
+          authBody: not_required(map()),
           authUrl: String.t(),
           cadence: not_required(String.t()),
           credentials: boolean(),
@@ -30,6 +31,7 @@ defmodule SmartCity.Dataset.Technical do
   @derive Jason.Encoder
   defstruct allow_duplicates: true,
             authHeaders: %{},
+            authBody: %{},
             authUrl: nil,
             cadence: "never",
             credentials: false,
