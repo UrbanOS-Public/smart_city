@@ -60,7 +60,7 @@ defmodule SmartCity.Dataset.TechnicalTest do
       assert not Map.has_key?(actual, :is_a_good_struct)
     end
 
-    data_test "field #{field} has a default value of #{default}" do
+    data_test "field #{field} has a default value of #{inspect(default)}" do
       actual =
         Technical.new(%{
           dataName: "dataset",
@@ -73,8 +73,8 @@ defmodule SmartCity.Dataset.TechnicalTest do
       assert Map.get(actual, field) == default
 
       where(
-        field: [:schema, :cadence, :sourceType, :allow_duplicates],
-        default: [[], "never", "remote", true]
+        field: [:schema, :cadence, :sourceType, :allow_duplicates, :authBody],
+        default: [[], "never", "remote", true, %{}]
       )
     end
 
