@@ -24,10 +24,12 @@ defmodule SmartCity.DataWriteComplete do
     |> create()
   end
 
-  defp create(%{id: _, timestamp: _} = msg) do
-    data_write_complete = struct(%__MODULE__{}, msg)
+  defp create(%{id: _, timestamp: timestamp} = msg) when is_binary(timestamp) do
+    {:ok, struct(%__MODULE__{}, msg)}
+  end
 
-    {:ok, data_write_complete}
+  defp create(%{id: _, timestamp: %DateTime{}} = msg) do
+    {:ok, struct(%__MODULE__{}, Map.update!(msg, :timestamp, &DateTime.to_iso8601/1))}
   end
 
   defp create(msg) do
