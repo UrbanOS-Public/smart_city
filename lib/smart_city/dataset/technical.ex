@@ -77,6 +77,13 @@ defmodule SmartCity.Dataset.Technical do
     |> new()
   end
 
+  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, sourceFormat: type, schema: schema} = msg) do
+    msg
+    |> Map.put(:schema, Helpers.to_atom_keys(schema))
+    |> Map.replace!(:sourceFormat, Helpers.mime_type(type))
+    |> create()
+  end
+
   def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, sourceFormat: type} = msg) do
     mime_type = Helpers.mime_type(type)
 

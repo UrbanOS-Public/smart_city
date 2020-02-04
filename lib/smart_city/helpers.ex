@@ -25,20 +25,26 @@ defmodule SmartCity.Helpers do
   def to_atom_keys(map) when is_map(map) do
     Map.new(map, fn
       {key, val} when is_map(val) ->
-        {String.to_atom(key), to_atom_keys(val)}
+        {safe_string_to_atom(key), to_atom_keys(val)}
 
       {key, val} when is_list(val) ->
-        {String.to_atom(key), Enum.map(val, &to_atom_keys/1)}
+        {safe_string_to_atom(key), Enum.map(val, &to_atom_keys/1)}
 
       {key, val} when is_binary(key) ->
-        {String.to_atom(key), val}
+        {safe_string_to_atom(key), val}
 
       keyval ->
         keyval
     end)
   end
 
+  def to_atom_keys(list) when is_list(list), do: Enum.map(list, &to_atom_keys/1)
+
   def to_atom_keys(value), do: value
+
+  def safe_string_to_atom(string) when is_binary(string), do: String.to_atom(string)
+  def safe_string_to_atom(atom) when is_atom(atom), do: atom
+  def safe_string_to_atom(value), do: value
 
   @doc """
   Standardize file type definitions by deferring to the

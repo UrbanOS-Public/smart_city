@@ -42,6 +42,21 @@ defmodule SmartCity.HelpersTest do
       input = %{foo: 1}
       assert Helpers.to_atom_keys(input) == input
     end
+
+    test "handles a map with atom keys that has nested string keys" do
+      input = %{foo: 1, bar: %{"baz" => "derp"}}
+      assert Helpers.to_atom_keys(input) == %{foo: 1, bar: %{baz: "derp"}}
+    end
+
+    test "handles a map with atom keys that has a list of objects with string keys" do
+      input = %{foo: 1, bar: [%{"baz" => "derp"}]}
+      assert Helpers.to_atom_keys(input) == %{foo: 1, bar: [%{baz: "derp"}]}
+    end
+
+    test "handles a list of maps with nested string keys" do
+      input = [%{foo: 1, bar: [%{"baz" => "derp"}]}]
+      assert Helpers.to_atom_keys(input) == [%{foo: 1, bar: [%{baz: "derp"}]}]
+    end
   end
 
   describe "mime_type/1" do
