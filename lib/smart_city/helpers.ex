@@ -24,11 +24,8 @@ defmodule SmartCity.Helpers do
   @spec to_atom_keys(map()) :: map()
   def to_atom_keys(map) when is_map(map) do
     Map.new(map, fn
-      {key, val} when is_map(val) ->
+      {key, val} when is_map(val) or is_list(val) ->
         {safe_string_to_atom(key), to_atom_keys(val)}
-
-      {key, val} when is_list(val) ->
-        {safe_string_to_atom(key), Enum.map(val, &to_atom_keys/1)}
 
       {key, val} when is_binary(key) ->
         {safe_string_to_atom(key), val}
