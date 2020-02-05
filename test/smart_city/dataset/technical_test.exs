@@ -115,6 +115,32 @@ defmodule SmartCity.Dataset.TechnicalTest do
       assert actual.authHeaders.afoo == "abar"
     end
 
+    test "converts schema keys to atoms even when the top level is atoms", %{message: tech} do
+      actual =
+        Technical.new(%{
+          dataName: "dataset",
+          orgName: "org",
+          systemName: "org__dataset",
+          sourceUrl: "https://example.com",
+          sourceFormat: "gtfs",
+          schema: [
+            %{
+              "name" => "field_name",
+              "subSchema" => [
+                %{"name" => "deep"}
+              ]
+            }
+          ]
+        })
+
+      assert List.first(actual.schema) == %{
+               name: "field_name",
+               subSchema: [
+                 %{name: "deep"}
+               ]
+             }
+    end
+
     data_test "throws error when creating Technical struct without required field: #{field}", %{message: tech} do
       assert_raise ArgumentError, fn -> Technical.new(tech |> Map.delete(field)) end
 
