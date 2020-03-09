@@ -37,6 +37,7 @@ defmodule SmartCity.Dataset do
       "allow_duplicates": true
       "authHeaders": {"header1": "", "header2": ""}
       "authBody": {"name": "", "clientID": ""}
+      "authBodyEncodeMethod": "",
       "authUrl": "",
       "cadence": "",
       "dataName": "",        // ~r/[a-zA-Z_]+$/
