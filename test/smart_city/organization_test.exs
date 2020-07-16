@@ -8,7 +8,8 @@ defmodule SmartCity.OrganizationTest do
       "id" => "12345-6789",
       "orgName" => "This is an Org",
       "orgTitle" => "This is a title",
-      "homepage" => "homepage"
+      "homepage" => "homepage",
+      "dataJsonUrl" => "https://www.google.com/"
     }
 
     json_message = Jason.encode!(%{"id" => "12345", "orgName" => "This is an Org", "orgTitle" => "This is a title"})
@@ -29,6 +30,7 @@ defmodule SmartCity.OrganizationTest do
       {:ok, actual} = Organization.new(string_key_message)
       assert actual.id == "12345-6789"
       assert actual.homepage == "homepage"
+      assert actual.dataJsonUrl == "https://www.google.com/"
     end
 
     test "create new organization message via json", %{json_message: json_message} do

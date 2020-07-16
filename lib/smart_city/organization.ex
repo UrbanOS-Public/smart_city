@@ -21,6 +21,7 @@ defmodule SmartCity.Organization do
   @derive Jason.Encoder
   defstruct description: nil,
             dn: nil,
+            dataJsonUrl: nil,
             homepage: nil,
             id: nil,
             logoUrl: nil,
