@@ -1,5 +1,6 @@
 defmodule SmartCity.SchemaGeneratorTest do
   use ExUnit.Case
+  import Checkov
   alias SmartCity.SchemaGenerator
 
   describe "generate_schema/1" do
@@ -233,6 +234,38 @@ defmodule SmartCity.SchemaGeneratorTest do
       ]
 
       assert actual == expected
+    end
+
+    data_test "infers type of #{type}" do
+      data = [
+        %{
+          "key_field" => value
+        }
+      ]
+
+      actual = SchemaGenerator.generate_schema(data)
+
+      expected = [
+        %{
+          "biased" => "No",
+          "demographic" => "None",
+          "description" => "",
+          "masked" => "N/A",
+          "name" => "key_field",
+          "pii" => "None",
+          "type" => type
+        }
+      ]
+
+      assert actual == expected
+
+      where([
+        [:type, :value],
+        ["integer", 9],
+        ["float", 3.14],
+        ["boolean", false],
+        ["date", "2007-10-29T00:00:00.000Z"]
+      ])
     end
   end
 end

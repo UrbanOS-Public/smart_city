@@ -32,10 +32,18 @@ defmodule SmartCity.SchemaGenerator do
     infer_type(value) |> schema_field(key)
   end
 
-  # This should eventually handle different data types. Sticking to strings as an MVP
   defp infer_type(value) when is_list(value), do: "list"
   defp infer_type(value) when is_map(value), do: "map"
-  defp infer_type(_), do: "string"
+  defp infer_type(value) when is_integer(value), do: "integer"
+  defp infer_type(value) when is_float(value), do: "float"
+  defp infer_type(value) when is_boolean(value), do: "boolean"
+
+  defp infer_type(value) do
+    case Timex.parse(value, "{ISO:Extended}") do
+      {:ok, _} -> "date"
+      {:error, _} -> "string"
+    end
+  end
 
   defp schema_field_list(type, name, item_type) when type == "list" do
     %{
