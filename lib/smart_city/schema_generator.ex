@@ -36,6 +36,7 @@ defmodule SmartCity.SchemaGenerator do
   defp infer_type(value) when is_map(value), do: "map"
   defp infer_type(value) when is_integer(value), do: "integer"
   defp infer_type(value) when is_float(value), do: "float"
+
   defp infer_type(value) do
     case Timex.parse(value, "{ISO:Extended}") do
       {:ok, _} -> "date"
