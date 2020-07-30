@@ -7,7 +7,7 @@ defmodule SmartCity.SchemaGenerator do
     extract_field({:top, data |> hd()}) |> Map.get("subSchema")
   end
 
-  defp extract_field({key, value}) when is_list(value) do
+  def extract_field({key, value}) when is_list(value) do
     item_type =
       value
       |> List.first()
@@ -23,12 +23,12 @@ defmodule SmartCity.SchemaGenerator do
     end
   end
 
-  defp extract_field({key, value}) when is_map(value) do
+  def extract_field({key, value}) when is_map(value) do
     schema = Enum.map(value, &extract_field/1)
     infer_type(value) |> schema_field(key, schema)
   end
 
-  defp extract_field({key, value}) do
+  def extract_field({key, value}) do
     infer_type(value) |> schema_field(key)
   end
 
