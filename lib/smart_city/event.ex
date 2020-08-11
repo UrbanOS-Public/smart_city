@@ -111,6 +111,11 @@ defmodule SmartCity.Event do
   defmacro dataset_harvest_start(), do: quote(do: "dataset:harvest:start")
 
   @doc """
+  Signals a dataset harvest end
+  """
+  defmacro dataset_harvest_end(), do: quote(do: "dataset:harvest:end")
+
+  @doc """
   Signals to file should be downloaded
   """
   @deprecated "Use file_ingest_start/0"
