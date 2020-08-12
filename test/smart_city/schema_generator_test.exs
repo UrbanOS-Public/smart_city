@@ -254,7 +254,7 @@ defmodule SmartCity.SchemaGeneratorTest do
           "name" => "list_field",
           "pii" => "None",
           "type" => "list",
-          "itemType" => "string",
+          "itemType" => "string"
         }
       ]
 
@@ -275,7 +275,7 @@ defmodule SmartCity.SchemaGeneratorTest do
           "name" => "list_field",
           "pii" => "None",
           "type" => "list",
-          "itemType" => "string",
+          "itemType" => "string"
         }
       ]
 
