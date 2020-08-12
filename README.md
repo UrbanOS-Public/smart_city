@@ -10,7 +10,7 @@ This library defines helper functions that are used across SmartCity modules.
 ```elixir
 def deps do
   [
-    {:smart_city, "~> 3.18.0"}
+    {:smart_city, "~> 3.19.0"}
   ]
 end
 ```
