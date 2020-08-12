@@ -45,6 +45,15 @@ defmodule SmartCity.SchemaGenerator do
     end
   end
 
+  defp schema_field_list(type, name, item_type) when type == "list" and item_type == "list" do
+    %{
+      "name" => name,
+      "type" => type,
+      "itemType" => "string"
+    }
+    |> Map.merge(@base_schema)
+  end
+
   defp schema_field_list(type, name, item_type) when type == "list" do
     %{
       "name" => name,

@@ -236,6 +236,52 @@ defmodule SmartCity.SchemaGeneratorTest do
       assert actual == expected
     end
 
+    test "generates a smart city schema from a nested data structure prevents list of lists" do
+      data = [
+        %{
+          "list_field" => [["field1a", "field1b"], ["field2a", "field2b"]]
+        }
+      ]
+
+      actual = SchemaGenerator.generate_schema(data)
+
+      expected = [
+        %{
+          "biased" => "No",
+          "demographic" => "None",
+          "description" => "",
+          "masked" => "N/A",
+          "name" => "list_field",
+          "pii" => "None",
+          "type" => "list",
+          "itemType" => "string",
+        }
+      ]
+
+      assert actual == expected
+    end
+
+    test "interprets itemType of empty lists as strings by default" do
+      data = [%{"list_field" => []}]
+
+      actual = SchemaGenerator.generate_schema(data)
+
+      expected = [
+        %{
+          "biased" => "No",
+          "demographic" => "None",
+          "description" => "",
+          "masked" => "N/A",
+          "name" => "list_field",
+          "pii" => "None",
+          "type" => "list",
+          "itemType" => "string",
+        }
+      ]
+
+      assert actual == expected
+    end
+
     data_test "infers type of #{type}" do
       data = [
         %{
