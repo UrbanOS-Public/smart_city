@@ -15,7 +15,7 @@ defmodule SmartCity.Dataset.Technical do
           cadence: not_required(String.t()),
           credentials: boolean(),
           dataName: String.t(),
-          extractSteps: not_required(map()),
+          extractSteps: not_required(list(map())),
           orgId: not_required(String.t()),
           orgName: String.t(),
           private: not_required(boolean()),
