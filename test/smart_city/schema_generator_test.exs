@@ -310,7 +310,8 @@ defmodule SmartCity.SchemaGeneratorTest do
         ["integer", 9],
         ["float", 3.14],
         ["boolean", false],
-        ["date", "2007-10-29T00:00:00.000Z"]
+        ["date", "2007-10-29"],
+        ["timestamp", "2007-10-29T00:00:00.000Z"]
       ])
     end
   end
