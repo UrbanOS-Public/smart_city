@@ -39,9 +39,24 @@ defmodule SmartCity.SchemaGenerator do
   defp infer_type(value) when is_boolean(value), do: "boolean"
 
   defp infer_type(value) do
+    cond do
+      is_timestamp(value) -> "timestamp"
+      is_date(value) -> "date"
+      true -> "string"
+    end
+  end
+
+  defp is_timestamp(value) do
     case Timex.parse(value, "{ISO:Extended}") do
-      {:ok, _} -> "date"
-      {:error, _} -> "string"
+      {:ok, _} -> true
+      _ -> false
+    end
+  end
+
+  defp is_date(value) do
+    case Timex.parse(value, "{ISOdate}") do
+      {:ok, _} -> true
+      _ -> false
     end
   end
 
