@@ -116,6 +116,11 @@ defmodule SmartCity.Event do
   defmacro dataset_harvest_end(), do: quote(do: "dataset:harvest:end")
 
   @doc """
+  Signals a custom query has been run by a user
+  """
+  defmacro free_form_query(), do: quote(do: "api:free_form_query:event")
+
+  @doc """
   Signals to file should be downloaded
   """
   @deprecated "Use file_ingest_start/0"
