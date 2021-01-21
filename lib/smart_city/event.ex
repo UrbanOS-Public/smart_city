@@ -118,7 +118,7 @@ defmodule SmartCity.Event do
   @doc """
   Signals a custom query has been run by a user
   """
-  defmacro free_form_query(), do: quote(do: "api:free_form_query:event")
+  defmacro free_form_query(), do: quote(do: "api:free_form_query")
 
   @doc """
   Signals to file should be downloaded
