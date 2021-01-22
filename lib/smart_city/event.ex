@@ -116,9 +116,9 @@ defmodule SmartCity.Event do
   defmacro dataset_harvest_end(), do: quote(do: "dataset:harvest:end")
 
   @doc """
-  Signals a custom query has been run by a user
+  Signals a dataset query has been run
   """
-  defmacro free_form_query(), do: quote(do: "api:free_form_query")
+  defmacro dataset_query(), do: quote(do: "dataset:query")
 
   @doc """
   Signals to file should be downloaded
