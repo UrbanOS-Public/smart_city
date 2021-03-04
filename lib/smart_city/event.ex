@@ -106,6 +106,11 @@ defmodule SmartCity.Event do
   defmacro user_organization_associate(), do: quote(do: "user:organization:associate")
 
   @doc """
+  Defines a user organization relationship.
+  """
+  defmacro user_organization_disassociate(), do: quote(do: "user:organization:disassociate")
+
+  @doc """
   Signals a dataset harvest start
   """
   defmacro dataset_harvest_start(), do: quote(do: "dataset:harvest:start")
