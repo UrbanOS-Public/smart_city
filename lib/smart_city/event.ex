@@ -126,6 +126,11 @@ defmodule SmartCity.Event do
   defmacro dataset_query(), do: quote(do: "dataset:query")
 
   @doc """
+  Signals a user has logged in
+  """
+  defmacro user_login(), do: quote(do: "user:login")
+
+  @doc """
   Signals to file should be downloaded
   """
   @deprecated "Use file_ingest_start/0"
