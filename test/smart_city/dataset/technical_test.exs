@@ -115,7 +115,7 @@ defmodule SmartCity.Dataset.TechnicalTest do
       assert actual.authHeaders.afoo == "abar"
     end
 
-    test "converts schema keys to atoms even when the top level is atoms", %{message: tech} do
+    test "converts schema keys to atoms even when the top level is atoms" do
       actual =
         Technical.new(%{
           dataName: "dataset",
