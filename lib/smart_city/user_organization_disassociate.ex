@@ -4,15 +4,15 @@ defmodule SmartCity.UserOrganizationDisassociate do
   """
   alias SmartCity.BaseStruct
 
-  @type user_id :: String.t()
+  @type subject_id :: String.t()
   @type org_id :: SmartCity.Organization.id()
   @type t :: %SmartCity.UserOrganizationDisassociate{
-          :user_id => user_id(),
+          :subject_id => subject_id(),
           :org_id => org_id()
         }
 
   @derive Jason.Encoder
-  defstruct user_id: nil,
+  defstruct subject_id: nil,
             org_id: nil
 
   @doc """
@@ -24,7 +24,7 @@ defmodule SmartCity.UserOrganizationDisassociate do
     |> create()
   end
 
-  defp create(%{user_id: _, org_id: _} = msg) do
+  defp create(%{subject_id: _, org_id: _} = msg) do
     user_organization_disassociate = struct(%__MODULE__{}, msg)
 
     {:ok, user_organization_disassociate}

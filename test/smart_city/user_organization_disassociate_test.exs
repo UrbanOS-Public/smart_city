@@ -5,15 +5,15 @@ defmodule SmartCity.UserOrganizationDisassociateTest do
 
   setup do
     string_key_message = %{
-      "user_id" => "Nathaniel",
+      "subject_id" => "Nathaniel",
       "org_id" => 1
     }
 
     json_message = Jason.encode!(string_key_message)
 
-    atom_key_message = %{user_id: "Nathaniel", org_id: 1}
+    atom_key_message = %{subject_id: "Nathaniel", org_id: 1}
 
-    invalid_message = %{user_id: "Nathaniel"}
+    invalid_message = %{subject_id: "Nathaniel"}
 
     {:ok,
      string_key_message: string_key_message,
@@ -27,13 +27,13 @@ defmodule SmartCity.UserOrganizationDisassociateTest do
       string_key_message: string_key_message
     } do
       {:ok, actual} = UserOrganizationDisassociate.new(string_key_message)
-      assert actual.user_id == "Nathaniel"
+      assert actual.subject_id == "Nathaniel"
       assert actual.org_id == 1
     end
 
     test "create new user organization disassociate message via json", %{json_message: json_message} do
       {:ok, actual} = UserOrganizationDisassociate.new(json_message)
-      assert actual.user_id == "Nathaniel"
+      assert actual.subject_id == "Nathaniel"
       assert actual.org_id == 1
     end
 
@@ -41,7 +41,7 @@ defmodule SmartCity.UserOrganizationDisassociateTest do
       atom_key_message: atom_key_message
     } do
       {:ok, actual} = UserOrganizationDisassociate.new(atom_key_message)
-      assert actual.user_id == "Nathaniel"
+      assert actual.subject_id == "Nathaniel"
       assert actual.org_id == 1
     end
 
