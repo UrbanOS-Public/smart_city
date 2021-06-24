@@ -109,9 +109,9 @@ defmodule SmartCity.Dataset do
     struct =
       struct(%__MODULE__{}, %{
         id: id,
-        organization_id: organization_id
+        organization_id: organization_id,
         business: Business.new(biz),
-        technical: Technical.new(tech)
+        technical: Technical.new(tech),
         organization: Organization.new(org)
       })
 
