@@ -73,7 +73,7 @@ defmodule SmartCity.Dataset do
           business: SmartCity.Dataset.Business.t(),
           id: String.t(),
           organization_id: String.t(),
-          organization: SmartCity.Organization.t()
+          organization: SmartCity.Organization.t(),
           technical: SmartCity.Dataset.Technical.t(),
           version: String.t()
         }
