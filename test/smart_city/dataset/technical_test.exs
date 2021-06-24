@@ -7,7 +7,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
   setup do
     message = %{
       "dataName" => "dataset",
-      "orgName" => "org",
       "systemName" => "org__dataset",
       "sourceUrl" => "https://example.com",
       "sourceType" => "ingest",
@@ -29,7 +28,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
       actual =
         Technical.new(%{
           dataName: "dataset",
-          orgName: "org",
           systemName: "org__dataset",
           sourceUrl: "https://example.com",
           sourceFormat: "gtfs"
@@ -48,7 +46,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
         Technical.new(%{
           __struct__: SmartCity.Dataset.Technical,
           dataName: "bad_dataset",
-          orgName: "org",
           systemName: "org__dataset",
           sourceUrl: "https://example.com",
           sourceFormat: "gtfs",
@@ -56,7 +53,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
         })
 
       assert actual.dataName == "bad_dataset"
-      assert actual.orgName == "org"
       assert not Map.has_key?(actual, :is_a_good_struct)
     end
 
@@ -64,7 +60,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
       actual =
         Technical.new(%{
           dataName: "dataset",
-          orgName: "org",
           systemName: "org__dataset",
           sourceUrl: "https://example.com",
           sourceFormat: "gtfs"
@@ -82,7 +77,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
       actual =
         Technical.new(%{
           dataName: "dataset",
-          orgName: "org",
           systemName: "org__dataset",
           sourceUrl: "https://example.com",
           sourceFormat: extension
@@ -119,7 +113,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
       actual =
         Technical.new(%{
           dataName: "dataset",
-          orgName: "org",
           systemName: "org__dataset",
           sourceUrl: "https://example.com",
           sourceFormat: "gtfs",
@@ -144,7 +137,7 @@ defmodule SmartCity.Dataset.TechnicalTest do
     data_test "throws error when creating Technical struct without required field: #{field}", %{message: tech} do
       assert_raise ArgumentError, fn -> Technical.new(tech |> Map.delete(field)) end
 
-      where(field: ["dataName", "orgName", "systemName", "sourceUrl"])
+      where(field: ["dataName", "systemName", "sourceUrl"])
     end
   end
 

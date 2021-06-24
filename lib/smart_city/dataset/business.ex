@@ -28,7 +28,6 @@ defmodule SmartCity.Dataset.Business do
           language: not_required(),
           license: license_or_default(),
           modifiedDate: String.t(),
-          orgTitle: String.t(),
           parentDataset: not_required(),
           publishFrequency: not_required(),
           referenceUrls: not_required(),
@@ -56,7 +55,6 @@ defmodule SmartCity.Dataset.Business do
             language: nil,
             license: nil,
             modifiedDate: nil,
-            orgTitle: nil,
             parentDataset: nil,
             publishFrequency: nil,
             referenceUrls: nil,
@@ -78,7 +76,6 @@ defmodule SmartCity.Dataset.Business do
       - dataTitle
       - description
       - modifiedDate
-      - orgTitle
       - contactName
       - contactEmail
 
@@ -95,8 +92,7 @@ defmodule SmartCity.Dataset.Business do
           contactEmail: _,
           contactName: _,
           dataTitle: _,
-          description: _,
-          orgTitle: _
+          description: _
         } = msg
       ) do
     fix_modified_date(msg)

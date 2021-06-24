@@ -24,7 +24,6 @@ defmodule SmartCity.Dataset do
       "language": "",
       "license": "",
       "modifiedDate": "",
-      "orgTitle": "",        // user friendly (orgTitle)
       "parentDataset": "",
       "publishFrequency": "",
       "referenceUrls": [""],
@@ -41,8 +40,6 @@ defmodule SmartCity.Dataset do
       "authUrl": "",
       "cadence": "",
       "dataName": "",        // ~r/[a-zA-Z_]+$/
-      "orgId": "",
-      "orgName": "",         // ~r/[a-zA-Z_]+$/
       "protocol": "",        // List of protocols to use. Defaults to nil. Can be [http1, http2]
       "schema": [{
         "name": "",
@@ -69,17 +66,20 @@ defmodule SmartCity.Dataset do
 
   alias SmartCity.Dataset.Business
   alias SmartCity.Dataset.Technical
+  alias SmartCity.Organization
 
   @type id :: term()
   @type t :: %SmartCity.Dataset{
           business: SmartCity.Dataset.Business.t(),
           id: String.t(),
+          organization_id: String.t(),
+          organization: SmartCity.Organization.t()
           technical: SmartCity.Dataset.Technical.t(),
           version: String.t()
         }
 
   @derive Jason.Encoder
-  defstruct version: "0.6", id: nil, business: nil, technical: nil
+  defstruct version: "0.6", id: nil, business: nil, technical: nil, organization: nil, organization_id: nil
 
   use Accessible
 
@@ -105,12 +105,14 @@ defmodule SmartCity.Dataset do
     |> create()
   end
 
-  defp create(%{id: id, business: biz, technical: tech}) do
+  defp create(%{id: id, business: biz, technical: tech, organization: org, organization_id: organization_id}) do
     struct =
       struct(%__MODULE__{}, %{
         id: id,
+        organization_id: organization_id
         business: Business.new(biz),
         technical: Technical.new(tech)
+        organization: Organization.new(org)
       })
 
     {:ok, struct}
