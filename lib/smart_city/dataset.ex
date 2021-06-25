@@ -112,7 +112,7 @@ defmodule SmartCity.Dataset do
         organization_id: organization_id,
         business: Business.new(biz),
         technical: Technical.new(tech),
-        organization: Organization.new(org)
+        organization: Organization.new!(org)
       })
 
     {:ok, struct}
