@@ -29,6 +29,8 @@ defmodule SmartCity.Organization do
             orgTitle: nil,
             version: "0.1"
 
+  use Accessible
+
   alias SmartCity.BaseStruct
 
   defmodule NotFound do
