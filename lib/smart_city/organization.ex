@@ -68,3 +68,9 @@ defmodule SmartCity.Organization do
     {:error, "Invalid organization: #{inspect(msg)}"}
   end
 end
+
+defimpl Brook.Deserializer.Protocol, for: SmartCity.Organization do
+  def deserialize(_struct, data) do
+    SmartCity.Organization.new(data)
+  end
+end
