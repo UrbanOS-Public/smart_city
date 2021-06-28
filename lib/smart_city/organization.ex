@@ -51,13 +51,6 @@ defmodule SmartCity.Organization do
     |> create()
   end
 
-  def new!(msg) do
-    case new(msg) do
-      {:ok, struct} -> struct
-      {:error, error_message} -> raise error_message
-    end
-  end
-
   defp create(%{id: _, orgName: _, orgTitle: _} = msg) do
     struct = struct(%__MODULE__{}, msg)
 
