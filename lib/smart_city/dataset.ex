@@ -66,7 +66,6 @@ defmodule SmartCity.Dataset do
 
   alias SmartCity.Dataset.Business
   alias SmartCity.Dataset.Technical
-  alias SmartCity.Organization
 
   @type id :: term()
   @type t :: %SmartCity.Dataset{

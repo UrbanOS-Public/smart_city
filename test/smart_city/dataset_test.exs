@@ -57,7 +57,8 @@ defmodule SmartCity.DatasetTest do
       atom_biz = Map.new(biz, fn {k, v} -> {String.to_atom(k), v} end)
       map = %{id: "uuid", organization_id: "uuid2", business: atom_biz, technical: atom_tech}
 
-      assert {:ok, %Dataset{id: "uuid", organization_id: "uuid2", business: ^business, technical: ^technical}} = Dataset.new(map)
+      assert {:ok, %Dataset{id: "uuid", organization_id: "uuid2", business: ^business, technical: ^technical}} =
+               Dataset.new(map)
     end
 
     test "is idempotent", %{message: map} do
