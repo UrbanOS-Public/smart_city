@@ -29,6 +29,8 @@ defmodule SmartCity.Organization do
             orgTitle: nil,
             version: "0.1"
 
+  use Accessible
+
   alias SmartCity.BaseStruct
 
   defmodule NotFound do
@@ -57,5 +59,11 @@ defmodule SmartCity.Organization do
 
   defp create(msg) do
     {:error, "Invalid organization: #{inspect(msg)}"}
+  end
+end
+
+defimpl Brook.Deserializer.Protocol, for: SmartCity.Organization do
+  def deserialize(_struct, data) do
+    SmartCity.Organization.new(data)
   end
 end

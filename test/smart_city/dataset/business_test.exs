@@ -9,7 +9,6 @@ defmodule SmartCity.Dataset.BusinessTest do
       dataTitle: "dataset title",
       description: "description",
       modifiedDate: "2019-01-01T01:01:01Z",
-      orgTitle: "org title",
       contactName: "contact name",
       contactEmail: "contact@email.com",
       license: "license"
@@ -22,13 +21,11 @@ defmodule SmartCity.Dataset.BusinessTest do
     test "returns Business struct", %{message: biz} do
       actual = Business.new(biz)
       assert actual.dataTitle == "dataset title"
-      assert actual.orgTitle == "org title"
     end
 
     test "is idempotent", %{message: biz} do
       actual = biz |> Business.new() |> Business.new()
       assert actual.dataTitle == "dataset title"
-      assert actual.orgTitle == "org title"
     end
 
     test "a poser struct is cleaned", %{message: biz} do
@@ -38,7 +35,6 @@ defmodule SmartCity.Dataset.BusinessTest do
         |> Business.new()
 
       assert actual.dataTitle == biz.dataTitle
-      assert actual.orgTitle == biz.orgTitle
       assert not Map.has_key?(actual, :is_a_good_struct)
     end
 
@@ -66,7 +62,6 @@ defmodule SmartCity.Dataset.BusinessTest do
           "description" => "description",
           "keywords" => ["one", "two"],
           "modifiedDate" => "2010-10-10T10:10:10Z",
-          "orgTitle" => "org title",
           "contactName" => "contact name",
           "contactEmail" => "contact@email.com",
           "license" => "license",
@@ -81,7 +76,6 @@ defmodule SmartCity.Dataset.BusinessTest do
     test "throws error when creating Business struct without required fields", %{message: msg} do
       assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:dataTitle)) end
       assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:description)) end
-      assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:orgTitle)) end
       assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:contactName)) end
       assert_raise ArgumentError, fn -> Business.new(msg |> Map.delete(:contactEmail)) end
     end

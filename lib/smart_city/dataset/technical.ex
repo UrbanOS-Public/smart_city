@@ -16,8 +16,6 @@ defmodule SmartCity.Dataset.Technical do
           credentials: boolean(),
           dataName: String.t(),
           extractSteps: not_required(list(map())),
-          orgId: not_required(String.t()),
-          orgName: String.t(),
           private: not_required(boolean()),
           protocol: not_required(list(String.t())),
           schema: not_required(list(map())),
@@ -40,8 +38,6 @@ defmodule SmartCity.Dataset.Technical do
             credentials: false,
             dataName: nil,
             extractSteps: nil,
-            orgId: nil,
-            orgName: nil,
             private: true,
             protocol: nil,
             schema: [],
@@ -66,7 +62,6 @@ defmodule SmartCity.Dataset.Technical do
 
     _Required Keys_
       - dataName
-      - orgName
       - systemName
       - sourceUrl
       - sourceFormat
@@ -81,14 +76,14 @@ defmodule SmartCity.Dataset.Technical do
     |> new()
   end
 
-  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, sourceFormat: type, schema: schema} = msg) do
+  def new(%{dataName: _, systemName: _, sourceUrl: _, sourceFormat: type, schema: schema} = msg) do
     msg
     |> Map.put(:schema, Helpers.to_atom_keys(schema))
     |> Map.replace!(:sourceFormat, Helpers.mime_type(type))
     |> create()
   end
 
-  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, sourceFormat: type} = msg) do
+  def new(%{dataName: _, systemName: _, sourceUrl: _, sourceFormat: type} = msg) do
     mime_type = Helpers.mime_type(type)
 
     create(Map.replace!(msg, :sourceFormat, mime_type))

@@ -9,10 +9,9 @@ defmodule SmartCity.DatasetTest do
   setup do
     message = %{
       "id" => "uuid",
+      "organization_id" => "uuid2",
       "technical" => %{
         "dataName" => "dataset",
-        "orgName" => "org",
-        "orgId" => "uuid",
         "systemName" => "org__dataset",
         "sourceUrl" => "https://example.com",
         "sourceFormat" => "gtfs",
@@ -28,7 +27,6 @@ defmodule SmartCity.DatasetTest do
         "description" => "description",
         "keywords" => ["one", "two"],
         "modifiedDate" => "2019-01-31T01:31:31Z",
-        "orgTitle" => "org title",
         "contactName" => "contact name",
         "contactEmail" => "contact@email.com",
         "license" => "license",
@@ -57,9 +55,10 @@ defmodule SmartCity.DatasetTest do
 
       atom_tech = Map.new(tech, fn {k, v} -> {String.to_atom(k), v} end)
       atom_biz = Map.new(biz, fn {k, v} -> {String.to_atom(k), v} end)
-      map = %{id: "uuid", business: atom_biz, technical: atom_tech}
+      map = %{id: "uuid", organization_id: "uuid2", business: atom_biz, technical: atom_tech}
 
-      assert {:ok, %Dataset{id: "uuid", business: ^business, technical: ^technical}} = Dataset.new(map)
+      assert {:ok, %Dataset{id: "uuid", organization_id: "uuid2", business: ^business, technical: ^technical}} =
+               Dataset.new(map)
     end
 
     test "is idempotent", %{message: map} do
