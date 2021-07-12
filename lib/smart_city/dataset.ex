@@ -117,6 +117,20 @@ defmodule SmartCity.Dataset do
     e -> {:error, e}
   end
 
+  defp create(%{id: id, business: biz, technical: %{orgId: org_id} = tech}) do
+    struct =
+      struct(%__MODULE__{}, %{
+        id: id,
+        organization_id: org_id,
+        business: Business.new(biz),
+        technical: Technical.new(tech)
+      })
+
+    {:ok, struct}
+  rescue
+    e -> {:error, e}
+  end
+
   defp create(msg) do
     {:error, "Invalid Dataset: #{inspect(msg)}"}
   end

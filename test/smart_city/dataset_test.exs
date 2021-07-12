@@ -35,9 +35,37 @@ defmodule SmartCity.DatasetTest do
       }
     }
 
+    deprecated_message = %{
+      "id" => "uuid",
+      "technical" => %{
+        "dataName" => "dataset",
+        "orgId" => "uuid3",
+        "systemName" => "org__dataset",
+        "sourceUrl" => "https://example.com",
+        "sourceFormat" => "gtfs",
+        "sourceType" => "stream",
+        "cadence" => 9000,
+        "sourceHeaders" => %{},
+        "partitioner" => %{type: nil, query: nil},
+        "sourceQueryParams" => %{},
+        "schema" => []
+      },
+      "business" => %{
+        "dataTitle" => "dataset title",
+        "description" => "description",
+        "keywords" => ["one", "two"],
+        "modifiedDate" => "2019-01-31T01:31:31Z",
+        "contactName" => "contact name",
+        "contactEmail" => "contact@email.com",
+        "license" => "license",
+        "rights" => "rights information",
+        "homepage" => ""
+      }
+    }
+
     json = Jason.encode!(message)
 
-    {:ok, message: message, json: json}
+    {:ok, message: message, deprecated_message: deprecated_message, json: json}
   end
 
   describe "new/1" do
@@ -46,6 +74,14 @@ defmodule SmartCity.DatasetTest do
       assert actual.id == "uuid"
       assert actual.business.dataTitle == "dataset title"
       assert actual.technical.dataName == "dataset"
+    end
+
+    test "turns a map with string keys into a Dataset when using the deprecated format", %{deprecated_message: map} do
+      {:ok, actual} = Dataset.new(map)
+      assert actual.id == "uuid"
+      assert actual.business.dataTitle == "dataset title"
+      assert actual.technical.dataName == "dataset"
+      assert actual.organization_id == "uuid3"
     end
 
     test "turns a map with atom keys into a Dataset", %{message: map} do
