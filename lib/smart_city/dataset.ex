@@ -68,10 +68,11 @@ defmodule SmartCity.Dataset do
   alias SmartCity.Dataset.Technical
 
   @type id :: term()
+  @type not_required :: term() | nil
   @type t :: %SmartCity.Dataset{
           business: SmartCity.Dataset.Business.t(),
           id: String.t(),
-          organization_id: String.t(),
+          organization_id: not_required(),
           technical: SmartCity.Dataset.Technical.t(),
           version: String.t()
         }
@@ -108,6 +109,20 @@ defmodule SmartCity.Dataset do
       struct(%__MODULE__{}, %{
         id: id,
         organization_id: organization_id,
+        business: Business.new(biz),
+        technical: Technical.new(tech)
+      })
+
+    {:ok, struct}
+  rescue
+    e -> {:error, e}
+  end
+
+  defp create(%{id: id, business: biz, technical: %{orgId: org_id} = tech}) do
+    struct =
+      struct(%__MODULE__{}, %{
+        id: id,
+        organization_id: org_id,
         business: Business.new(biz),
         technical: Technical.new(tech)
       })
