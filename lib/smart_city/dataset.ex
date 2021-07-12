@@ -68,10 +68,11 @@ defmodule SmartCity.Dataset do
   alias SmartCity.Dataset.Technical
 
   @type id :: term()
+  @type not_required :: term() | nil
   @type t :: %SmartCity.Dataset{
           business: SmartCity.Dataset.Business.t(),
           id: String.t(),
-          organization_id: String.t(),
+          organization_id: not_required(),
           technical: SmartCity.Dataset.Technical.t(),
           version: String.t()
         }
