@@ -15,6 +15,8 @@ defmodule SmartCity.Ingestion do
     }
     ```
     """
+    @type not_required(type) :: type | nil
+    
     @type t :: %SmartCity.Ingestion{
         cadence: not_required(String.t()),
         extractSteps: not_required(list(map())),
