@@ -7,26 +7,33 @@ defmodule SmartCity.Dataset.Technical do
   @type not_required(type) :: type | nil
 
   @type t() :: %SmartCity.Dataset.Technical{
+          # move to ingestion
           allow_duplicates: not_required(boolean()),
+          # deprecated
           authHeaders: not_required(map()),
+          # deprecated
           authBody: not_required(map()),
+          # deprecated
           authUrl: String.t(),
+          # deprecated
           authBodyEncodeMethod: not_required(String.t()),
-          cadence: not_required(String.t()),
+          # deprecated
           credentials: boolean(),
           dataName: String.t(),
-          extractSteps: not_required(list(map())),
           orgId: not_required(String.t()),
           orgName: String.t(),
           private: not_required(boolean()),
+          # deprecated
           protocol: not_required(list(String.t())),
           schema: not_required(list(map())),
-          sourceFormat: String.t(),
+          # deprecated
           sourceHeaders: not_required(map()),
+          # deprecated
           sourceQueryParams: not_required(map()),
-          sourceType: not_required(String.t()),
+          # deprecated
           sourceUrl: String.t(),
           systemName: String.t(),
+          # move to ingestion
           topLevelSelector: not_required(String.t())
         }
 
@@ -36,19 +43,15 @@ defmodule SmartCity.Dataset.Technical do
             authBody: %{},
             authUrl: nil,
             authBodyEncodeMethod: nil,
-            cadence: "never",
             credentials: false,
             dataName: nil,
-            extractSteps: nil,
             orgId: nil,
             orgName: nil,
             private: true,
             protocol: nil,
             schema: [],
-            sourceFormat: nil,
             sourceHeaders: %{},
             sourceQueryParams: %{},
-            sourceType: "remote",
             sourceUrl: nil,
             systemName: nil,
             topLevelSelector: nil
