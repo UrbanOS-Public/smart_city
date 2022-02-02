@@ -131,6 +131,11 @@ defmodule SmartCity.Event do
   defmacro user_login(), do: quote(do: "user:login")
 
   @doc """
+  Signals an ingestion update has occurred 
+  """
+  defmacro ingestion_update(), do: quote(do: "ingestion:update")
+
+  @doc """
   Signals to file should be downloaded
   """
   @deprecated "Use file_ingest_start/0"
