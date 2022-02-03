@@ -7,44 +7,21 @@ defmodule SmartCity.Dataset.Technical do
   @type not_required(type) :: type | nil
 
   @type t() :: %SmartCity.Dataset.Technical{
-          # move to ingestion
-          allow_duplicates: not_required(boolean()),
-          # deprecated
-          authHeaders: not_required(map()),
-          # deprecated
-          authBody: not_required(map()),
-          # deprecated
-          authUrl: String.t(),
-          # deprecated
-          authBodyEncodeMethod: not_required(String.t()),
-          # deprecated
-          credentials: boolean(),
           dataName: String.t(),
           orgId: not_required(String.t()),
           orgName: String.t(),
           private: not_required(boolean()),
-          # deprecated
-          protocol: not_required(list(String.t())),
+          protocol: not_required(list(String.t())), # deprecated
           schema: not_required(list(map())),
-          # deprecated
-          sourceHeaders: not_required(map()),
-          # deprecated
-          sourceQueryParams: not_required(map()),
-          # deprecated
-          sourceUrl: String.t(),
-          systemName: String.t(),
-          # move to ingestion
-          topLevelSelector: not_required(String.t())
+          sourceHeaders: not_required(map()), # deprecated
+          sourceQueryParams: not_required(map()), # deprecated
+          sourceUrl: String.t(), # deprecated
+          sourceType: not_required(String.t()),
+          systemName: String.t()
         }
 
   @derive Jason.Encoder
-  defstruct allow_duplicates: true,
-            authHeaders: %{},
-            authBody: %{},
-            authUrl: nil,
-            authBodyEncodeMethod: nil,
-            credentials: false,
-            dataName: nil,
+  defstruct dataName: nil,
             orgId: nil,
             orgName: nil,
             private: true,
@@ -52,9 +29,9 @@ defmodule SmartCity.Dataset.Technical do
             schema: [],
             sourceHeaders: %{},
             sourceQueryParams: %{},
+            sourceType: "remote",
             sourceUrl: nil,
-            systemName: nil,
-            topLevelSelector: nil
+            systemName: nil
 
   use Accessible
 
@@ -72,10 +49,8 @@ defmodule SmartCity.Dataset.Technical do
       - orgName
       - systemName
       - sourceUrl
-      - sourceFormat
 
     - sourceType will default to "remote"
-    - cadence will default to "never"
   """
   @spec new(map()) :: SmartCity.Dataset.Technical.t()
   def new(%{"dataName" => _} = msg) do
@@ -84,17 +59,14 @@ defmodule SmartCity.Dataset.Technical do
     |> new()
   end
 
-  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, sourceFormat: type, schema: schema} = msg) do
+  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, schema: schema} = msg) do
     msg
     |> Map.put(:schema, Helpers.to_atom_keys(schema))
-    |> Map.replace!(:sourceFormat, Helpers.mime_type(type))
     |> create()
   end
 
-  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, sourceFormat: type} = msg) do
-    mime_type = Helpers.mime_type(type)
-
-    create(Map.replace!(msg, :sourceFormat, mime_type))
+  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _} = msg) do
+    create(msg)
   end
 
   def new(msg) do
