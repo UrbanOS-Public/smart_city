@@ -25,7 +25,9 @@ defmodule SmartCity.IngestionTest do
         Ingestion.new(%{
           id: "uuid",
           targetDataset: "dataset",
-          sourceFormat: "gtfs"
+          sourceFormat: "gtfs",
+          extractSteps: [],
+          schema: []
         })
 
       assert actual.allow_duplicates == true
@@ -55,6 +57,8 @@ defmodule SmartCity.IngestionTest do
           id: "uuid",
           targetDataset: "dataset",
           sourceFormat: "gtfs",
+          extractSteps: [],
+          schema: [],
           is_a_good_struct: "no"
         })
 
@@ -69,7 +73,9 @@ defmodule SmartCity.IngestionTest do
         Ingestion.new(%{
           id: "uuid",
           targetDataset: "dataset",
-          sourceFormat: "gtfs"
+          sourceFormat: "gtfs",
+          extractSteps: [],
+          schema: []
         })
 
       assert Map.get(actual, field) == default
@@ -85,7 +91,9 @@ defmodule SmartCity.IngestionTest do
         Ingestion.new(%{
           id: "uuid",
           targetDataset: "dataset",
-          sourceFormat: extension
+          sourceFormat: extension,
+          extractSteps: [],
+          schema: []
         })
 
       assert Map.get(actual, :sourceFormat) == mime_type
@@ -117,6 +125,7 @@ defmodule SmartCity.IngestionTest do
           "id" => "uuid",
           "targetDataset" => "dataset",
           "sourceFormat" => "gtfs",
+          "extractSteps" => [],
           "schema" => [
             %{
               "name" => "field_name",
@@ -141,6 +150,7 @@ defmodule SmartCity.IngestionTest do
           id: "uuid",
           targetDataset: "dataset",
           sourceFormat: "gtfs",
+          extractSteps: [],
           schema: [
             %{
               "name" => "field_name",
