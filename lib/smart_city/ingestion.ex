@@ -6,7 +6,8 @@ defmodule SmartCity.Ingestion do
 
   ```javascript
   const Ingestion = {
-    allow_duplicates: boolean,
+    "id": "",
+    "allow_duplicates": boolean,
     "cadence": "",
     "extractSteps": [],          
     "schema": [],
@@ -19,6 +20,7 @@ defmodule SmartCity.Ingestion do
   @type not_required(type) :: type | nil
 
   @type t :: %SmartCity.Ingestion{
+          id: String.t(),
           allow_duplicates: not_required(boolean()),
           cadence: not_required(String.t()),
           extractSteps: not_required(list(map())),
@@ -29,7 +31,8 @@ defmodule SmartCity.Ingestion do
         }
 
   @derive Jason.Encoder
-  defstruct allow_duplicates: true,
+  defstruct id: nil,
+            allow_duplicates: true,
             cadence: "never",
             extractSteps: [],
             schema: [],
@@ -63,14 +66,14 @@ defmodule SmartCity.Ingestion do
     |> new()
   end
 
-  def new(%{targetDataset: _, sourceFormat: type, schema: schema} = msg) do
+  def new(%{id: _, targetDataset: _, sourceFormat: type, schema: schema} = msg) do
     msg
     |> Map.put(:schema, Helpers.to_atom_keys(schema))
     |> Map.replace!(:sourceFormat, Helpers.mime_type(type))
     |> create()
   end
 
-  def new(%{targetDataset: _, sourceFormat: type} = msg) do
+  def new(%{id: _, targetDataset: _, sourceFormat: type} = msg) do
     mime_type = Helpers.mime_type(type)
 
     create(Map.replace!(msg, :sourceFormat, mime_type))
