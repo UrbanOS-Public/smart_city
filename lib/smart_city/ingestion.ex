@@ -23,8 +23,8 @@ defmodule SmartCity.Ingestion do
           id: String.t(),
           allow_duplicates: not_required(boolean()),
           cadence: not_required(String.t()),
-          extractSteps: not_required(list(map())),
-          schema: not_required(list(map())),
+          extractSteps: list(map()),
+          schema: list(map()),
           sourceFormat: String.t(),
           targetDataset: String.t(),
           topLevelSelector: not_required(String.t())
@@ -66,17 +66,12 @@ defmodule SmartCity.Ingestion do
     |> new()
   end
 
-  def new(%{id: _, targetDataset: _, sourceFormat: type, schema: schema} = msg) do
+  def new(%{id: _, targetDataset: _, sourceFormat: type, schema: schema, extractSteps: extractSteps} = msg) do
     msg
     |> Map.put(:schema, Helpers.to_atom_keys(schema))
+    |> Map.put(:extractSteps, Helpers.to_atom_keys(extractSteps))
     |> Map.replace!(:sourceFormat, Helpers.mime_type(type))
     |> create()
-  end
-
-  def new(%{id: _, targetDataset: _, sourceFormat: type} = msg) do
-    mime_type = Helpers.mime_type(type)
-
-    create(Map.replace!(msg, :sourceFormat, mime_type))
   end
 
   def new(msg) do
