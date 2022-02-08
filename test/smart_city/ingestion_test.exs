@@ -6,6 +6,7 @@ defmodule SmartCity.IngestionTest do
 
   setup do
     message = %{
+      "id" => "uuid",
       "allow_duplicates" => false,
       "targetDataset" => "dataset",
       "cadence" => 30_000,
@@ -22,6 +23,7 @@ defmodule SmartCity.IngestionTest do
     test "returns Ingestion struct" do
       actual =
         Ingestion.new(%{
+          id: "uuid",
           targetDataset: "dataset",
           sourceFormat: "gtfs"
         })
@@ -50,6 +52,7 @@ defmodule SmartCity.IngestionTest do
       actual =
         Ingestion.new(%{
           __struct__: SmartCity.Ingestion,
+          id: "uuid",
           targetDataset: "dataset",
           sourceFormat: "gtfs",
           is_a_good_struct: "no"
@@ -64,6 +67,7 @@ defmodule SmartCity.IngestionTest do
     data_test "field #{field} has a default value of #{inspect(default)}" do
       actual =
         Ingestion.new(%{
+          id: "uuid",
           targetDataset: "dataset",
           sourceFormat: "gtfs"
         })
@@ -79,6 +83,7 @@ defmodule SmartCity.IngestionTest do
     data_test "sourceFormat #{mime_type} based on input type #{extension}" do
       actual =
         Ingestion.new(%{
+          id: "uuid",
           targetDataset: "dataset",
           sourceFormat: extension
         })
@@ -109,6 +114,7 @@ defmodule SmartCity.IngestionTest do
     test "converts deeply nested string keys to atoms" do
       actual =
         Ingestion.new(%{
+          "id" => "uuid",
           "targetDataset" => "dataset",
           "sourceFormat" => "gtfs",
           "schema" => [
@@ -132,6 +138,7 @@ defmodule SmartCity.IngestionTest do
     test "converts schema keys to atoms even when the top level is atoms" do
       actual =
         Ingestion.new(%{
+          id: "uuid",
           targetDataset: "dataset",
           sourceFormat: "gtfs",
           schema: [
