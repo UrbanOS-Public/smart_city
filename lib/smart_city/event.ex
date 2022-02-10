@@ -136,6 +136,11 @@ defmodule SmartCity.Event do
   defmacro ingestion_update(), do: quote(do: "ingestion:update")
 
   @doc """
+  Declares an error occurred during the attempted update of an ingestion.
+  """
+  defmacro error_ingestion_update(), do: quote(do: "error:ingestion:update")
+
+  @doc """
   Signals an ingestion should be deleted
   """
   defmacro ingestion_delete(), do: quote(do: "ingestion:delete")
