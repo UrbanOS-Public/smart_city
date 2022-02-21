@@ -13,7 +13,15 @@ defmodule SmartCity.IngestionTest do
       "sourceFormat" => "gtfs",
       "schema" => [],
       "extractSteps" => [],
-      "topLevelSelector" => "noodles"
+      "topLevelSelector" => "noodles",
+      "transformations" => [%{
+        "type" => "regex_extract",
+        "parameters" => %{
+          "sourceField" => "phone_number",
+          "targetField" => "area_code",
+          "regex" => "^\\((\\d{3})\\)"
+        }
+      }]
     }
 
     {:ok, message: message}
@@ -37,6 +45,7 @@ defmodule SmartCity.IngestionTest do
       assert actual.schema == []
       assert actual.extractSteps == []
       assert actual.topLevelSelector == nil
+      assert actual.transformations == []
     end
 
     test "is idempotent", %{message: msg} do
@@ -48,6 +57,11 @@ defmodule SmartCity.IngestionTest do
       assert actual.schema == []
       assert actual.extractSteps == []
       assert actual.topLevelSelector == "noodles"
+      transformation = List.first(actual.transformations)
+      assert transformation.type == "regex_extract"
+      assert transformation.parameters.sourceField == "phone_number"
+      assert transformation.parameters.targetField == "area_code"
+      assert transformation.parameters.regex == "^\\((\\d{3})\\)"
     end
 
     test "a struct with additional fields is cleaned" do
@@ -117,6 +131,11 @@ defmodule SmartCity.IngestionTest do
       assert actual.sourceFormat == "application/gtfs+protobuf"
       assert actual.schema == []
       assert actual.extractSteps == []
+      transformation = List.first(actual.transformations)
+      assert transformation.type == "regex_extract"
+      assert transformation.parameters.sourceField == "phone_number"
+      assert transformation.parameters.targetField == "area_code"
+      assert transformation.parameters.regex == "^\\((\\d{3})\\)"
     end
 
     test "converts deeply nested string keys to atoms" do
