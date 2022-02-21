@@ -1,5 +1,6 @@
 defmodule SmartCity.Ingestion do
   alias SmartCity.Helpers
+  alias SmartCity.Ingestion.Transformation
 
   @moduledoc """
   Struct defining an ingestion update event.
@@ -9,11 +10,11 @@ defmodule SmartCity.Ingestion do
     "id": "",
     "allow_duplicates": boolean,
     "cadence": "",
-    "extractSteps": [],          
+    "extractSteps": [],
     "schema": [],
-    "targetDatasetId": "",          
+    "targetDatasetId": "",
     "sourceFormat": "",
-    "topLevelSelector": ""  
+    "topLevelSelector": ""
   }
   ```
   """
@@ -27,7 +28,8 @@ defmodule SmartCity.Ingestion do
           schema: list(map()),
           sourceFormat: String.t(),
           targetDataset: String.t(),
-          topLevelSelector: not_required(String.t())
+          topLevelSelector: not_required(String.t()),
+          transformations: list(Transformation.t())
         }
 
   @derive Jason.Encoder
@@ -38,7 +40,8 @@ defmodule SmartCity.Ingestion do
             schema: [],
             targetDataset: nil,
             sourceFormat: nil,
-            topLevelSelector: nil
+            topLevelSelector: nil,
+            transformations: []
 
   use Accessible
 
