@@ -14,7 +14,8 @@ defmodule SmartCity.Ingestion do
     "schema": [],
     "targetDatasetId": "",
     "sourceFormat": "",
-    "topLevelSelector": ""
+    "topLevelSelector": "",
+    "transformations": [],
   }
   ```
   """
