@@ -35,7 +35,8 @@ defmodule SmartCity.IngestionTest do
           targetDataset: "dataset",
           sourceFormat: "gtfs",
           extractSteps: [],
-          schema: []
+          schema: [],
+          transformations: []
         })
 
       assert actual.allow_duplicates == true
@@ -73,7 +74,8 @@ defmodule SmartCity.IngestionTest do
           sourceFormat: "gtfs",
           extractSteps: [],
           schema: [],
-          is_a_good_struct: "no"
+          is_a_good_struct: "no",
+          transformations: []
         })
 
       assert actual.targetDataset == "dataset"
@@ -89,14 +91,15 @@ defmodule SmartCity.IngestionTest do
           targetDataset: "dataset",
           sourceFormat: "gtfs",
           extractSteps: [],
-          schema: []
+          schema: [],
+          transformations: []
         })
 
       assert Map.get(actual, field) == default
 
       where(
-        field: [:schema, :cadence, :extractSteps, :allow_duplicates],
-        default: [[], "never", [], true]
+        field: [:schema, :cadence, :extractSteps, :allow_duplicates, :transformations],
+        default: [[], "never", [], true, []]
       )
     end
 
@@ -107,7 +110,8 @@ defmodule SmartCity.IngestionTest do
           targetDataset: "dataset",
           sourceFormat: extension,
           extractSteps: [],
-          schema: []
+          schema: [],
+          transformations: []
         })
 
       assert Map.get(actual, :sourceFormat) == mime_type
@@ -152,7 +156,8 @@ defmodule SmartCity.IngestionTest do
                 %{"name" => "deep"}
               ]
             }
-          ]
+          ],
+          "transformations" => []
         })
 
       assert List.first(actual.schema) == %{
@@ -177,7 +182,8 @@ defmodule SmartCity.IngestionTest do
                 %{"name" => "deep"}
               ]
             }
-          ]
+          ],
+          transformations: []
         })
 
       assert List.first(actual.schema) == %{
