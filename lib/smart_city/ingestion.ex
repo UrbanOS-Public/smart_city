@@ -8,6 +8,7 @@ defmodule SmartCity.Ingestion do
   ```javascript
   const Ingestion = {
     "id": "",
+    "name", "",
     "allow_duplicates": boolean,
     "cadence": "",
     "extractSteps": [],
@@ -60,8 +61,8 @@ defmodule SmartCity.Ingestion do
   Required Keys:
       - targetDataset
       - sourceFormat
+      - name
 
-  - sourceType will default to "remote"
   - cadence will default to "never"
   - allow_duplicates will default to true
   """
