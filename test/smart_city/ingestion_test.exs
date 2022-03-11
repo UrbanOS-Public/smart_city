@@ -7,6 +7,7 @@ defmodule SmartCity.IngestionTest do
   setup do
     message = %{
       "id" => "uuid",
+      "name" => "name",
       "allow_duplicates" => false,
       "targetDataset" => "dataset",
       "cadence" => 30_000,
@@ -32,6 +33,7 @@ defmodule SmartCity.IngestionTest do
       actual =
         Ingestion.new(%{
           id: "uuid",
+          name: "name",
           targetDataset: "dataset",
           sourceFormat: "gtfs",
           extractSteps: [],
@@ -41,6 +43,7 @@ defmodule SmartCity.IngestionTest do
 
       assert actual.allow_duplicates == true
       assert actual.targetDataset == "dataset"
+      assert actual.name == "name"
       assert actual.sourceFormat == "application/gtfs+protobuf"
       assert actual.cadence == "never"
       assert actual.schema == []
@@ -70,6 +73,7 @@ defmodule SmartCity.IngestionTest do
         Ingestion.new(%{
           __struct__: SmartCity.Ingestion,
           id: "uuid",
+          name: "name",
           targetDataset: "dataset",
           sourceFormat: "gtfs",
           extractSteps: [],
@@ -88,6 +92,7 @@ defmodule SmartCity.IngestionTest do
       actual =
         Ingestion.new(%{
           id: "uuid",
+          name: "name",
           targetDataset: "dataset",
           sourceFormat: "gtfs",
           extractSteps: [],
@@ -107,6 +112,7 @@ defmodule SmartCity.IngestionTest do
       actual =
         Ingestion.new(%{
           id: "uuid",
+          name: "name",
           targetDataset: "dataset",
           sourceFormat: extension,
           extractSteps: [],
@@ -146,6 +152,7 @@ defmodule SmartCity.IngestionTest do
       actual =
         Ingestion.new(%{
           "id" => "uuid",
+          "name" => "name",
           "targetDataset" => "dataset",
           "sourceFormat" => "gtfs",
           "extractSteps" => [],
@@ -172,6 +179,7 @@ defmodule SmartCity.IngestionTest do
       actual =
         Ingestion.new(%{
           id: "uuid",
+          name: "name",
           targetDataset: "dataset",
           sourceFormat: "gtfs",
           extractSteps: [],
