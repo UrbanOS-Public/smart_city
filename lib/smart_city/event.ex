@@ -111,6 +111,26 @@ defmodule SmartCity.Event do
   defmacro user_organization_disassociate(), do: quote(do: "user:organization:disassociate")
 
   @doc """
+  Defines a user access group relationship.
+  """
+  defmacro user_access_group_associate(), do: quote(do: "user:access_group:associate")
+
+  @doc """
+  Defines a user access group relationship.
+  """
+  defmacro user_access_group_disassociate(), do: quote(do: "user:access_group:disassociate")
+
+  @doc """
+  Defines a dataset access group relationship.
+  """
+  defmacro dataset_access_group_associate(), do: quote(do: "dataset:access_group:associate")
+
+  @doc """
+  Defines a dataset access group relationship.
+  """
+  defmacro dataset_access_group_disassociate(), do: quote(do: "dataset:access_group:disassociate")
+
+  @doc """
   Signals a dataset harvest start
   """
   defmacro dataset_harvest_start(), do: quote(do: "dataset:harvest:start")
