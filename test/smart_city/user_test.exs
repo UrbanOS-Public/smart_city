@@ -6,12 +6,13 @@ defmodule SmartCity.UserTest do
   setup do
     string_key_message = %{
       "subject_id" => "Cam",
-      "email" => "cam@cam.com"
+      "email" => "cam@cam.com",
+      "name" => "Cam Name"
     }
 
     json_message = Jason.encode!(string_key_message)
 
-    atom_key_message = %{subject_id: "Cam", email: "cam@cam.com"}
+    atom_key_message = %{subject_id: "Cam", email: "cam@cam.com", name: "Cam Name"}
 
     invalid_message = %{subject_id: "Cam"}
 
@@ -29,6 +30,7 @@ defmodule SmartCity.UserTest do
       {:ok, actual} = User.new(string_key_message)
       assert actual.subject_id == "Cam"
       assert actual.email == "cam@cam.com"
+      assert actual.name == "Cam Name"
     end
 
     test "create new user organization associate message via json", %{json_message: json_message} do
