@@ -24,3 +24,4 @@ scos_ex-*.tar
 
 .elixir_ls
 .DS_Store
+.idea

@@ -8,12 +8,14 @@ defmodule SmartCity.User do
   @type email :: String.t()
   @type t :: %SmartCity.User{
           :subject_id => String.t(),
-          :email => String.t()
+          :email => String.t(),
+          :name => String.t()
         }
 
   @derive Jason.Encoder
   defstruct subject_id: nil,
-            email: nil
+            email: nil,
+            name: nil
 
   @doc """
   Instantiates an instance of a user organization associate event struct.
@@ -24,7 +26,7 @@ defmodule SmartCity.User do
     |> create()
   end
 
-  defp create(%{subject_id: _, email: _} = msg) do
+  defp create(%{subject_id: _, email: _, name: _} = msg) do
     user = struct(%__MODULE__{}, msg)
 
     {:ok, user}
