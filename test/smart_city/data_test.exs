@@ -11,6 +11,8 @@ defmodule SmartCity.DataTest do
       map = %{
         "dataset_id" => "abc",
         "payload" => "whatever",
+        "ingestion_id" => "get-that-data-0000",
+        "extraction_start_time" => "2022-05-13T13:48:06+00:00",
         "_metadata" => %{org: "whatever", name: "stuff", stream: true},
         "operational" => %{"timing" => [%{app: "reaper", label: "sus", start_time: 5, end_time: 10}]}
       }
@@ -21,12 +23,16 @@ defmodule SmartCity.DataTest do
       assert actual.payload == "whatever"
       assert actual._metadata == %{org: "whatever", name: "stuff", stream: true}
       assert actual.operational.timing == [%Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}]
+      assert actual.ingestion_id == "get-that-data-0000"
+      assert actual.extraction_start_time == "2022-05-13T13:48:06+00:00"
     end
 
     test "turns a map with atom keys into a Data" do
       map = %{
         dataset_id: "abc",
         payload: "whatever",
+        ingestion_id: "get-that-data-0000",
+        extraction_start_time: "2022-05-13T13:48:06+00:00",
         _metadata: %{org: "whatever", name: "stuff", stream: true},
         operational: %{timing: [%{app: "reaper", label: "sus", start_time: 5, end_time: 10}]}
       }
@@ -36,6 +42,8 @@ defmodule SmartCity.DataTest do
       assert actual == %Data{
                dataset_id: "abc",
                payload: "whatever",
+               ingestion_id: "get-that-data-0000",
+               extraction_start_time: "2022-05-13T13:48:06+00:00",
                _metadata: %{org: "whatever", name: "stuff", stream: true},
                operational: %{timing: [%Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}]}
              }
@@ -50,6 +58,8 @@ defmodule SmartCity.DataTest do
       map = %Data{
         dataset_id: "abc",
         payload: "whatever",
+        ingestion_id: "get-that-data-0000",
+        extraction_start_time: "2022-05-13T13:48:06+00:00",
         _metadata: %{org: "whatever", name: "stuff", stream: true},
         operational: %{timing: [%{app: "reaper", label: "sus", start_time: 5, end_time: 10}]}
       }
@@ -101,6 +111,8 @@ defmodule SmartCity.DataTest do
       data_message = %Data{
         dataset_id: "abc",
         payload: "whatever",
+        ingestion_id: "get-that-data-0000",
+        extraction_start_time: "2022-05-13T13:48:06+00:00",
         _metadata: [],
         operational: %{
           timing: %Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}
@@ -109,7 +121,7 @@ defmodule SmartCity.DataTest do
 
       expected =
         {:ok,
-         ~s({"_metadata":[],"dataset_id":"abc","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})}
+         ~s({"_metadata":[],"dataset_id":"abc","extraction_start_time":"2022-05-13T13:48:06+00:00","ingestion_id":"get-that-data-0000","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})}
 
       assert Data.encode(data_message) == expected
     end
@@ -120,6 +132,8 @@ defmodule SmartCity.DataTest do
       data_message = %Data{
         dataset_id: "abc",
         payload: "whatever",
+        ingestion_id: "get-that-data-0000",
+        extraction_start_time: "2022-05-13T13:48:06+00:00",
         _metadata: [],
         operational: %{
           timing: %Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}
@@ -127,7 +141,7 @@ defmodule SmartCity.DataTest do
       }
 
       expected =
-        ~s({"_metadata":[],"dataset_id":"abc","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})
+        ~s({"_metadata":[],"dataset_id":"abc","extraction_start_time":"2022-05-13T13:48:06+00:00","ingestion_id":"get-that-data-0000","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})
 
       assert Data.encode!(data_message) == expected
     end
@@ -135,6 +149,9 @@ defmodule SmartCity.DataTest do
     test "raises Jason.EncodeError if message can't be encoded" do
       data_message = %Data{
         dataset_id: "\xFF",
+        payload: "whatever",
+        ingestion_id: "get-that-data-0000",
+        extraction_start_time: "2022-05-13T13:48:06+00:00",
         payload: "whatever",
         _metadata: [],
         operational: %{
@@ -157,6 +174,8 @@ defmodule SmartCity.DataTest do
       initial_message = %Data{
         dataset_id: :guid,
         payload: :initial,
+        ingestion_id: "get-that-data-0000",
+        extraction_start_time: "2022-05-13T13:48:06+00:00",
         _metadata: [],
         operational: %{
           timing: [
@@ -169,6 +188,8 @@ defmodule SmartCity.DataTest do
 
       expected_message = %Data{
         dataset_id: "guid",
+        ingestion_id: "get-that-data-0000",
+        extraction_start_time: "2022-05-13T13:48:06+00:00",
         payload: "initial",
         _metadata: [],
         operational: %{
@@ -196,6 +217,8 @@ defmodule SmartCity.DataTest do
 
       initial_message = %Data{
         dataset_id: :guid,
+        ingestion_id: "get-that-data-0000",
+        extraction_start_time: "2022-05-13T13:48:06+00:00",
         payload: :initial,
         _metadata: [],
         operational: %{
@@ -220,6 +243,8 @@ defmodule SmartCity.DataTest do
 
       data_message = %Data{
         dataset_id: :guid,
+        ingestion_id: "get-that-data-0000",
+        extraction_start_time: "2022-05-13T13:48:06+00:00",
         payload: :initial,
         _metadata: [],
         operational: %{
@@ -231,6 +256,8 @@ defmodule SmartCity.DataTest do
 
       expected_message = %Data{
         dataset_id: :guid,
+        ingestion_id: "get-that-data-0000",
+        extraction_start_time: "2022-05-13T13:48:06+00:00",
         payload: :whatever,
         _metadata: [],
         operational: %{
@@ -254,6 +281,8 @@ defmodule SmartCity.DataTest do
     test "returns error tuple on failure" do
       data_message = %Data{
         dataset_id: :guid,
+        ingestion_id: "get-that-data-0000",
+        extraction_start_time: "2022-05-13T13:48:06+00:00",
         payload: :initial,
         _metadata: [],
         operational: %{
@@ -278,6 +307,8 @@ defmodule SmartCity.DataTest do
       {:ok, message} =
         Data.new(%{
           dataset_id: "whatever",
+          ingestion_id: "whatever",
+          extraction_start_time: "whatever",
           payload: "whatever",
           _metadata: "whatever",
           operational: %{timing: []}
@@ -298,6 +329,8 @@ defmodule SmartCity.DataTest do
       {:ok, message} =
         Data.new(%{
           dataset_id: "whatever",
+          ingestion_id: "whatever",
+          extraction_start_time: "whatever",
           payload: "whatever",
           _metadata: "whatever",
           operational: %{timing: []}
@@ -321,6 +354,8 @@ defmodule SmartCity.DataTest do
       {:ok, message} =
         Data.new(%{
           dataset_id: "whatever",
+          ingestion_id: "whatever",
+          extraction_start_time: "whatever",
           payload: "whatever",
           _metadata: "whatever",
           operational: %{timing: [timing]}

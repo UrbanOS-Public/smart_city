@@ -15,14 +15,16 @@ defmodule SmartCity.IngestionTest do
       "schema" => [],
       "extractSteps" => [],
       "topLevelSelector" => "noodles",
-      "transformations" => [%{
-        "type" => "regex_extract",
-        "parameters" => %{
-          "sourceField" => "phone_number",
-          "targetField" => "area_code",
-          "regex" => "^\\((\\d{3})\\)"
+      "transformations" => [
+        %{
+          "type" => "regex_extract",
+          "parameters" => %{
+            "sourceField" => "phone_number",
+            "targetField" => "area_code",
+            "regex" => "^\\((\\d{3})\\)"
+          }
         }
-      }]
+      ]
     }
 
     {:ok, message: message}
