@@ -7,24 +7,37 @@ defmodule SmartCity.Dataset.Technical do
   @type not_required(type) :: type | nil
 
   @type t() :: %SmartCity.Dataset.Technical{
-          allow_duplicates: not_required(boolean()), # deprecated
-          authHeaders: not_required(map()), # deprecated
-          authBody: not_required(map()), # deprecated
-          authUrl: String.t(), # deprecated
-          authBodyEncodeMethod: not_required(String.t()), # deprecated
-          cadence: not_required(String.t()), # deprecated
-          credentials: boolean(), # deprecated
+          # deprecated
+          allow_duplicates: not_required(boolean()),
+          # deprecated
+          authHeaders: not_required(map()),
+          # deprecated
+          authBody: not_required(map()),
+          # deprecated
+          authUrl: String.t(),
+          # deprecated
+          authBodyEncodeMethod: not_required(String.t()),
+          # deprecated
+          cadence: not_required(String.t()),
+          # deprecated
+          credentials: boolean(),
           dataName: String.t(),
-          extractSteps: not_required(list(map())), # deprecated
+          # deprecated
+          extractSteps: not_required(list(map())),
           orgId: not_required(String.t()),
           orgName: String.t(),
           private: not_required(boolean()),
-          protocol: not_required(list(String.t())), # deprecated
+          # deprecated
+          protocol: not_required(list(String.t())),
           schema: not_required(list(map())),
-          sourceHeaders: not_required(map()), # deprecated
-          sourceFormat: String.t(), # deprecated
-          sourceQueryParams: not_required(map()), # deprecated
-          sourceUrl: String.t(), # deprecated
+          # deprecated
+          sourceHeaders: not_required(map()),
+          # deprecated
+          sourceFormat: String.t(),
+          # deprecated
+          sourceQueryParams: not_required(map()),
+          # deprecated
+          sourceUrl: String.t(),
           sourceType: not_required(String.t()),
           systemName: String.t(),
           topLevelSelector: not_required(String.t())

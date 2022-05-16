@@ -73,7 +73,17 @@ defmodule SmartCity.Ingestion do
     |> new()
   end
 
-  def new(%{id: _, name: _, targetDataset: _, sourceFormat: type, schema: schema, extractSteps: extractSteps, transformations: transformations} = msg) do
+  def new(
+        %{
+          id: _,
+          name: _,
+          targetDataset: _,
+          sourceFormat: type,
+          schema: schema,
+          extractSteps: extractSteps,
+          transformations: transformations
+        } = msg
+      ) do
     msg
     |> Map.put(:schema, Helpers.to_atom_keys(schema))
     |> Map.put(:extractSteps, Helpers.to_atom_keys(extractSteps))
