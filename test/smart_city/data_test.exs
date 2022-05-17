@@ -104,6 +104,72 @@ defmodule SmartCity.DataTest do
 
       assert expected == actual.operational
     end
+
+    test "does not require ingestion_id and extraction_start_time" do
+      map =  %{
+        _metadata: %{
+          name: "stuff",
+          org: "whatever",
+          stream: true
+        },
+        dataset_id: "abc",
+        operational: %{
+          timing: [
+            %{
+              app: "reaper",
+              end_time: 10,
+              label: "sus",
+              start_time: 5
+            }
+          ]
+        },
+        payload: "whatever"
+      }
+
+      json = Jason.encode!(map)
+
+      {:ok, data_from_json} = Data.new(json)
+      assert data_from_json.ingestion_id == nil
+      assert data_from_json.extraction_start_time == nil
+      {:ok, data_from_map} = Data.new(map)
+      assert data_from_map.ingestion_id == nil
+      assert data_from_map.extraction_start_time == nil
+      assert Data.new(json) == Data.new(map)
+    end
+
+    test "if optional fields provided they are not erased" do
+      map =  %{
+        _metadata: %{
+          name: "stuff",
+          org: "whatever",
+          stream: true
+        },
+        dataset_id: "abc",
+        ingestion_id: "ingestion3",
+        extraction_start_time: "2022-05-13T13:48:06+00:00",
+        operational: %{
+          timing: [
+            %{
+              app: "reaper",
+              end_time: 10,
+              label: "sus",
+              start_time: 5
+            }
+          ]
+        },
+        payload: "whatever"
+      }
+
+      json = Jason.encode!(map)
+
+      {:ok, data_from_json} = Data.new(json)
+      assert data_from_json.ingestion_id == "ingestion3"
+      assert data_from_json.extraction_start_time == "2022-05-13T13:48:06+00:00"
+      {:ok, data_from_map} = Data.new(map)
+      assert data_from_map.ingestion_id == "ingestion3"
+      assert data_from_map.extraction_start_time == "2022-05-13T13:48:06+00:00"
+      assert Data.new(json) == Data.new(map)
+    end
   end
 
   describe "encode" do

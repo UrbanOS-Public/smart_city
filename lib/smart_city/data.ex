@@ -47,7 +47,7 @@ defmodule SmartCity.Data do
   @type payload :: String.t()
 
   @derive Jason.Encoder
-  @enforce_keys [:dataset_id, :ingestion_id, :extraction_start_time, :payload, :_metadata, :operational]
+  @enforce_keys [:dataset_id, :payload, :_metadata, :operational]
   defstruct version: "0.1",
             _metadata: %{org: nil, name: nil, stream: false},
             dataset_id: nil,
@@ -121,6 +121,23 @@ defmodule SmartCity.Data do
     {:ok, struct}
   rescue
     e -> {:error, e}
+  end
+
+  def new(%{
+      dataset_id: dataset_id,
+      operational: operational,
+      payload: payload,
+      _metadata: metadata
+  }) do
+    %{
+      dataset_id: dataset_id,
+      operational: operational,
+      payload: payload,
+      _metadata: metadata,
+      ingestion_id: nil,
+      extraction_start_time: nil
+    }
+    |> new()
   end
 
   def new(msg) do
