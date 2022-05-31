@@ -106,7 +106,7 @@ defmodule SmartCity.DataTest do
     end
 
     test "does not require ingestion_id and extraction_start_time" do
-      map =  %{
+      map = %{
         _metadata: %{
           name: "stuff",
           org: "whatever",
@@ -138,7 +138,7 @@ defmodule SmartCity.DataTest do
     end
 
     test "if optional fields provided they are not erased" do
-      map =  %{
+      map = %{
         _metadata: %{
           name: "stuff",
           org: "whatever",
