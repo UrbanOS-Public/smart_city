@@ -123,23 +123,6 @@ defmodule SmartCity.Data do
     e -> {:error, e}
   end
 
-  def new(%{
-        dataset_id: dataset_id,
-        operational: operational,
-        payload: payload,
-        _metadata: metadata
-      }) do
-    %{
-      dataset_id: dataset_id,
-      operational: operational,
-      payload: payload,
-      _metadata: metadata,
-      ingestion_id: nil,
-      extraction_start_time: nil
-    }
-    |> new()
-  end
-
   def new(msg) do
     {:error, "Invalid data message: #{inspect(msg)}"}
   end
