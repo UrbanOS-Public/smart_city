@@ -18,6 +18,7 @@ defmodule SmartCity.IngestionTest do
       "transformations" => [
         %{
           "type" => "regex_extract",
+          "name" => "name",
           "parameters" => %{
             "sourceField" => "phone_number",
             "targetField" => "area_code",
