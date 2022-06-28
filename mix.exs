@@ -4,14 +4,14 @@ defmodule SmartCity.MixProject do
   def project do
     [
       app: :smart_city,
-      version: "5.2.3",
+      version: "5.2.4",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       docs: docs(),
       description: description(),
       package: package(),
-      source_url: "https//www.github.com/smartcitiesdata/smart_city"
+      source_url: "https://www.github.com/smartcitiesdata/smart_city"
     ]
   end
 

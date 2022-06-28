@@ -49,7 +49,6 @@ defmodule SmartCity.Dataset do
         "type": "",
         "description": ""
       }],
-      "sourceFormat": "",
       "sourceHeaders": {
         "header1": "",
         "header2": ""

@@ -11,7 +11,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
       "systemName" => "org__dataset",
       "sourceUrl" => "https://example.com",
       "sourceType" => "ingest",
-      "sourceFormat" => "gtfs",
       "sourceHeaders" => %{
         "foo" => "bar"
       }
@@ -26,7 +25,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
         Technical.new(%{
           dataName: "dataset",
           orgName: "org",
-          sourceFormat: "gtfs",
           systemName: "org__dataset",
           sourceUrl: "https://example.com"
         })
@@ -47,7 +45,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
           orgName: "org",
           systemName: "org__dataset",
           sourceUrl: "https://example.com",
-          sourceFormat: "gtfs",
           is_a_good_struct: "no"
         })
 
@@ -60,7 +57,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
       actual =
         Technical.new(%{
           dataName: "dataset",
-          sourceFormat: "gtfs",
           orgName: "org",
           systemName: "org__dataset",
           sourceUrl: "https://example.com"
@@ -93,7 +89,6 @@ defmodule SmartCity.Dataset.TechnicalTest do
           orgName: "org",
           systemName: "org__dataset",
           sourceUrl: "https://example.com",
-          sourceFormat: "gtfs",
           schema: [
             %{
               "name" => "field_name",
