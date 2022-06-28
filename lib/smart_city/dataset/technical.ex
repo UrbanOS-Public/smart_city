@@ -22,8 +22,6 @@ defmodule SmartCity.Dataset.Technical do
           # deprecated
           credentials: boolean(),
           dataName: String.t(),
-          # deprecated
-          extractSteps: not_required(list(map())),
           orgId: not_required(String.t()),
           orgName: String.t(),
           private: not_required(boolean()),
@@ -32,8 +30,6 @@ defmodule SmartCity.Dataset.Technical do
           schema: not_required(list(map())),
           # deprecated
           sourceHeaders: not_required(map()),
-          # deprecated
-          sourceFormat: String.t(),
           # deprecated
           sourceQueryParams: not_required(map()),
           # deprecated
@@ -52,13 +48,11 @@ defmodule SmartCity.Dataset.Technical do
             cadence: "never",
             credentials: false,
             dataName: nil,
-            extractSteps: nil,
             orgId: nil,
             orgName: nil,
             private: true,
             protocol: nil,
             schema: [],
-            sourceFormat: nil,
             sourceHeaders: %{},
             sourceQueryParams: %{},
             sourceType: "remote",
@@ -92,17 +86,14 @@ defmodule SmartCity.Dataset.Technical do
     |> new()
   end
 
-  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, sourceFormat: type, schema: schema} = msg) do
+  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, schema: schema} = msg) do
     msg
     |> Map.put(:schema, Helpers.to_atom_keys(schema))
-    |> Map.replace!(:sourceFormat, Helpers.mime_type(type))
     |> create()
   end
 
-  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _, sourceFormat: type} = msg) do
-    mime_type = Helpers.mime_type(type)
-
-    create(Map.replace!(msg, :sourceFormat, mime_type))
+  def new(%{dataName: _, orgName: _, systemName: _, sourceUrl: _} = msg) do
+    msg |> create()
   end
 
   def new(msg) do
