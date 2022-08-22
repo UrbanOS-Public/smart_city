@@ -32,6 +32,8 @@ defmodule SmartCity.Ingestion.Transformation do
   ## Parameters
     - type:
     - parameters:
+    - id:
+    - sequence: 
 
     * License will default to [http://opendefinition.org/licenses/cc-by/](http://opendefinition.org/licenses/cc-by/) if not provided
   """
