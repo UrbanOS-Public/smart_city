@@ -124,11 +124,11 @@ defmodule SmartCity.Data do
   end
 
   def new(%{
-      dataset_id: dataset_id,
-      operational: operational,
-      payload: payload,
-      _metadata: metadata
-  }) do
+        dataset_id: dataset_id,
+        operational: operational,
+        payload: payload,
+        _metadata: metadata
+      }) do
     %{
       dataset_id: dataset_id,
       operational: operational,
