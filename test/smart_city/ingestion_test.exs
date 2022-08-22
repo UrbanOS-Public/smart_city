@@ -17,6 +17,8 @@ defmodule SmartCity.IngestionTest do
       "topLevelSelector" => "noodles",
       "transformations" => [
         %{
+          "id" => "transformation_id",
+          "sequence" => 1,
           "type" => "regex_extract",
           "parameters" => %{
             "sourceField" => "phone_number",
@@ -148,6 +150,8 @@ defmodule SmartCity.IngestionTest do
       assert transformation.parameters.sourceField == "phone_number"
       assert transformation.parameters.targetField == "area_code"
       assert transformation.parameters.regex == "^\\((\\d{3})\\)"
+      assert transformation.id == "transformation_id"
+      assert transformation.sequence == 1
     end
 
     test "converts deeply nested string keys to atoms" do

@@ -12,12 +12,16 @@ defmodule SmartCity.Ingestion.Transformation do
 
   @type t :: %SmartCity.Ingestion.Transformation{
           type: String.t(),
-          parameters: map()
+          parameters: map(),
+          id: String.t(),
+          sequence: Integer.t()
         }
 
   @derive Jason.Encoder
   defstruct type: nil,
-            parameters: nil
+            parameters: nil,
+            id: nil,
+            sequence: nil
 
   use Accessible
 
@@ -31,13 +35,13 @@ defmodule SmartCity.Ingestion.Transformation do
 
     * License will default to [http://opendefinition.org/licenses/cc-by/](http://opendefinition.org/licenses/cc-by/) if not provided
   """
-  def new(%{"type" => _, "parameters" => _} = msg) do
+  def new(%{"type" => _, "parameters" => _, "id" => _, "sequence" => _} = msg) do
     msg
     |> Helpers.to_atom_keys()
     |> new()
   end
 
-  def new(%{type: _, parameters: _} = msg) do
+  def new(%{type: _, parameters: _, id: _, sequence: _} = msg) do
     msg
     |> create()
   end
