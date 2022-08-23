@@ -13,13 +13,17 @@ defmodule SmartCity.Ingestion.Transformation do
   @type t :: %SmartCity.Ingestion.Transformation{
           type: String.t(),
           parameters: map(),
-          name: String.t()
+          name: String.t(),
+          id: String.t(),
+          sequence: Integer.t()
         }
 
   @derive Jason.Encoder
   defstruct type: nil,
             parameters: nil,
-            name: nil
+            name: nil,
+            id: nil,
+            sequence: nil
 
   use Accessible
 
@@ -31,6 +35,8 @@ defmodule SmartCity.Ingestion.Transformation do
     - type:
     - parameters:
     - name:
+    - id:
+    - sequence: 
 
     * License will default to [http://opendefinition.org/licenses/cc-by/](http://opendefinition.org/licenses/cc-by/) if not provided
   """

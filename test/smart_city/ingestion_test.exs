@@ -17,6 +17,8 @@ defmodule SmartCity.IngestionTest do
       "topLevelSelector" => "noodles",
       "transformations" => [
         %{
+          "id" => "transformation_id",
+          "sequence" => 1,
           "type" => "regex_extract",
           "name" => "name",
           "parameters" => %{
@@ -145,6 +147,8 @@ defmodule SmartCity.IngestionTest do
       assert actual.schema == []
       assert actual.extractSteps == []
       transformation = List.first(actual.transformations)
+      assert transformation.id == "transformation_id"
+      assert transformation.sequence == 1
       assert transformation.type == "regex_extract"
       assert transformation.parameters.sourceField == "phone_number"
       assert transformation.parameters.targetField == "area_code"
