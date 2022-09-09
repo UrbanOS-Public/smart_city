@@ -52,7 +52,7 @@ defmodule SmartCity.Helpers do
       iex> SmartCity.Helpers.to_string_keys(%{abc: 123})
       %{"abc" => 123}
 
-      iex> SmartCity.Helpers.to_string_keys(%{a: %{b: => "c"}})
+      iex> SmartCity.Helpers.to_string_keys(%{a: %{b: "c"}})
       %{"a" => %{"b" => "c"}}
 
       iex> SmartCity.Helpers.to_string_keys(%{a: [%{b: "c"}]})
