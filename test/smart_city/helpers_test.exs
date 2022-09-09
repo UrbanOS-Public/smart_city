@@ -59,6 +59,65 @@ defmodule SmartCity.HelpersTest do
     end
   end
 
+  describe "to_string_keys/1" do
+    test "converts top level atom keys to strings" do
+      assert Helpers.to_string_keys(%{foo: "bar"}) == %{"foo" => "bar"}
+    end
+
+    test "converts top level keys in a list to strings" do
+      input = %{list: [%{foo: "bar"}, %{abc: "xyz"}]}
+      expected = %{"list" => [%{"foo" => "bar"}, %{"abc" => "xyz"}]}
+
+      assert Helpers.to_string_keys(input) == expected
+    end
+
+    test "converts nested keys to strings" do
+      input = %{foo: %{bar: "baz"}}
+      expected = %{"foo" => %{"bar" => "baz"}}
+
+      assert Helpers.to_string_keys(input) == expected
+    end
+
+    test "converts nested keys in a nested list" do
+      input = %{
+        foo: %{
+          bar: [%{baz: [%{abc: 123}]}]
+        }
+      }
+
+      expected = %{
+        "foo" => %{
+          "bar" => [%{"baz" => [%{"abc" => 123}]}]
+        }
+      }
+
+      assert Helpers.to_string_keys(input) == expected
+    end
+
+    test "handles a map with string keys" do
+      input = %{"foo" => 1}
+      assert Helpers.to_string_keys(input) == input
+    end
+
+    test "handles a map with string keys that has nested atom keys" do
+      input = %{"foo" => 1, "bar" => %{baz: "derp"}}
+      expected = %{"foo" => 1, "bar" => %{"baz" => "derp"}}
+      assert Helpers.to_string_keys(input) == expected
+    end
+
+    test "handles a map with string keys that has a list of objects with atom keys" do
+      input = %{"foo" => 1, "bar" => [%{baz: "derp"}]}
+      expected = %{"foo" => 1, "bar" => [%{"baz" => "derp"}]}
+      assert Helpers.to_string_keys(input) == expected
+    end
+
+    test "handles a list of maps with nested atom keys" do
+      input = [%{"foo" => 1, "bar" => [%{baz: "derp"}]}]
+      expected = [%{"foo" => 1, "bar" => [%{"baz" => "derp"}]}]
+      assert Helpers.to_string_keys(input) == expected
+    end
+  end
+
   describe "mime_type/1" do
     test "converts file extension to recognized type" do
       assert "application/json" == Helpers.mime_type("json")
