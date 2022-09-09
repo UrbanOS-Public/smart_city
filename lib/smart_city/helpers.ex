@@ -8,7 +8,7 @@ defmodule SmartCity.Helpers do
 
   @doc """
   Convert a map with string keys to one with atom keys. Will convert keys nested in a sub-map or a
-  map that is part of a list. Ignores atom keys.
+  map that is part of a list. Ignores existing atom keys.
 
   ## Examples
 
@@ -42,6 +42,43 @@ defmodule SmartCity.Helpers do
   def safe_string_to_atom(string) when is_binary(string), do: String.to_atom(string)
   def safe_string_to_atom(atom) when is_atom(atom), do: atom
   def safe_string_to_atom(value), do: value
+
+  @doc """
+  Convert a map with atom keys to one with string keys. Will convert keys nested in a sub-map or a
+  map that is part of a list. Ignores existing string keys.
+
+  ## Examples
+
+      iex> SmartCity.Helpers.to_string_keys(%{abc: 123})
+      %{"abc" => 123}
+
+      iex> SmartCity.Helpers.to_string_keys(%{a: %{b: "c"}})
+      %{"a" => %{"b" => "c"}}
+
+      iex> SmartCity.Helpers.to_string_keys(%{a: [%{b: "c"}]})
+      %{"a" => [%{"b" => "c"}]}
+  """
+  @spec to_string_keys(map()) :: map()
+  def to_string_keys(map) when is_map(map) do
+    Map.new(map, fn
+      {key, val} when is_map(val) or is_list(val) ->
+        {safe_atom_to_string(key), to_string_keys(val)}
+
+      {key, val} when is_atom(key) ->
+        {safe_atom_to_string(key), val}
+
+      keyval ->
+        keyval
+    end)
+  end
+
+  def to_string_keys(list) when is_list(list), do: Enum.map(list, &to_string_keys/1)
+
+  def to_string_keys(value), do: value
+
+  def safe_atom_to_string(atom) when is_atom(atom), do: Atom.to_string(atom)
+  def safe_atom_to_string(string) when is_binary(string), do: string
+  def safe_atom_to_string(value), do: value
 
   @doc """
   Standardize file type definitions by deferring to the
