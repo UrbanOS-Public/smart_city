@@ -36,6 +36,7 @@ defmodule SmartCity.Dataset.Technical do
           sourceUrl: String.t(),
           sourceType: not_required(String.t()),
           systemName: String.t(),
+          # deprecated
           topLevelSelector: not_required(String.t())
         }
 
