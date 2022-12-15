@@ -13,14 +13,13 @@ on:
 jobs:
   ci:
     name: Verify Application
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-elixir@v1.5.0
         with:
-          otp-version: 21.3
+          otp-version: 21.3.8.24
           elixir-version: 1.10.4
-          experimental-otp: true
       - name: Get dependencies
         run: |
           bash scripts/gh-action-get-deps.sh
