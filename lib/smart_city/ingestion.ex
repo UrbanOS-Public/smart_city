@@ -13,7 +13,7 @@ defmodule SmartCity.Ingestion do
     "cadence": "",
     "extractSteps": [],
     "schema": [],
-    "targetDatasetId": "",
+    "targetDatasets": ["", ""],
     "sourceFormat": "",
     "topLevelSelector": "",
     "transformations": [],
@@ -30,7 +30,7 @@ defmodule SmartCity.Ingestion do
           extractSteps: list(map()),
           schema: list(map()),
           sourceFormat: String.t(),
-          targetDataset: String.t(),
+          targetDatasets: list(String.t()),
           topLevelSelector: not_required(String.t()),
           transformations: list(Transformation.t())
         }
@@ -42,7 +42,7 @@ defmodule SmartCity.Ingestion do
             cadence: "never",
             extractSteps: [],
             schema: [],
-            targetDataset: nil,
+            targetDatasets: [],
             sourceFormat: nil,
             topLevelSelector: nil,
             transformations: []
@@ -59,7 +59,7 @@ defmodule SmartCity.Ingestion do
   - msg: Map with string or atom keys that defines the ingestion metadata
 
   Required Keys:
-      - targetDataset
+      - targetDatasets
       - sourceFormat
       - name
 
@@ -67,7 +67,7 @@ defmodule SmartCity.Ingestion do
   - allow_duplicates will default to true
   """
   @spec new(map()) :: SmartCity.Ingestion.t()
-  def new(%{"targetDataset" => _} = msg) do
+  def new(%{"targetDatasets" => _} = msg) do
     msg
     |> Helpers.to_atom_keys()
     |> new()
@@ -77,7 +77,7 @@ defmodule SmartCity.Ingestion do
         %{
           id: _,
           name: _,
-          targetDataset: _,
+          targetDatasets: _,
           sourceFormat: type,
           schema: schema,
           extractSteps: extractSteps,
