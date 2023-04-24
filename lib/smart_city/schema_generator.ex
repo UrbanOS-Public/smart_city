@@ -64,7 +64,8 @@ defmodule SmartCity.SchemaGenerator do
     %{
       "name" => name,
       "type" => type,
-      "itemType" => "string"
+      "itemType" => "string",
+      "ingestion_field_selector" => name
     }
     |> Map.merge(@base_schema)
   end
@@ -73,7 +74,8 @@ defmodule SmartCity.SchemaGenerator do
     %{
       "name" => name,
       "type" => type,
-      "itemType" => item_type
+      "itemType" => item_type,
+      "ingestion_field_selector" => name
     }
     |> Map.merge(@base_schema)
   end
@@ -83,7 +85,8 @@ defmodule SmartCity.SchemaGenerator do
       "name" => name,
       "type" => type,
       "itemType" => item_type,
-      "subSchema" => schema
+      "subSchema" => schema,
+      "ingestion_field_selector" => name
     }
     |> Map.merge(@base_schema)
   end
@@ -92,7 +95,8 @@ defmodule SmartCity.SchemaGenerator do
     %{
       "name" => name,
       "type" => type,
-      "subSchema" => schema
+      "subSchema" => schema,
+      "ingestion_field_selector" => name
     }
     |> Map.merge(@base_schema)
   end
