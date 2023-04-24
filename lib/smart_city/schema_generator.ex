@@ -105,7 +105,8 @@ defmodule SmartCity.SchemaGenerator do
       "masked" => "N/A",
       "name" => name,
       "pii" => "None",
-      "type" => type
+      "type" => type,
+      "ingestion_field_selector" => name
     }
   end
 end
