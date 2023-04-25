@@ -22,7 +22,8 @@ defmodule SmartCity.SchemaGeneratorTest do
           "name" => "key_field",
           "pii" => "None",
           "type" => "string",
-          "ingestion_field_selector" => "key_field"
+          "ingestion_field_selector" => "key_field",
+          "ingestion_field_sync" => true
         }
       ]
 
@@ -48,6 +49,7 @@ defmodule SmartCity.SchemaGeneratorTest do
           "pii" => "None",
           "type" => "map",
           "ingestion_field_selector" => "map_field",
+          "ingestion_field_sync" => true,
           "subSchema" => [
             %{
               "biased" => "No",
@@ -57,7 +59,8 @@ defmodule SmartCity.SchemaGeneratorTest do
               "name" => "sub_key_field",
               "pii" => "None",
               "type" => "string",
-              "ingestion_field_selector" => "sub_key_field"
+              "ingestion_field_selector" => "sub_key_field",
+              "ingestion_field_sync" => true
             }
           ]
         }
@@ -85,6 +88,7 @@ defmodule SmartCity.SchemaGeneratorTest do
           "pii" => "None",
           "type" => "map",
           "ingestion_field_selector" => "map_field",
+          "ingestion_field_sync" => true,
           "subSchema" => [
             %{
               "biased" => "No",
@@ -95,6 +99,7 @@ defmodule SmartCity.SchemaGeneratorTest do
               "pii" => "None",
               "type" => "map",
               "ingestion_field_selector" => "sub_key_map",
+              "ingestion_field_sync" => true,
               "subSchema" => [
                 %{
                   "biased" => "No",
@@ -104,7 +109,8 @@ defmodule SmartCity.SchemaGeneratorTest do
                   "name" => "sub_sub_key",
                   "pii" => "None",
                   "type" => "string",
-                  "ingestion_field_selector" => "sub_sub_key"
+                  "ingestion_field_selector" => "sub_sub_key",
+                  "ingestion_field_sync" => true
                 }
               ]
             }
@@ -135,6 +141,7 @@ defmodule SmartCity.SchemaGeneratorTest do
           "type" => "list",
           "itemType" => "map",
           "ingestion_field_selector" => "map_field",
+          "ingestion_field_sync" => true,
           "subSchema" => [
             %{
               "biased" => "No",
@@ -144,7 +151,8 @@ defmodule SmartCity.SchemaGeneratorTest do
               "name" => "sub_key_field",
               "pii" => "None",
               "type" => "string",
-              "ingestion_field_selector" => "sub_key_field"
+              "ingestion_field_selector" => "sub_key_field",
+              "ingestion_field_sync" => true
             },
             %{
               "biased" => "No",
@@ -154,7 +162,8 @@ defmodule SmartCity.SchemaGeneratorTest do
               "name" => "sub_key_field2",
               "pii" => "None",
               "type" => "string",
-              "ingestion_field_selector" => "sub_key_field2"
+              "ingestion_field_selector" => "sub_key_field2",
+              "ingestion_field_sync" => true
             }
           ]
         }
@@ -182,7 +191,8 @@ defmodule SmartCity.SchemaGeneratorTest do
           "pii" => "None",
           "type" => "list",
           "itemType" => "string",
-          "ingestion_field_selector" => "list_field"
+          "ingestion_field_selector" => "list_field",
+          "ingestion_field_sync" => true
         }
       ]
 
@@ -209,6 +219,7 @@ defmodule SmartCity.SchemaGeneratorTest do
           "type" => "list",
           "itemType" => "map",
           "ingestion_field_selector" => "map_field",
+          "ingestion_field_sync" => true,
           "subSchema" => [
             %{
               "biased" => "No",
@@ -218,7 +229,8 @@ defmodule SmartCity.SchemaGeneratorTest do
               "name" => "sub_key_field",
               "pii" => "None",
               "type" => "string",
-              "ingestion_field_selector" => "sub_key_field"
+              "ingestion_field_selector" => "sub_key_field",
+              "ingestion_field_sync" => true
             },
             %{
               "biased" => "No",
@@ -230,6 +242,7 @@ defmodule SmartCity.SchemaGeneratorTest do
               "type" => "list",
               "itemType" => "map",
               "ingestion_field_selector" => "sub_map_field",
+              "ingestion_field_sync" => true,
               "subSchema" => [
                 %{
                   "biased" => "No",
@@ -239,7 +252,8 @@ defmodule SmartCity.SchemaGeneratorTest do
                   "name" => "sub_sub_key_field",
                   "pii" => "None",
                   "type" => "string",
-                  "ingestion_field_selector" => "sub_sub_key_field"
+                  "ingestion_field_selector" => "sub_sub_key_field",
+                  "ingestion_field_sync" => true
                 }
               ]
             }
@@ -269,7 +283,8 @@ defmodule SmartCity.SchemaGeneratorTest do
           "pii" => "None",
           "type" => "list",
           "itemType" => "string",
-          "ingestion_field_selector" => "list_field"
+          "ingestion_field_selector" => "list_field",
+          "ingestion_field_sync" => true
         }
       ]
 
@@ -291,7 +306,8 @@ defmodule SmartCity.SchemaGeneratorTest do
           "pii" => "None",
           "type" => "list",
           "itemType" => "string",
-          "ingestion_field_selector" => "list_field"
+          "ingestion_field_selector" => "list_field",
+          "ingestion_field_sync" => true
         }
       ]
 
@@ -316,7 +332,8 @@ defmodule SmartCity.SchemaGeneratorTest do
           "name" => "key_field",
           "pii" => "None",
           "type" => type,
-          "ingestion_field_selector" => "key_field"
+          "ingestion_field_selector" => "key_field",
+          "ingestion_field_sync" => true
         }
       ]
 

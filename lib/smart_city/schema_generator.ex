@@ -65,7 +65,8 @@ defmodule SmartCity.SchemaGenerator do
       "name" => name,
       "type" => type,
       "itemType" => "string",
-      "ingestion_field_selector" => name
+      "ingestion_field_selector" => name,
+      "ingestion_field_sync" => true
     }
     |> Map.merge(@base_schema)
   end
@@ -75,7 +76,8 @@ defmodule SmartCity.SchemaGenerator do
       "name" => name,
       "type" => type,
       "itemType" => item_type,
-      "ingestion_field_selector" => name
+      "ingestion_field_selector" => name,
+      "ingestion_field_sync" => true
     }
     |> Map.merge(@base_schema)
   end
@@ -86,7 +88,8 @@ defmodule SmartCity.SchemaGenerator do
       "type" => type,
       "itemType" => item_type,
       "subSchema" => schema,
-      "ingestion_field_selector" => name
+      "ingestion_field_selector" => name,
+      "ingestion_field_sync" => true
     }
     |> Map.merge(@base_schema)
   end
@@ -96,7 +99,8 @@ defmodule SmartCity.SchemaGenerator do
       "name" => name,
       "type" => type,
       "subSchema" => schema,
-      "ingestion_field_selector" => name
+      "ingestion_field_selector" => name,
+      "ingestion_field_sync" => true
     }
     |> Map.merge(@base_schema)
   end
@@ -110,7 +114,8 @@ defmodule SmartCity.SchemaGenerator do
       "name" => name,
       "pii" => "None",
       "type" => type,
-      "ingestion_field_selector" => name
+      "ingestion_field_selector" => name,
+      "ingestion_field_sync" => true
     }
   end
 end
