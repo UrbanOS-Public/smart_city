@@ -9,7 +9,7 @@ defmodule SmartCity.DataTest do
   describe "new" do
     test "turns a map with string keys into a Data" do
       map = %{
-        "dataset_id" => "abc",
+        "dataset_ids" => ["abc", "123"],
         "payload" => "whatever",
         "ingestion_id" => "get-that-data-0000",
         "extraction_start_time" => "2022-05-13T13:48:06+00:00",
@@ -19,7 +19,7 @@ defmodule SmartCity.DataTest do
 
       {:ok, actual} = Data.new(map)
 
-      assert actual.dataset_id == "abc"
+      assert actual.dataset_ids == ["abc", "123"]
       assert actual.payload == "whatever"
       assert actual._metadata == %{org: "whatever", name: "stuff", stream: true}
       assert actual.operational.timing == [%Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}]
@@ -29,7 +29,7 @@ defmodule SmartCity.DataTest do
 
     test "turns a map with atom keys into a Data" do
       map = %{
-        dataset_id: "abc",
+        dataset_ids: ["abc", "123"],
         payload: "whatever",
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
@@ -40,7 +40,7 @@ defmodule SmartCity.DataTest do
       {:ok, actual} = Data.new(map)
 
       assert actual == %Data{
-               dataset_id: "abc",
+               dataset_ids: ["abc", "123"],
                payload: "whatever",
                ingestion_id: "get-that-data-0000",
                extraction_start_time: "2022-05-13T13:48:06+00:00",
@@ -50,13 +50,13 @@ defmodule SmartCity.DataTest do
     end
 
     test "returns error tuple when creating Data without required fields" do
-      {:error, reason} = Data.new(%{dataset_id: "", operational: ""})
+      {:error, reason} = Data.new(%{dataset_ids: [], operational: ""})
       assert Regex.match?(~r/Invalid data message:/, reason)
     end
 
     test "converts a JSON message into a Data" do
       map = %Data{
-        dataset_id: "abc",
+        dataset_ids: ["abc", "123"],
         payload: "whatever",
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
@@ -72,7 +72,7 @@ defmodule SmartCity.DataTest do
     test "converts a JSON message into data but preserving payload keys as strings" do
       json =
         %{
-          dataset_id: "ds1",
+          dataset_ids: ["ds1", "ds2"],
           payload: %{"name" => "johnny", "age" => "21"},
           _metadata: %{},
           operational: %{timing: [%{app: "reaper", label: "sus", start_time: 5, end_time: 10}]}
@@ -86,7 +86,7 @@ defmodule SmartCity.DataTest do
 
     test "keeps all operational data" do
       map = %{
-        "dataset_id" => "abc",
+        "dataset_ids" => ["abc", "123"],
         "payload" => "whatever",
         "_metadata" => %{org: "whatever", name: "stuff", stream: true},
         "operational" => %{
@@ -109,7 +109,7 @@ defmodule SmartCity.DataTest do
   describe "encode" do
     test "encodes to JSON" do
       data_message = %Data{
-        dataset_id: "abc",
+        dataset_ids: ["abc", "123"],
         payload: "whatever",
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
@@ -121,7 +121,7 @@ defmodule SmartCity.DataTest do
 
       expected =
         {:ok,
-         ~s({"_metadata":[],"dataset_id":"abc","extraction_start_time":"2022-05-13T13:48:06+00:00","ingestion_id":"get-that-data-0000","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})}
+         ~s({"_metadata":[],"dataset_ids":["abc","123"],"extraction_start_time":"2022-05-13T13:48:06+00:00","ingestion_id":"get-that-data-0000","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})}
 
       assert Data.encode(data_message) == expected
     end
@@ -130,7 +130,7 @@ defmodule SmartCity.DataTest do
   describe "encode!" do
     test "encodes to JSON" do
       data_message = %Data{
-        dataset_id: "abc",
+        dataset_ids: ["abc", "123"],
         payload: "whatever",
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
@@ -141,14 +141,14 @@ defmodule SmartCity.DataTest do
       }
 
       expected =
-        ~s({"_metadata":[],"dataset_id":"abc","extraction_start_time":"2022-05-13T13:48:06+00:00","ingestion_id":"get-that-data-0000","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})
+        ~s({"_metadata":[],"dataset_ids":["abc","123"],"extraction_start_time":"2022-05-13T13:48:06+00:00","ingestion_id":"get-that-data-0000","operational":{"timing":{"app":"reaper","end_time":10,"label":"sus","start_time":5}},"payload":"whatever","version":"0.1"})
 
       assert Data.encode!(data_message) == expected
     end
 
     test "raises Jason.EncodeError if message can't be encoded" do
       data_message = %Data{
-        dataset_id: "\xFF",
+        dataset_ids: ["\xFF"],
         payload: "whatever",
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
@@ -172,7 +172,7 @@ defmodule SmartCity.DataTest do
       timing = %Timing{app: app, label: label, start_time: 0, end_time: 5}
 
       initial_message = %Data{
-        dataset_id: :guid,
+        dataset_ids: [:guid],
         payload: :initial,
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
@@ -187,7 +187,7 @@ defmodule SmartCity.DataTest do
       json_message = Data.encode!(initial_message)
 
       expected_message = %Data{
-        dataset_id: "guid",
+        dataset_ids: ["guid"],
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
         payload: "initial",
@@ -216,7 +216,7 @@ defmodule SmartCity.DataTest do
       label = "&SmartCity.Data.new/1"
 
       initial_message = %Data{
-        dataset_id: :guid,
+        dataset_ids: [:guid],
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
         payload: :initial,
@@ -242,7 +242,7 @@ defmodule SmartCity.DataTest do
       label = "&Fake.do_thing/1"
 
       data_message = %Data{
-        dataset_id: :guid,
+        dataset_ids: [:guid],
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
         payload: :initial,
@@ -255,7 +255,7 @@ defmodule SmartCity.DataTest do
       timing = %Timing{app: app, label: label, start_time: 0, end_time: 5}
 
       expected_message = %Data{
-        dataset_id: :guid,
+        dataset_ids: [:guid],
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
         payload: :whatever,
@@ -280,7 +280,7 @@ defmodule SmartCity.DataTest do
 
     test "returns error tuple on failure" do
       data_message = %Data{
-        dataset_id: :guid,
+        dataset_ids: [:guid],
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
         payload: :initial,
@@ -306,7 +306,7 @@ defmodule SmartCity.DataTest do
 
       {:ok, message} =
         Data.new(%{
-          dataset_id: "whatever",
+          dataset_ids: ["whatever"],
           ingestion_id: "whatever",
           extraction_start_time: "whatever",
           payload: "whatever",
@@ -328,7 +328,7 @@ defmodule SmartCity.DataTest do
 
       {:ok, message} =
         Data.new(%{
-          dataset_id: "whatever",
+          dataset_ids: ["whatever"],
           ingestion_id: "whatever",
           extraction_start_time: "whatever",
           payload: "whatever",
@@ -353,7 +353,7 @@ defmodule SmartCity.DataTest do
 
       {:ok, message} =
         Data.new(%{
-          dataset_id: "whatever",
+          dataset_ids: ["whatever"],
           ingestion_id: "whatever",
           extraction_start_time: "whatever",
           payload: "whatever",

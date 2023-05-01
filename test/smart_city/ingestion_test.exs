@@ -9,7 +9,7 @@ defmodule SmartCity.IngestionTest do
       "id" => "uuid",
       "name" => "name",
       "allow_duplicates" => false,
-      "targetDataset" => "dataset",
+      "targetDatasets" => ["dataset1", "dataset2"],
       "cadence" => 30_000,
       "sourceFormat" => "gtfs",
       "schema" => [],
@@ -39,7 +39,7 @@ defmodule SmartCity.IngestionTest do
         Ingestion.new(%{
           id: "uuid",
           name: "name",
-          targetDataset: "dataset",
+          targetDatasets: ["dataset1", "dataset2"],
           sourceFormat: "gtfs",
           extractSteps: [],
           schema: [],
@@ -47,7 +47,7 @@ defmodule SmartCity.IngestionTest do
         })
 
       assert actual.allow_duplicates == true
-      assert actual.targetDataset == "dataset"
+      assert actual.targetDatasets == ["dataset1", "dataset2"]
       assert actual.name == "name"
       assert actual.sourceFormat == "application/gtfs+protobuf"
       assert actual.cadence == "never"
@@ -60,7 +60,7 @@ defmodule SmartCity.IngestionTest do
     test "is idempotent", %{message: msg} do
       actual = msg |> Ingestion.new() |> Ingestion.new()
       assert actual.allow_duplicates == false
-      assert actual.targetDataset == "dataset"
+      assert actual.targetDatasets == ["dataset1", "dataset2"]
       assert actual.sourceFormat == "application/gtfs+protobuf"
       assert actual.cadence == 30000
       assert actual.schema == []
@@ -79,7 +79,7 @@ defmodule SmartCity.IngestionTest do
           __struct__: SmartCity.Ingestion,
           id: "uuid",
           name: "name",
-          targetDataset: "dataset",
+          targetDatasets: ["dataset1", "dataset2"],
           sourceFormat: "gtfs",
           extractSteps: [],
           schema: [],
@@ -87,7 +87,7 @@ defmodule SmartCity.IngestionTest do
           transformations: []
         })
 
-      assert actual.targetDataset == "dataset"
+      assert actual.targetDatasets == ["dataset1", "dataset2"]
       assert actual.sourceFormat == "application/gtfs+protobuf"
       assert actual.allow_duplicates == true
       assert not Map.has_key?(actual, :is_a_good_struct)
@@ -98,7 +98,7 @@ defmodule SmartCity.IngestionTest do
         Ingestion.new(%{
           id: "uuid",
           name: "name",
-          targetDataset: "dataset",
+          targetDatasets: ["dataset1", "dataset2"],
           sourceFormat: "gtfs",
           extractSteps: [],
           schema: [],
@@ -118,7 +118,7 @@ defmodule SmartCity.IngestionTest do
         Ingestion.new(%{
           id: "uuid",
           name: "name",
-          targetDataset: "dataset",
+          targetDatasets: ["dataset1", "dataset2"],
           sourceFormat: extension,
           extractSteps: [],
           schema: [],
@@ -142,7 +142,7 @@ defmodule SmartCity.IngestionTest do
       actual = Ingestion.new(msg)
       assert actual.allow_duplicates == false
       assert actual.cadence == 30_000
-      assert actual.targetDataset == "dataset"
+      assert actual.targetDatasets == ["dataset1", "dataset2"]
       assert actual.sourceFormat == "application/gtfs+protobuf"
       assert actual.schema == []
       assert actual.extractSteps == []
@@ -160,7 +160,7 @@ defmodule SmartCity.IngestionTest do
         Ingestion.new(%{
           "id" => "uuid",
           "name" => "name",
-          "targetDataset" => "dataset",
+          "targetDatasets" => ["dataset1", "dataset2"],
           "sourceFormat" => "gtfs",
           "extractSteps" => [],
           "schema" => [
@@ -187,7 +187,7 @@ defmodule SmartCity.IngestionTest do
         Ingestion.new(%{
           id: "uuid",
           name: "name",
-          targetDataset: "dataset",
+          targetDatasets: ["dataset1", "dataset2"],
           sourceFormat: "gtfs",
           extractSteps: [],
           schema: [
@@ -212,7 +212,7 @@ defmodule SmartCity.IngestionTest do
     data_test "throws error when creating Ingestion struct without required field: #{field}", %{message: msg} do
       assert_raise ArgumentError, fn -> Ingestion.new(msg |> Map.delete(field)) end
 
-      where(field: ["targetDataset", "sourceFormat"])
+      where(field: ["targetDatasets", "sourceFormat"])
     end
   end
 
