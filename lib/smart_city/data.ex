@@ -4,7 +4,7 @@ defmodule SmartCity.Data do
 
   ```javascript
   const DataMessage = {
-      "dataset_id": "",        // UUID
+      "dataset_ids": "",        // list(UUID)
       "ingestion_id":"",       // UUID
       "extraction_start_time": "", // iso8601
       "payload": {},
@@ -30,7 +30,7 @@ defmodule SmartCity.Data do
   alias SmartCity.Helpers
 
   @type t :: %SmartCity.Data{
-          :dataset_id => String.t(),
+          :dataset_ids => list(String.t()),
           :ingestion_id => String.t(),
           :extraction_start_time => DateTime.t(),
           :operational => %{
@@ -47,10 +47,10 @@ defmodule SmartCity.Data do
   @type payload :: String.t()
 
   @derive Jason.Encoder
-  @enforce_keys [:dataset_id, :ingestion_id, :extraction_start_time, :payload, :_metadata, :operational]
+  @enforce_keys [:dataset_ids, :ingestion_id, :extraction_start_time, :payload, :_metadata, :operational]
   defstruct version: "0.1",
             _metadata: %{org: nil, name: nil, stream: false},
-            dataset_id: nil,
+            dataset_ids: [],
             ingestion_id: nil,
             extraction_start_time: nil,
             payload: nil,
@@ -67,9 +67,9 @@ defmodule SmartCity.Data do
 
   ## Examples
 
-      iex> SmartCity.Data.new(%{dataset_id: "a_guid", ingestion_id: "b_guid", extraction_start_time: "2019-05-06T19:51:41+00:00", payload: "the_data", _metadata: %{org: "scos", name: "example"}, operational: %{timing: [%{app: "app name", label: "function name", start_time: "2019-05-06T19:51:41+00:00", end_time: "2019-05-06T19:51:51+00:00"}]}})
+      iex> SmartCity.Data.new(%{dataset_ids: ["a_guid"], ingestion_id: "b_guid", extraction_start_time: "2019-05-06T19:51:41+00:00", payload: "the_data", _metadata: %{org: "scos", name: "example"}, operational: %{timing: [%{app: "app name", label: "function name", start_time: "2019-05-06T19:51:41+00:00", end_time: "2019-05-06T19:51:51+00:00"}]}})
       {:ok, %SmartCity.Data{
-          dataset_id: "a_guid",
+          dataset_ids: ["a_guid"],
           ingestion_id: "b_guid",
           extraction_start_time: "2019-05-06T19:51:41+00:00",
           payload: "the_data",
@@ -86,9 +86,9 @@ defmodule SmartCity.Data do
     end
   end
 
-  def new(%{"dataset_id" => _} = msg) do
+  def new(%{"dataset_ids" => _} = msg) do
     %{
-      dataset_id: msg["dataset_id"],
+      dataset_ids: msg["dataset_ids"],
       ingestion_id: msg["ingestion_id"],
       extraction_start_time: msg["extraction_start_time"],
       operational: Helpers.to_atom_keys(msg["operational"]),
@@ -99,7 +99,7 @@ defmodule SmartCity.Data do
   end
 
   def new(%{
-        dataset_id: dataset_id,
+        dataset_ids: dataset_ids,
         ingestion_id: ingestion_id,
         extraction_start_time: extraction_start_time,
         operational: operational,
@@ -110,7 +110,7 @@ defmodule SmartCity.Data do
 
     struct =
       struct(__MODULE__, %{
-        dataset_id: dataset_id,
+        dataset_ids: dataset_ids,
         ingestion_id: ingestion_id,
         extraction_start_time: extraction_start_time,
         payload: payload,
