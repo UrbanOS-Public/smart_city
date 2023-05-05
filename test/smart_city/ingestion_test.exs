@@ -57,6 +57,29 @@ defmodule SmartCity.IngestionTest do
       assert actual.transformations == []
     end
 
+    test "can handle deprecated targetDataset field" do
+      actual =
+        Ingestion.new(%{
+          id: "uuid",
+          name: "name",
+          targetDataset: "ds1",
+          sourceFormat: "gtfs",
+          extractSteps: [],
+          schema: [],
+          transformations: []
+        })
+
+      assert actual.allow_duplicates == true
+      assert actual.targetDatasets == ["ds1"]
+      assert actual.name == "name"
+      assert actual.sourceFormat == "application/gtfs+protobuf"
+      assert actual.cadence == "never"
+      assert actual.schema == []
+      assert actual.extractSteps == []
+      assert actual.topLevelSelector == nil
+      assert actual.transformations == []
+    end
+
     test "is idempotent", %{message: msg} do
       actual = msg |> Ingestion.new() |> Ingestion.new()
       assert actual.allow_duplicates == false
