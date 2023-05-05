@@ -1,4 +1,6 @@
 defmodule SmartCity.Ingestion do
+  require Logger
+
   alias SmartCity.Helpers
   alias SmartCity.Ingestion.Transformation
 
@@ -90,6 +92,14 @@ defmodule SmartCity.Ingestion do
     |> Map.put(:transformations, Enum.map(transformations, &Transformation.new/1))
     |> Map.replace!(:sourceFormat, Helpers.mime_type(type))
     |> create()
+  end
+
+  def new( %{ targetDataset: targetDataset } = msg )  do
+    Logger.error("Legacy ingestion detected. targetDataset field was used instead of targetDatasets. This field is deprecated to be removed after June 2023.")
+    msg
+    |> Map.put(:targetDatasets, [targetDataset])
+    |> Map.delete(:targetDataset)
+    |> new()
   end
 
   def new(msg) do
