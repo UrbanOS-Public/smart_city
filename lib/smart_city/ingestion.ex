@@ -94,8 +94,11 @@ defmodule SmartCity.Ingestion do
     |> create()
   end
 
-  def new( %{ targetDataset: targetDataset } = msg )  do
-    Logger.error("Legacy ingestion detected. targetDataset field was used instead of targetDatasets. This field is deprecated to be removed after June 2023.")
+  def new(%{targetDataset: targetDataset} = msg) do
+    Logger.error(
+      "Legacy ingestion detected. targetDataset field was used instead of targetDatasets. This field is deprecated to be removed after June 2023."
+    )
+
     msg
     |> Map.put(:targetDatasets, [targetDataset])
     |> Map.delete(:targetDataset)

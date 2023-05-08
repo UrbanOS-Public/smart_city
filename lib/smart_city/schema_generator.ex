@@ -7,7 +7,7 @@ defmodule SmartCity.SchemaGenerator do
     extract_field({:top, data |> hd()}) |> Map.get("subSchema")
   end
 
-  def extract_field({key, value} = field) when is_list(value) do
+  def extract_field({key, value}) when is_list(value) do
     item_type =
       value
       |> List.first()
@@ -36,10 +36,10 @@ defmodule SmartCity.SchemaGenerator do
     infer_type(value) |> schema_field(key)
   end
 
-  def extract_field(list)  do
+  def extract_field(list) do
     List.first(list)
-      |> infer_type
-      |> schema_field("child_of_list")
+    |> infer_type
+    |> schema_field("child_of_list")
   end
 
   defp infer_type(value) when is_list(value), do: "list"
@@ -86,7 +86,7 @@ defmodule SmartCity.SchemaGenerator do
       "type" => type,
       "itemType" => item_type,
       "subSchema" => sub_schema,
-      "ingestion_field_selector" => name,
+      "ingestion_field_selector" => name
     }
     |> Map.merge(@base_schema)
   end

@@ -280,7 +280,7 @@ defmodule SmartCity.SchemaGeneratorTest do
               "type" => "list",
               "itemType" => "string",
               "ingestion_field_selector" => "child_of_list"
-            },
+            }
           ],
           "ingestion_field_selector" => "list_field"
         }
@@ -299,8 +299,8 @@ defmodule SmartCity.SchemaGeneratorTest do
                   "parentA" => 1,
                   "parentB" => [
                     %{"childA" => "a", "childB" => ["b"]}
-                    ]
-                  }
+                  ]
+                }
               ]
             ]
           ]
@@ -384,14 +384,14 @@ defmodule SmartCity.SchemaGeneratorTest do
                           "type" => "list",
                           "itemType" => "string",
                           "ingestion_field_selector" => "childB"
-                        },
+                        }
                       ]
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
 
