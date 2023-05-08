@@ -250,7 +250,7 @@ defmodule SmartCity.SchemaGeneratorTest do
       assert actual == expected
     end
 
-    test "generates a smart city schema from a nested data structure prevents list of lists" do
+    test "generates a smart city schema from a nested data structure with list of lists" do
       data = [
         %{
           "list_field" => [["field1a", "field1b"], ["field2a", "field2b"]]
@@ -268,8 +268,130 @@ defmodule SmartCity.SchemaGeneratorTest do
           "name" => "list_field",
           "pii" => "None",
           "type" => "list",
-          "itemType" => "string",
+          "itemType" => "list",
+          "subSchema" => [
+            %{
+              "biased" => "No",
+              "demographic" => "None",
+              "description" => "",
+              "masked" => "N/A",
+              "name" => "child_of_list",
+              "pii" => "None",
+              "type" => "list",
+              "itemType" => "string",
+              "ingestion_field_selector" => "child_of_list"
+            },
+          ],
           "ingestion_field_selector" => "list_field"
+        }
+      ]
+
+      assert actual == expected
+    end
+
+    test "generates a smart city schema from a complex structure of combined lists and maps" do
+      data = [
+        %{
+          "grandparent" => [
+            [
+              [
+                %{
+                  "parentA" => 1,
+                  "parentB" => [
+                    %{"childA" => "a", "childB" => ["b"]}
+                    ]
+                  }
+              ]
+            ]
+          ]
+        }
+      ]
+
+      actual = SchemaGenerator.generate_schema(data)
+
+      expected = [
+        %{
+          "biased" => "No",
+          "demographic" => "None",
+          "description" => "",
+          "masked" => "N/A",
+          "name" => "grandparent",
+          "pii" => "None",
+          "type" => "list",
+          "itemType" => "list",
+          "ingestion_field_selector" => "grandparent",
+          "subSchema" => [
+            %{
+              "biased" => "No",
+              "demographic" => "None",
+              "description" => "",
+              "masked" => "N/A",
+              "name" => "child_of_list",
+              "pii" => "None",
+              "type" => "list",
+              "itemType" => "list",
+              "ingestion_field_selector" => "child_of_list",
+              "subSchema" => [
+                %{
+                  "biased" => "No",
+                  "demographic" => "None",
+                  "description" => "",
+                  "masked" => "N/A",
+                  "name" => "child_of_list",
+                  "pii" => "None",
+                  "type" => "list",
+                  "itemType" => "map",
+                  "ingestion_field_selector" => "child_of_list",
+                  "subSchema" => [
+                    %{
+                      "biased" => "No",
+                      "demographic" => "None",
+                      "description" => "",
+                      "masked" => "N/A",
+                      "name" => "parentA",
+                      "pii" => "None",
+                      "type" => "integer",
+                      "ingestion_field_selector" => "parentA"
+                    },
+                    %{
+                      "biased" => "No",
+                      "demographic" => "None",
+                      "description" => "",
+                      "masked" => "N/A",
+                      "name" => "parentB",
+                      "pii" => "None",
+                      "type" => "list",
+                      "itemType" => "map",
+                      "ingestion_field_selector" => "parentB",
+                      "subSchema" => [
+                        %{
+                          "biased" => "No",
+                          "demographic" => "None",
+                          "description" => "",
+                          "masked" => "N/A",
+                          "name" => "childA",
+                          "pii" => "None",
+                          "type" => "string",
+                          "ingestion_field_selector" => "childA"
+                        },
+                        %{
+                          "biased" => "No",
+                          "demographic" => "None",
+                          "description" => "",
+                          "masked" => "N/A",
+                          "name" => "childB",
+                          "pii" => "None",
+                          "type" => "list",
+                          "itemType" => "string",
+                          "ingestion_field_selector" => "childB"
+                        },
+                      ]
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         }
       ]
 
