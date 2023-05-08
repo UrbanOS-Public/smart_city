@@ -18,6 +18,10 @@ defmodule SmartCity.SchemaGenerator do
         schema = List.first(value) |> Enum.map(&extract_field/1)
         schema_field_list("list", key, item_type, schema)
 
+      "list" ->
+        subSchema = [extract_field({"child_of_list", List.first(value)})]
+        schema_field_list("list", key, item_type, subSchema)
+
       _ ->
         schema_field_list("list", key, item_type)
     end
@@ -30,6 +34,12 @@ defmodule SmartCity.SchemaGenerator do
 
   def extract_field({key, value}) do
     infer_type(value) |> schema_field(key)
+  end
+
+  def extract_field(list) do
+    List.first(list)
+    |> infer_type
+    |> schema_field("child_of_list")
   end
 
   defp infer_type(value) when is_list(value), do: "list"
@@ -60,21 +70,22 @@ defmodule SmartCity.SchemaGenerator do
     end
   end
 
-  defp schema_field_list(type, name, item_type) when type == "list" and item_type == "list" do
-    %{
-      "name" => name,
-      "type" => type,
-      "itemType" => "string",
-      "ingestion_field_selector" => name
-    }
-    |> Map.merge(@base_schema)
-  end
-
   defp schema_field_list(type, name, item_type) when type == "list" do
     %{
       "name" => name,
       "type" => type,
       "itemType" => item_type,
+      "ingestion_field_selector" => name
+    }
+    |> Map.merge(@base_schema)
+  end
+
+  defp schema_field_list(type, name, item_type, sub_schema) when type == "list" and item_type == "list" do
+    %{
+      "name" => name,
+      "type" => type,
+      "itemType" => item_type,
+      "subSchema" => sub_schema,
       "ingestion_field_selector" => name
     }
     |> Map.merge(@base_schema)
