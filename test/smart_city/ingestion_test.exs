@@ -85,7 +85,7 @@ defmodule SmartCity.IngestionTest do
       assert actual.allow_duplicates == false
       assert actual.targetDatasets == ["dataset1", "dataset2"]
       assert actual.sourceFormat == "application/gtfs+protobuf"
-      assert actual.cadence == 30000
+      assert actual.cadence == 30_000
       assert actual.schema == []
       assert actual.extractSteps == []
       assert actual.topLevelSelector == "noodles"

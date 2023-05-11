@@ -4,8 +4,8 @@ defmodule SmartCity.MixProject do
   def project do
     [
       app: :smart_city,
-      version: "5.4.2",
-      elixir: "~> 1.8",
+      version: "6.0.0",
+      elixir: "~> 1.14.4",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       docs: docs(),
@@ -21,17 +21,17 @@ defmodule SmartCity.MixProject do
 
   defp deps do
     [
-      {:accessible, "~> 0.2.1"},
-      {:brook_serializer, "~> 2.0"},
-      {:checkov, "~> 0.4", only: :test},
-      {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 0.5", only: [:dev]},
-      {:ex_doc, "~> 0.21", only: :dev},
-      {:jason, "~> 1.1"},
-      {:mime, "~> 1.3"},
-      {:mix_test_watch, "~> 0.9", only: :dev, runtime: false},
-      {:placebo, "~> 1.2", only: [:dev, :test, :integration]},
-      {:timex, "~> 3.6"}
+      {:accessible, "~> 0.3"},
+      {:brook_serializer, "~> 2.2"},
+      {:checkov, "~> 1.0", only: :test},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.3", only: [:dev]},
+      {:ex_doc, "~> 0.29", only: :dev},
+      {:jason, "~> 1.4"},
+      {:mime, "~> 2.0"},
+      {:mix_test_watch, "~> 1.1", only: :dev, runtime: false},
+      {:placebo, "~> 2.0", only: [:dev, :test, :integration]},
+      {:timex, "~> 3.7"}
     ]
   end
 

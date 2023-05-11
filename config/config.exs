@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :mime, :types, %{
   "application/gtfs+protobuf" => ["gtfs"],
