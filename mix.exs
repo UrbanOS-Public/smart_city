@@ -32,7 +32,7 @@ defmodule SmartCity.MixProject do
       {:mock, "~> 0.3.7", only: [:test]},
       {:timex, "~> 3.7"},
       {:placebo, "~> 2.0.0"},
-      {:plug, "~> 1.1.3"}
+      {:plug, "~> 1.14"}
     ]
   end
 
