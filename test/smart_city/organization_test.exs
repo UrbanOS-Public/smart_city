@@ -1,6 +1,5 @@
 defmodule SmartCity.OrganizationTest do
   use ExUnit.Case
-  use Placebo
   alias SmartCity.Organization
 
   setup do

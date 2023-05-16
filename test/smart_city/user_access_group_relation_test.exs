@@ -1,6 +1,5 @@
 defmodule SmartCity.UserAccessGroupRelationTest do
   use ExUnit.Case
-  use Placebo
   alias SmartCity.UserAccessGroupRelation
 
   setup do

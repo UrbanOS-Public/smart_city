@@ -1,10 +1,11 @@
 defmodule SmartCity.DataTest do
   use ExUnit.Case
-  use Placebo
   doctest SmartCity.Data
 
   alias SmartCity.Data
   alias SmartCity.Data.Timing
+
+  import Mock
 
   describe "new" do
     test "turns a map with string keys into a Data" do
@@ -200,15 +201,12 @@ defmodule SmartCity.DataTest do
         }
       }
 
-      allow(Data.Timing.measure(app, label, any()),
-        exec: fn _a, _l, f ->
-          {:ok, result} = f.()
-          {:ok, result, timing}
-        end,
-        meck_options: [:passthrough]
-      )
-
-      assert Data.timed_new(json_message, app) == {:ok, expected_message}
+      with_mock(Data.Timing, [:passthrough], [measure: fn (app, label, function) ->
+         {:ok, result} = function.()
+         {:ok, result, timing}
+        end]) do
+        assert Data.timed_new(json_message, app) == {:ok, expected_message}
+      end
     end
 
     test "returns error tuple on failure" do
@@ -230,9 +228,9 @@ defmodule SmartCity.DataTest do
 
       json_message = Data.encode!(initial_message)
 
-      allow(Data.Timing.measure(app, label, any()), return: {:error, :reason}, meck_options: [:passthrough])
-
-      assert Data.timed_new(json_message, app) == {:error, :reason}
+      with_mock(Data.Timing, [:passthrough], [measure: fn (app, label, _) -> {:error, :reason} end]) do
+        assert Data.timed_new(json_message, app) == {:error, :reason}
+      end
     end
   end
 
@@ -241,11 +239,12 @@ defmodule SmartCity.DataTest do
       app = "scos_ex"
       label = "&Fake.do_thing/1"
 
+      payload = :initial
       data_message = %Data{
         dataset_ids: [:guid],
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
-        payload: :initial,
+        payload: payload,
         _metadata: [],
         operational: %{
           timing: [%Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}]
@@ -268,22 +267,21 @@ defmodule SmartCity.DataTest do
         }
       }
 
-      allow(Fake.do_thing(data_message.payload), return: {:ok, :whatever}, meck_options: [:non_strict])
-
-      allow(Data.Timing.measure(app, label, any()),
-        return: {:ok, :whatever, timing},
-        meck_options: [:passthrough]
-      )
-
-      assert Data.timed_transform(data_message, app, &Fake.do_thing/1) == {:ok, expected_message}
+      with_mocks([
+        {Fake, [:non_strict], [do_thing: fn(payload) -> {:ok, :whatever} end]},
+        {Data.Timing, [:passthrough], [measure: fn(app, label, _) -> {:ok, :whatever, timing} end]}
+      ]) do
+        assert Data.timed_transform(data_message, app, &Fake.do_thing/1) == {:ok, expected_message}
+      end
     end
 
     test "returns error tuple on failure" do
+      payload = :initial
       data_message = %Data{
         dataset_ids: [:guid],
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
-        payload: :initial,
+        payload: payload,
         _metadata: [],
         operational: %{
           timing: [%Timing{app: "reaper", label: "sus", start_time: 5, end_time: 10}]
@@ -293,10 +291,12 @@ defmodule SmartCity.DataTest do
       app = "scos_ex"
       label = "&Fake.do_thing/1"
 
-      allow(Fake.do_thing(data_message.payload), return: {:error, :reason}, meck_options: [:non_strict])
-      allow(Data.Timing.measure(app, label, any()), return: {:error, :reason}, meck_options: [:passthrough])
-
-      assert Data.timed_transform(data_message, app, &Fake.do_thing/1) == {:error, :reason}
+      with_mocks([
+        {Fake, [:non_strict], [do_thing: fn(payload) -> {:error, :reason} end]},
+        {Data.Timing, [:passthrough], [measure: fn(app, label, _) -> {:error, :reason} end]}
+      ]) do
+        assert Data.timed_transform(data_message, app, &Fake.do_thing/1) == {:error, :reason}
+      end
     end
   end
 

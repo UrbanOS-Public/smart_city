@@ -28,10 +28,11 @@ defmodule SmartCity.MixProject do
       {:dialyxir, "~> 1.3", only: [:dev]},
       {:ex_doc, "~> 0.29", only: :dev},
       {:jason, "~> 1.4"},
-      {:mime, "~> 2.0"},
       {:mix_test_watch, "~> 1.1", only: :dev, runtime: false},
-      {:placebo, "~> 2.0", only: [:dev, :test, :integration]},
-      {:timex, "~> 3.7"}
+      {:mock, "~> 0.3.7", only: [:test]},
+      {:timex, "~> 3.7"},
+      {:placebo, "~> 2.0.0"},
+      {:plug, "~> 1.1.3"}
     ]
   end
 
