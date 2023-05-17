@@ -82,25 +82,25 @@ defmodule SmartCity.Ingestion do
           targetDatasets: _,
           sourceFormat: type,
           schema: schema,
-          extractSteps: extractSteps,
+          extractSteps: extract_steps,
           transformations: transformations
         } = msg
       ) do
     msg
     |> Map.put(:schema, Helpers.to_atom_keys(schema))
-    |> Map.put(:extractSteps, Helpers.to_atom_keys(extractSteps))
+    |> Map.put(:extractSteps, Helpers.to_atom_keys(extract_steps))
     |> Map.put(:transformations, Enum.map(transformations, &Transformation.new/1))
     |> Map.replace!(:sourceFormat, Helpers.mime_type(type))
     |> create()
   end
 
-  def new(%{targetDataset: targetDataset} = msg) do
+  def new(%{targetDataset: target_dataset} = msg) do
     Logger.error(
       "Legacy ingestion detected. targetDataset field was used instead of targetDatasets. This field is deprecated to be removed after June 2023."
     )
 
     msg
-    |> Map.put(:targetDatasets, [targetDataset])
+    |> Map.put(:targetDatasets, [target_dataset])
     |> Map.delete(:targetDataset)
     |> new()
   end

@@ -50,7 +50,7 @@ defmodule SmartCity.Data.Timing do
   ## Parameters
 
     - opts: Keyword list or map containing struct attributes
-          Required keys: #{@enforce_keys |> Enum.map(&"`#{Atom.to_string(&1)}`") |> Enum.join(", ")}
+          Required keys: #{@enforce_keys |> Enum.map_join(", ", &"`#{Atom.to_string(&1)}`")}
           See `Kernel.struct!/2`.
   """
   @spec new(
@@ -80,7 +80,7 @@ defmodule SmartCity.Data.Timing do
   Validate that all required keys are present and valid (not nil).
 
   Set by `@validate_keys` module attribute.
-  Currently checks: #{@enforce_keys |> Enum.map(&"`#{Atom.to_string(&1)}`") |> Enum.join(", ")}
+  Currently checks: #{@enforce_keys |> Enum.map_join(", ", &"`#{Atom.to_string(&1)}`")}
 
   Returns `{:ok, timing}` on success or `{:error, reason}` on failure
 
@@ -150,8 +150,7 @@ defmodule SmartCity.Data.Timing do
   defp join_error_message(errors) do
     error_msg =
       errors
-      |> Enum.map(fn {reason, key} -> "#{Atom.to_string(key)}(#{Atom.to_string(reason)})" end)
-      |> Enum.join(", ")
+      |> Enum.map_join(", ", fn {reason, key} -> "#{Atom.to_string(key)}(#{Atom.to_string(reason)})" end)
 
     "Errors with: #{error_msg}"
   end

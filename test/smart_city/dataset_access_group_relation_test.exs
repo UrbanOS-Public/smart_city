@@ -1,6 +1,5 @@
 defmodule SmartCity.DatasetAccessGroupRelationTest do
   use ExUnit.Case
-  use Placebo
   alias SmartCity.DatasetAccessGroupRelation
 
   setup do
