@@ -101,6 +101,11 @@ defmodule SmartCity.Event do
   defmacro data_standardization_end(), do: quote(do: "data:standardization:end")
 
   @doc """
+  Signals that a table has been created
+  """
+  defmacro table_created(), do: quote(do: "table:created")
+
+  @doc """
   Defines a user organization relationship.
   """
   defmacro user_organization_associate(), do: quote(do: "user:organization:associate")
