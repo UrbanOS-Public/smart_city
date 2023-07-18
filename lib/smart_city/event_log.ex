@@ -23,7 +23,8 @@ defmodule SmartCity.EventLog do
                timestamp: String.t(),
                source: String.t(),
                description: String.t(),
-               dataset_id: not_required(String.t()) # Making dataset_id not required under the assumption that event log may be used for events not associated with a dataset (like organization updates)
+               dataset_id: not_required(String.t()), # Making dataset_id not required under the assumption that event log may be used for events not associated with a dataset (like organization updates)
+               ingestion_id: not_required(String.t())
              }
 
   @derive Jason.Encoder
@@ -31,7 +32,8 @@ defmodule SmartCity.EventLog do
             timestamp: nil,
             source: nil,
             description: nil,
-            dataset_id: nil
+            dataset_id: nil,
+            ingestion_id: nil
 
   use Accessible
 
@@ -50,6 +52,7 @@ defmodule SmartCity.EventLog do
       - source
       - description
       - dataset_id
+      - ingestion_id
   """
 
   @spec new(map()) :: SmartCity.EventLog.t()
@@ -62,10 +65,10 @@ defmodule SmartCity.EventLog do
   @spec new(map()) :: SmartCity.EventLog.t()
   def new(
         %{
-          title: title,
-          timestamp: timestamp,
-          source: source,
-          description: description
+          title: _title,
+          timestamp: _timestamp,
+          source: _source,
+          description: _description
         } = msg
       ) do
     create(msg)
