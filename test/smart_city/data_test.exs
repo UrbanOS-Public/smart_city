@@ -150,6 +150,7 @@ defmodule SmartCity.DataTest do
     test "raises Jason.EncodeError if message can't be encoded" do
       data_message = %Data{
         dataset_ids: ["\xFF"],
+        payload: "whatever",
         ingestion_id: "get-that-data-0000",
         extraction_start_time: "2022-05-13T13:48:06+00:00",
         payload: "whatever",
@@ -200,7 +201,7 @@ defmodule SmartCity.DataTest do
         }
       }
 
-      with_mock(Data.Timing, [:passthrough], [measure: fn (_app, _label, function) ->
+      with_mock(Data.Timing, [:passthrough], [measure: fn (app, label, function) ->
          {:ok, result} = function.()
          {:ok, result, timing}
         end]) do
@@ -210,6 +211,7 @@ defmodule SmartCity.DataTest do
 
     test "returns error tuple on failure" do
       app = "scos_ex"
+      label = "&SmartCity.Data.new/1"
 
       initial_message = %Data{
         dataset_ids: [:guid],
@@ -226,7 +228,7 @@ defmodule SmartCity.DataTest do
 
       json_message = Data.encode!(initial_message)
 
-      with_mock(Data.Timing, [:passthrough], [measure: fn (_app, _label, _) -> {:error, :reason} end]) do
+      with_mock(Data.Timing, [:passthrough], [measure: fn (app, label, _) -> {:error, :reason} end]) do
         assert Data.timed_new(json_message, app) == {:error, :reason}
       end
     end
@@ -266,8 +268,8 @@ defmodule SmartCity.DataTest do
       }
 
       with_mocks([
-        {Fake, [:non_strict], [do_thing: fn(_payload) -> {:ok, :whatever} end]},
-        {Data.Timing, [:passthrough], [measure: fn(_app, _label, _) -> {:ok, :whatever, timing} end]}
+        {Fake, [:non_strict], [do_thing: fn(payload) -> {:ok, :whatever} end]},
+        {Data.Timing, [:passthrough], [measure: fn(app, label, _) -> {:ok, :whatever, timing} end]}
       ]) do
         assert Data.timed_transform(data_message, app, &Fake.do_thing/1) == {:ok, expected_message}
       end
