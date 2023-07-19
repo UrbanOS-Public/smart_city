@@ -1,7 +1,6 @@
 import Config
 
-config :mime, :types, %{
+config :plug, :mimes, %{
   "application/gtfs+protobuf" => ["gtfs"],
-  "application/vnd.ogc.wms_xml" => ["wms"],
-  "application/vnd.google-earth.kml+xml" => ["kml"]
+  "application/vnd.ogc.wms_xml" => ["wms"]
 }
