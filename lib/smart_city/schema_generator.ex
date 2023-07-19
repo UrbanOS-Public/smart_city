@@ -19,8 +19,8 @@ defmodule SmartCity.SchemaGenerator do
         schema_field_list("list", key, item_type, schema)
 
       "list" ->
-        sub_schema = [extract_field({"child_of_list", List.first(value)})]
-        schema_field_list("list", key, item_type, sub_schema)
+        subSchema = [extract_field({"child_of_list", List.first(value)})]
+        schema_field_list("list", key, item_type, subSchema)
 
       _ ->
         schema_field_list("list", key, item_type)
