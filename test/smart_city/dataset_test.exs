@@ -1,5 +1,6 @@
 defmodule SmartCity.DatasetTest do
   use ExUnit.Case
+  use Placebo
   import Checkov
   doctest SmartCity.Dataset
   alias SmartCity.Dataset
