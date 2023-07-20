@@ -12,7 +12,8 @@ defmodule SmartCity.EventLog do
     "timestamp", "",
     "source": "",
     "description": "",
-    "dataset_id": ""
+    "dataset_id": "",
+    "ingestion_id": ""
   }
   ```
   """
@@ -23,7 +24,7 @@ defmodule SmartCity.EventLog do
                timestamp: String.t(),
                source: String.t(),
                description: String.t(),
-               dataset_id: not_required(String.t()), # Making dataset_id not required under the assumption that event log may be used for events not associated with a dataset (like organization updates)
+               dataset_id: String.t(),
                ingestion_id: not_required(String.t())
              }
 
@@ -52,7 +53,6 @@ defmodule SmartCity.EventLog do
       - source
       - description
       - dataset_id
-      - ingestion_id
   """
 
   @spec new(map()) :: SmartCity.EventLog.t()
@@ -68,7 +68,8 @@ defmodule SmartCity.EventLog do
           title: _title,
           timestamp: _timestamp,
           source: _source,
-          description: _description
+          description: _description,
+          dataset_id: _dataset_id
         } = msg
       ) do
     create(msg)
