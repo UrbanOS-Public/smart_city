@@ -1,5 +1,6 @@
 defmodule SmartCity.UserOrganizationAssociateTest do
   use ExUnit.Case
+  use Placebo
   alias SmartCity.UserOrganizationAssociate
 
   setup do

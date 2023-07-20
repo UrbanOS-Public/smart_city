@@ -1,5 +1,6 @@
 defmodule SmartCity.BaseStructTest do
   use ExUnit.Case
+  use Placebo
 
   alias SmartCity.BaseStruct
 

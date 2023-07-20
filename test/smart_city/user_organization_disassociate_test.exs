@@ -1,5 +1,6 @@
 defmodule SmartCity.UserOrganizationDisassociateTest do
   use ExUnit.Case
+  use Placebo
   alias SmartCity.UserOrganizationDisassociate
 
   setup do
