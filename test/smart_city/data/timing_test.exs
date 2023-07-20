@@ -1,10 +1,9 @@
 defmodule SmartCity.Data.TimingTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case
+  use Placebo
   doctest SmartCity.Data.Timing
 
   alias SmartCity.Data.Timing
-
-  import Mock
 
   describe "new" do
     test "throws error without required keys" do
@@ -61,50 +60,37 @@ defmodule SmartCity.Data.TimingTest do
       start_time = DateTime.from_naive(~N[2019-01-01 00:00:00.000], "UTC")
       end_time = DateTime.from_naive(~N[2019-01-02 00:00:00.000], "UTC")
 
-      :meck.new(DateTime)
-      :meck.expect(DateTime, :utc_now, 0, :meck.seq([start_time, end_time]))
-      with_mocks([
-        {Fake, [:non_strict], [do_thing: fn() -> {:ok, :whatever} end]}
-      ]) do
-        assert Timing.measure("app", "label", &Fake.do_thing/0) ==
-                 {:ok, :whatever,
-                  %Timing{
-                    app: "app",
-                    label: "label",
-                    start_time: start_time,
-                    end_time: end_time
-                  }}
-      end
-      :meck.unload(DateTime)
+      allow(DateTime.utc_now(), seq: [start_time, end_time])
+      allow(Fake.do_thing(), return: {:ok, :whatever}, meck_options: [:non_strict])
+
+      assert Timing.measure("app", "label", &Fake.do_thing/0) ==
+               {:ok, :whatever,
+                %Timing{
+                  app: "app",
+                  label: "label",
+                  start_time: start_time,
+                  end_time: end_time
+                }}
     end
 
     test "properly handles errors in tuple form" do
       start_time = DateTime.from_naive(~N[2019-01-01 00:00:00.000], "UTC")
       end_time = DateTime.from_naive(~N[2019-01-02 00:00:00.000], "UTC")
 
-      :meck.new(DateTime)
-      :meck.expect(DateTime, :utc_now, 0, :meck.seq([start_time, end_time]))
-      with_mocks([
-        {Fake, [:non_strict], [do_thing: fn() -> {:error, :reason} end]}
-      ]) do
-        assert Timing.measure("app", "label", &Fake.do_thing/0) == {:error, :reason}
-      end
-      :meck.unload(DateTime)
+      allow(DateTime.utc_now(), seq: [start_time, end_time])
+      allow(Fake.do_thing(), return: {:error, :reason}, meck_options: [:non_strict])
+
+      assert Timing.measure("app", "label", &Fake.do_thing/0) == {:error, :reason}
     end
 
     test "properly handles things that don't return tuples" do
       start_time = DateTime.from_naive(~N[2019-01-01 00:00:00.000], "UTC")
       end_time = DateTime.from_naive(~N[2019-01-02 00:00:00.000], "UTC")
 
-      :meck.new(DateTime)
-      :meck.expect(DateTime, :utc_now, 0, :meck.seq([start_time, end_time]))
-      with_mocks([
-        {Fake, [:non_strict], [do_thing: fn() -> :non_conforming end]}
-      ]) do
-        assert Timing.measure("app", "label", &Fake.do_thing/0) == {:error, :non_conforming}
-      end
+      allow(DateTime.utc_now(), seq: [start_time, end_time])
+      allow(Fake.do_thing(), return: :non_conforming, meck_options: [:non_strict])
 
-      :meck.unload(DateTime)
+      assert Timing.measure("app", "label", &Fake.do_thing/0) == {:error, :non_conforming}
     end
   end
 

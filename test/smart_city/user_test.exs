@@ -1,5 +1,6 @@
 defmodule SmartCity.UserTest do
   use ExUnit.Case
+  use Placebo
   alias SmartCity.User
 
   setup do
