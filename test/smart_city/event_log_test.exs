@@ -1,13 +1,15 @@
 defmodule SmartCity.EventLogTest do
   use ExUnit.Case
+  use Placebo
   import Checkov
 
   alias SmartCity.EventLog
 
   setup do
+    timestamp = DateTime.to_iso8601(DateTime.utc_now())
     message = %{
       "title" => "MyTitle",
-      "timestamp" => "myTimestamp",
+      "timestamp" => timestamp,
       "source" => "mySource",
       "description" => "myDescription",
       "dataset_id" => "myDatasetId",
@@ -19,10 +21,11 @@ defmodule SmartCity.EventLogTest do
 
   describe "new/1" do
     test "returns EventLog struct" do
+      timestamp = DateTime.to_iso8601(DateTime.utc_now())
       actual =
         EventLog.new(%{
           title: "MyTitle",
-          timestamp: "myTimestamp",
+          timestamp: timestamp,
           source: "mySource",
           description: "myDescription",
           dataset_id: "myDatasetId",
@@ -30,7 +33,7 @@ defmodule SmartCity.EventLogTest do
         })
 
       assert actual.title == "MyTitle"
-      assert actual.timestamp == "myTimestamp"
+      assert actual.timestamp == timestamp
       assert actual.source == "mySource"
       assert actual.description == "myDescription"
       assert actual.dataset_id == "myDatasetId"
@@ -38,10 +41,11 @@ defmodule SmartCity.EventLogTest do
     end
 
     test "a struct with additional fields is cleaned" do
+      timestamp = DateTime.to_iso8601(DateTime.utc_now())
       actual =
         EventLog.new(%{
           title: "MyTitle",
-          timestamp: "myTimestamp",
+          timestamp: timestamp,
           source: "mySource",
           description: "myDescription",
           dataset_id: "myDatasetId",
@@ -50,7 +54,7 @@ defmodule SmartCity.EventLogTest do
         })
 
       assert actual.title == "MyTitle"
-      assert actual.timestamp == "myTimestamp"
+      assert actual.timestamp == timestamp
       assert actual.source == "mySource"
       assert actual.description == "myDescription"
       assert actual.dataset_id == "myDatasetId"
@@ -58,7 +62,38 @@ defmodule SmartCity.EventLogTest do
       assert not Map.has_key?(actual, :is_a_good_struct)
     end
 
+    test "requires UTC string format for the timestamp" do
+
+      assert_raise ArgumentError, "Invalid timestamp in event_log: notUTCFormat. Expected ISO8601 string format", fn ->
+        EventLog.new(%{
+          title: "MyTitle",
+          timestamp: "notUTCFormat",
+          source: "mySource",
+          description: "myDescription",
+          dataset_id: "myDatasetId",
+          ingestion_id: "myIngestionId",
+          is_a_good_struct: "no"
+        })
+      end
+    end
+
+    test "converts a DateTime to ISO8601 string" do
+      timestamp = DateTime.utc_now()
+      actual =
+        EventLog.new(%{
+          title: "MyTitle",
+          timestamp: timestamp,
+          source: "mySource",
+          description: "myDescription",
+          dataset_id: "myDatasetId",
+          ingestion_id: "myIngestionId"
+        })
+
+      assert actual.timestamp == DateTime.to_iso8601(timestamp)
+    end
+
     data_test "field #{field} has a default value of #{inspect(default)}" do
+
       actual =
         EventLog.new(%{
           title: "",
@@ -71,15 +106,32 @@ defmodule SmartCity.EventLogTest do
       assert Map.get(actual, field) == default
 
       where(
-        field: [:title, :timestamp, :source, :description, :dataset_id],
-        default: ["", "", "", "", ""]
+        field: [:title, :source, :description, :dataset_id],
+        default: ["", "", "", ""]
       )
     end
 
-    test "returns Ingestion struct when given string keys", %{message: msg} do
+    test "timestamp field has a default value of current time" do
+      {:ok, timestamp, _} = DateTime.from_iso8601("2023-07-21T15:58:59.603466Z")
+      allow(DateTime.utc_now(), return: timestamp)
+      allow(DateTime.to_iso8601(timestamp), return: "2023-07-21T15:58:59.603466Z")
+
+      actual =
+        EventLog.new(%{
+          title: "",
+          timestamp: "",
+          source: "",
+          description: "",
+          dataset_id: ""
+        })
+
+      assert actual.timestamp == "2023-07-21T15:58:59.603466Z"
+    end
+
+    test "returns EventLog struct when given string keys", %{message: %{"timestamp" => timestamp} = msg} do
       actual = EventLog.new(msg)
       assert actual.title == "MyTitle"
-      assert actual.timestamp == "myTimestamp"
+      assert actual.timestamp == timestamp
       assert actual.source == "mySource"
       assert actual.description == "myDescription"
       assert actual.dataset_id == "myDatasetId"
