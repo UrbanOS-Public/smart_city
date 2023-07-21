@@ -21,7 +21,7 @@ defmodule SmartCity.EventLog do
 
   @type t :: %SmartCity.EventLog{
                title: String.t(),
-               timestamp: String.t(),
+               timestamp: DateTime.t(),
                source: String.t(),
                description: String.t(),
                dataset_id: String.t(),
@@ -65,14 +65,44 @@ defmodule SmartCity.EventLog do
   @spec new(map()) :: SmartCity.EventLog.t()
   def new(
         %{
+          timestamp: "",
+        } = msg
+      ) do
+
+    Map.put(msg, :timestamp, DateTime.to_iso8601(DateTime.utc_now()))
+    |> create()
+  end
+
+  @spec new(map()) :: SmartCity.EventLog.t()
+  def new(
+        %{
           title: _title,
-          timestamp: _timestamp,
+          timestamp: %DateTime{},
           source: _source,
           description: _description,
           dataset_id: _dataset_id
         } = msg
       ) do
-    create(msg)
+
+    Map.put(msg, :timestamp, DateTime.to_iso8601(msg.timestamp))
+    |> create()
+  end
+
+  @spec new(map()) :: SmartCity.EventLog.t()
+  def new(
+        %{
+          title: _title,
+          timestamp: timestamp,
+          source: _source,
+          description: _description,
+          dataset_id: _dataset_id
+        } = msg
+      ) do
+    case DateTime.from_iso8601(timestamp) do
+      {:ok, _, _} -> create(msg)
+      {:error, _} -> raise ArgumentError, "Invalid timestamp in event_log: #{timestamp}. Expected ISO8601 string format"
+    end
+
   end
 
   def new(msg) do
