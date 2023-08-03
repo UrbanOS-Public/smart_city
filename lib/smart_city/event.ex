@@ -101,9 +101,14 @@ defmodule SmartCity.Event do
   defmacro data_standardization_end(), do: quote(do: "data:standardization:end")
 
   @doc """
-  Signals that a table has been created
+  Signals that a table has been created. Used for EventLogs.
   """
   defmacro table_created(), do: quote(do: "table:created")
+
+  @doc """
+  Signals that data has been retrieved and placed on the topic. Used for EventLogs.
+  """
+  defmacro data_retrieved(), do: quote(do: "data:retrieved")
 
   @doc """
   Defines a user organization relationship.
@@ -156,7 +161,7 @@ defmodule SmartCity.Event do
   defmacro user_login(), do: quote(do: "user:login")
 
   @doc """
-  Signals an ingestion update has occurred 
+  Signals an ingestion update has occurred
   """
   defmacro ingestion_update(), do: quote(do: "ingestion:update")
 
