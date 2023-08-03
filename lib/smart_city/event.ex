@@ -101,14 +101,9 @@ defmodule SmartCity.Event do
   defmacro data_standardization_end(), do: quote(do: "data:standardization:end")
 
   @doc """
-  Signals that a table has been created. Used for EventLogs.
+  Signals that an Event Log has been published.
   """
-  defmacro table_created(), do: quote(do: "table:created")
-
-  @doc """
-  Signals that data has been retrieved and placed on the topic. Used for EventLogs.
-  """
-  defmacro data_retrieved(), do: quote(do: "data:retrieved")
+  defmacro event_log_published(), do: quote(do: "event:log:published")
 
   @doc """
   Defines a user organization relationship.
