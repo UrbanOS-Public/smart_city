@@ -106,9 +106,9 @@ defmodule SmartCity.Event do
   defmacro event_log_published(), do: quote(do: "event:log:published")
 
   @doc """
-  Signals that an Extraction Count has been published.
+  Signals that an Ingestion Complete event has been published.
   """
-  defmacro extraction_count(), do: quote(do: "extraction:count")
+  defmacro ingestion_complete(), do: quote(do: "ingestion:complete")
 
   @doc """
   Defines a user organization relationship.
