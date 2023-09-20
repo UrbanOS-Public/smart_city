@@ -106,6 +106,11 @@ defmodule SmartCity.Event do
   defmacro event_log_published(), do: quote(do: "event:log:published")
 
   @doc """
+  Signals that an Extraction Count has been published.
+  """
+  defmacro extraction_count(), do: quote(do: "extraction_count")
+
+  @doc """
   Defines a user organization relationship.
   """
   defmacro user_organization_associate(), do: quote(do: "user:organization:associate")
