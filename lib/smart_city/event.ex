@@ -106,6 +106,11 @@ defmodule SmartCity.Event do
   defmacro event_log_published(), do: quote(do: "event:log:published")
 
   @doc """
+  Signals that an Ingestion Complete event has been published.
+  """
+  defmacro ingestion_complete(), do: quote(do: "ingestion:complete")
+
+  @doc """
   Defines a user organization relationship.
   """
   defmacro user_organization_associate(), do: quote(do: "user:organization:associate")
